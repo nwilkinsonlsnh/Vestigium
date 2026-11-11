@@ -4,5 +4,34 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Folder Name="/Controls/" />
+  <Folder Name="/Documentation/">
+    <Project Path="../Vestigium.Documentation/Vestigium.Documentation.csproj" Id="2418ff60-f4f6-468c-83b7-d3946523537e" />
+  </Folder>
+  <Folder Name="/Helpers/" />
+  <Folder Name="/Helpers/LogParser/">
+    <Project Path="Helpers/LogParser/Vestigium.Helpers.LogParser.Har/Vestigium.Helpers.LogParser.Har.csproj" />
+    <Project Path="Helpers/LogParser/Vestigium.Helpers.LogParser.Url/Vestigium.Helpers.LogParser.Url.csproj" />
+    <Project Path="Helpers/LogParser/Vestigium.Helpers.LogParser/Vestigium.Helpers.LogParser.csproj" />
+  </Folder>
+  <Folder Name="/Helpers/PerfMon/">
+    <Project Path="Helpers/PerfMon/Vestigium.Helpers.PerfMon.Cpu/Vestigium.Helpers.PerfMon.Cpu.csproj" />
+    <Project Path="Helpers/PerfMon/Vestigium.Helpers.PerfMon.Disk/Vestigium.Helpers.PerfMon.Disk.csproj" />
+    <Project Path="Helpers/PerfMon/Vestigium.Helpers.PerfMon.Gpu/Vestigium.Helpers.PerfMon.Gpu.csproj" />
+    <Project Path="Helpers/PerfMon/Vestigium.Helpers.PerfMon.Memory/Vestigium.Helpers.PerfMon.Memory.csproj" />
+    <Project Path="Helpers/PerfMon/Vestigium.Helpers.PerfMon.Network/Vestigium.Helpers.PerfMon.Network.csproj" />
+    <Project Path="Helpers/PerfMon/Vestigium.Helpers.PerfMon.PageFile/Vestigium.Helpers.PerfMon.PageFile.csproj" />
+    <Project Path="Helpers/PerfMon/Vestigium.Helpers.PerfMon/Vestigium.Helpers.PerfMon.csproj" />
+  </Folder>
+  <Folder Name="/Helpers/Watch/">
+    <Project Path="Helpers/Watch/Vestigium.Helpers.Watch.Dns/Vestigium.Helpers.Watch.Dns.csproj" />
+  </Folder>
+  <Folder Name="/Suite/" />
+  <Folder Name="/Suite/CLI/" />
+  <Folder Name="/Suite/CLI/Network/" />
+  <Folder Name="/Suite/CLI/Windows/" />
+  <Folder Name="/Suite/WPF/" />
+  <Folder Name="/Suite/WPF/Network/" />
+  <Folder Name="/Suite/WPF/Windows/" />
   <Project Path="Vestigium.csproj" />
 </Solution>
