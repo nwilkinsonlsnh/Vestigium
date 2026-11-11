@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Vestigium</RootNamespace>
+    <AssemblyName>Vestigium</AssemblyName>
+    <Authors>Nathaniel Wilkinson</Authors>
+    <Company>LSNH</Company>
+    <Product>Vestigium</Product>
+    <Description>Root C# library for the Vestigium suite. .NET 10 LTS.</Description>
+    <Copyright>Copyright © Nathaniel Wilkinson / LSNH</Copyright>
+  </PropertyGroup>
+
+</Project>
