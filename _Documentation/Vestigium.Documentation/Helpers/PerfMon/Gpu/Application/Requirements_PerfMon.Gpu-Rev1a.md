@@ -7,8 +7,7 @@
 **Target:** .NET 10 LTS / `net10.0-windows`  
 **Companions:** `DesignSpec_PerfMon.Gpu_Rev-1a.md`  
 **Package:** `Vestigium.Helpers.PerfMon.Gpu`  
-**APPID:** `PerfMon.Gpu`  
-**EventIds:** reserved
+**APPID:** `PerfMon.Gpu`
 
 Binding contract for PerfMon.Gpu as staged in the Vestigium monorepo.
 
@@ -22,7 +21,7 @@ GPU performance-counter probe. Reads GPU engine counters through the PerfMon cor
 
 ## 1. Surface
 
-- Sample GPU counters.
+- Sample gpu counters.
 - Project to the shared sample shape.
 
 ---
@@ -31,45 +30,30 @@ GPU performance-counter probe. Reads GPU engine counters through the PerfMon cor
 
 - Windows only.
 - Depends on the PerfMon core.
-- Absent GPU is a miss, not a throw.
+- Missing category is `Unavailable`, not a fake zero.
+- First rate read is the prime, not a sample.
+- The library never calls `VestigiumLogger.Initialize`.
 
 ---
 
-## 3. Logging
-
-The library never calls `VestigiumLogger.Initialize` and never chooses a log folder. Hosts that want a disk trace call `Initialize` and the library catalog `Register`.
-
-Writes are no-ops until the host initializes. JSONL lands at `%ProgramData%\Vestigium\Logs\{host-APPID}\`.
-
----
-
-## 4. Packaging
+## 3. Packaging
 
 | Item | Value |
 |---|---|
 | TFM | `net10.0-windows` |
-| Depends on | Vestigium.Helpers.PerfMon, Vestigium.Logging |
+| Depends on | `Vestigium.Helpers.PerfMon`, `Vestigium.Logging` |
 | License | MIT |
 
 ---
 
-## 5. Tests
+## 4. Non-goals
 
-Unit tests live under `Tests/Helpers/` in the matching folder for `Vestigium.Helpers.PerfMon.Gpu.Tests`.
+Charting. Alerting. Writing counters.
 
----
+## Revision History
 
-## 6. Non-goals
-
-- Rendering.
-- Driver install.
-
----
-
-## 7. Revision History
-
-Initial release. Add a row when this document changes. Do not bump the revision until the change is accepted.
+Initial monorepo release. Add a row when this document changes. Do not bump the revision until the change is accepted.
 
 | Revision | Date | Author | Description |
 |---|---|---|---|
-| 1a | 11 Nov 2026 | Nathaniel Wilkinson | Initial release. |
+| 1a | 11 Nov 2026 | Nathaniel Wilkinson | Initial monorepo release. |
