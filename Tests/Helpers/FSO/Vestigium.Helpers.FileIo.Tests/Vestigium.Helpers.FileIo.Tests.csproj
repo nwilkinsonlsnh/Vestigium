@@ -27,11 +27,6 @@
     <ProjectReference Include="../../../../Helpers/FSO/Vestigium.Helpers.FileIo/Vestigium.Helpers.FileIo.csproj" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <PackageReference Include="Vestigium.Logging" Version="2.0.0" />
-  </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="../../../../Helpers/Analytics/Vestigium.Helpers.Analytics/Vestigium.Helpers.Analytics.csproj" />
   </ItemGroup>

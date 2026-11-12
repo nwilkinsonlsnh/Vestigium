@@ -162,14 +162,17 @@ Write-Host "[PHASE 3] Restore and rebuild..." -ForegroundColor Cyan
 & dotnet build $solution --no-incremental 2>&1 | ForEach-Object { Write-Host $_ }
 
 Write-Host ""
-if ($LASTEXITCODE -eq 0 -and $failed -eq 0) {
+if ($failed -gt 0) {
+    Write-Host ".vs was locked. Close Visual Studio and rerun if Test Explorer still shows stale results." -ForegroundColor Yellow
+}
+if ($LASTEXITCODE -eq 0) {
     Write-Host "=====================================================" -ForegroundColor Green
     Write-Host " SEQUENCE COMPLETE. ENVIRONMENT IS STERILE AND BUILT." -ForegroundColor Green
     Write-Host "=====================================================" -ForegroundColor Green
 }
 else {
     Write-Host "=====================================================" -ForegroundColor Red
-    Write-Host " FINISHED WITH ERRORS. CHECK THE OUTPUT ABOVE.       " -ForegroundColor Red
+    Write-Host " BUILD FAILED. CHECK THE COMPILER OUTPUT ABOVE.      " -ForegroundColor Red
     Write-Host "=====================================================" -ForegroundColor Red
     exit 1
 }
