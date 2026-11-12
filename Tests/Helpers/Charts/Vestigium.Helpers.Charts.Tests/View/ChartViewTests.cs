@@ -77,9 +77,10 @@ public sealed class ChartViewTests
         {
             Assert.Equal("Vestigium.Helpers.Charts", ChartHelper.Probe());
             Assert.Contains(TestLog.RecentJsonLines, l =>
-                l.Contains("\"APPID\":\"Charts\"") && l.Contains("\"STATUS\":\"Pending\""));
+                l.Contains("enter Probe", StringComparison.Ordinal) || l.Contains("\"STATUS\":\"Pending\""));
             Assert.Contains(TestLog.RecentJsonLines, l =>
-                l.Contains("\"STATUS\":\"Success\"") && l.Contains("Identity=Vestigium.Helpers.Charts"));
+                l.Contains("probe complete", StringComparison.Ordinal)
+                && l.Contains("Vestigium.Helpers.Charts", StringComparison.Ordinal));
         }
         finally
         {

@@ -47,6 +47,9 @@ internal static class XmlIo
                 "dtd ignored resolver=0");
         }
 
+        var start = remainder.IndexOf('<');
+        if (start > 0)
+            remainder = remainder[start..];
         using var reader = XmlReader.Create(new StringReader(remainder), SafeReaderSettings(options));
         const LoadOptions load = LoadOptions.PreserveWhitespace | LoadOptions.SetLineInfo;
         var document = XDocument.Load(reader, load);

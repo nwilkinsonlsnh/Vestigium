@@ -104,7 +104,7 @@ public sealed class JsonCoverageTests
         Assert.Throws<JsonException>(() => JsonHelper.Open(nullPath));
         var truncated = Path.Combine(dir, "bad.json");
         File.WriteAllText(truncated, "{\"a\":");
-        Assert.ThrowsAny<InvalidOperationException>(() => JsonHelper.Open(truncated));
+        Assert.ThrowsAny<JsonException>(() => JsonHelper.Open(truncated));
     }
 
     [Fact]
