@@ -73,15 +73,15 @@ public sealed class NetworkTraceAndRouteTests
         Assert.True(path is not null, "NetworkRouteMutation.cs not found walking up from BaseDirectory.");
         var src = File.ReadAllText(path);
         Assert.Contains(
-            "NetworkLog.Success(HelperLog.Subcategories.Route, $\"AddRoute dest={change.Destination}/{change.PrefixLength} gw={change.Gateway} win-v6\")",
+            "NetworkLog.Success(TestLog.Subcategories.Route, $\"AddRoute dest={change.Destination}/{change.PrefixLength} gw={change.Gateway} win-v6\")",
             src,
             StringComparison.Ordinal);
         Assert.Contains(
-            "NetworkLog.Success(HelperLog.Subcategories.Route, $\"ChangeRoute dest={change.Destination}/{change.PrefixLength} gw={change.Gateway} win-v6\")",
+            "NetworkLog.Success(TestLog.Subcategories.Route, $\"ChangeRoute dest={change.Destination}/{change.PrefixLength} gw={change.Gateway} win-v6\")",
             src,
             StringComparison.Ordinal);
         Assert.Contains(
-            "NetworkLog.Success(HelperLog.Subcategories.Route, $\"RemoveRoute dest={change.Destination}/{change.PrefixLength} gw={change.Gateway} win-v6\")",
+            "NetworkLog.Success(TestLog.Subcategories.Route, $\"RemoveRoute dest={change.Destination}/{change.PrefixLength} gw={change.Gateway} win-v6\")",
             src,
             StringComparison.Ordinal);
     }

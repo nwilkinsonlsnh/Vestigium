@@ -23,22 +23,22 @@ public sealed class KqlHardenTests
     [Fact]
     public void Exact_warning_does_not_log_rhs_string()
     {
-        HelperLog.Shutdown();
+        TestLog.Shutdown();
         var dir = Path.Combine(Path.GetTempPath(), "VestigiumHelpersTests", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
-        HelperLog.InitializeHost(HelperLog.AppIds.Kql, cfg => cfg.LogDirectory = dir);
+        TestLog.InitializeHost(TestLog.AppIds.Kql, cfg => cfg.LogDirectory = dir);
         try
         {
             using var session = KqlHelper.Create(KqlPack.Process);
             var compiled = KqlHelper.Compile("Name == 'CCleaner%'", session);
             Assert.True(compiled.Ok, compiled.Error?.ToString());
             Assert.DoesNotContain(
-                HelperLog.RecentJsonLines,
+                TestLog.RecentJsonLines,
                 line => line.Contains("CCleaner", StringComparison.OrdinalIgnoreCase));
         }
         finally
         {
-            HelperLog.Shutdown();
+            TestLog.Shutdown();
         }
     }
 

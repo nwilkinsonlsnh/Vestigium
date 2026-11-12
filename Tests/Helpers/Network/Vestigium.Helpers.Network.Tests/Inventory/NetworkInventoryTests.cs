@@ -11,7 +11,7 @@ public sealed class NetworkInventoryTests
     public void Network_subcategories_are_registered()
     {
         var sub = typeof(Vestigium.Helpers.Network.HelperLog).GetNestedType("Subcategories")
-            ?? throw new InvalidOperationException("Network HelperLog.Subcategories is missing.");
+            ?? throw new InvalidOperationException("Network TestLog.Subcategories is missing.");
         var names = sub.GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)
             .Select(f => (string)f.GetRawConstantValue()!)
             .ToArray();

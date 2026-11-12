@@ -9,7 +9,7 @@ public sealed class FileIoSessionTests
 {
     public FileIoSessionTests()
     {
-        HelperLog.Shutdown();
+        TestLog.Shutdown();
     }
 
     [Fact]
@@ -20,11 +20,11 @@ public sealed class FileIoSessionTests
     public void Probe_is_temp_only_and_logs_pending_then_success()
     {
         var dir = TempDir();
-        HelperLog.InitializeHost(HelperLog.AppIds.FileIo, cfg => cfg.LogDirectory = dir);
+        TestLog.InitializeHost(TestLog.AppIds.FileIo, cfg => cfg.LogDirectory = dir);
         try
         {
             Assert.Equal("Vestigium.Helpers.FileIo", FileIoHelper.Probe());
-            var lines = HelperLog.RecentJsonLines;
+            var lines = TestLog.RecentJsonLines;
             Assert.Contains(lines, l => l.Contains("\"STATUS\":\"Pending\""));
             Assert.Contains(lines, l => l.Contains("\"STATUS\":\"Success\""));
             Assert.Contains(lines, l => l.Contains("\"APPID\":\"FileIo\""));
@@ -32,7 +32,7 @@ public sealed class FileIoSessionTests
         }
         finally
         {
-            HelperLog.Shutdown();
+            TestLog.Shutdown();
         }
     }
 
@@ -245,11 +245,11 @@ public sealed class FileIoSessionTests
     [Fact]
     public void Taxonomy_registers_fileio_subcategories()
     {
-        Assert.True(HelperLog.Taxonomy.IsSubcategoryRegistered(HelperLog.Category, HelperLog.Subcategories.Job));
-        Assert.True(HelperLog.Taxonomy.IsSubcategoryRegistered(HelperLog.Category, HelperLog.Subcategories.Recon));
-        Assert.True(HelperLog.Taxonomy.IsSubcategoryRegistered(HelperLog.Category, HelperLog.Subcategories.Copy));
-        Assert.True(HelperLog.Taxonomy.IsSubcategoryRegistered(HelperLog.Category, HelperLog.Subcategories.SecureDelete));
-        Assert.True(HelperLog.Taxonomy.IsSubcategoryRegistered(HelperLog.Category, HelperLog.Subcategories.Stats));
+        Assert.True(TestLog.Taxonomy.IsSubcategoryRegistered(TestLog.Category, TestLog.Subcategories.Job));
+        Assert.True(TestLog.Taxonomy.IsSubcategoryRegistered(TestLog.Category, TestLog.Subcategories.Recon));
+        Assert.True(TestLog.Taxonomy.IsSubcategoryRegistered(TestLog.Category, TestLog.Subcategories.Copy));
+        Assert.True(TestLog.Taxonomy.IsSubcategoryRegistered(TestLog.Category, TestLog.Subcategories.SecureDelete));
+        Assert.True(TestLog.Taxonomy.IsSubcategoryRegistered(TestLog.Category, TestLog.Subcategories.Stats));
     }
 
     [Fact]
@@ -365,21 +365,21 @@ public sealed class FileIoSessionTests
     public void SecureDelete_removes_file_and_does_not_log_payload()
     {
         var dir = TempDir();
-        HelperLog.InitializeHost(HelperLog.AppIds.FileIo, cfg => cfg.LogDirectory = dir);
+        TestLog.InitializeHost(TestLog.AppIds.FileIo, cfg => cfg.LogDirectory = dir);
         try
         {
             var file = Path.Combine(dir, "gone.txt");
             File.WriteAllText(file, "secret-payload-bytes");
             FileIoHelper.SecureDelete(file, FileIoShredRecipe.ZeroRandomZero);
             Assert.False(File.Exists(file));
-            var lines = HelperLog.RecentJsonLines;
+            var lines = TestLog.RecentJsonLines;
             Assert.Contains(lines, l => l.Contains("\"SUBCATEGORY\":\"SecureDelete\""));
             Assert.DoesNotContain(lines, l => l.Contains("secret-payload-bytes"));
             Assert.DoesNotContain(lines, HasExceptionPayload);
         }
         finally
         {
-            HelperLog.Shutdown();
+            TestLog.Shutdown();
         }
     }
 
@@ -389,7 +389,7 @@ public sealed class FileIoSessionTests
         var (src, dst) = Tree();
         File.WriteAllText(Path.Combine(src, "nathan.txt"), "nathan capture\n");
         var dir = TempDir();
-        HelperLog.InitializeHost(HelperLog.AppIds.FileIo, cfg => cfg.LogDirectory = dir);
+        TestLog.InitializeHost(TestLog.AppIds.FileIo, cfg => cfg.LogDirectory = dir);
         try
         {
             var result = await FileIoHelper.Copy(src, dst, new FileIoJobOptions
@@ -399,7 +399,7 @@ public sealed class FileIoSessionTests
                 Reason = "export-archive",
             }).RunAsync();
             Assert.Equal("Success", result.Status);
-            var lines = string.Join('\n', HelperLog.RecentJsonLines);
+            var lines = string.Join('\n', TestLog.RecentJsonLines);
             Assert.Contains("by=wilkinson", lines);
             Assert.Contains("reason=export-archive", lines);
             Assert.Contains("Stats job=", lines);
@@ -410,7 +410,7 @@ public sealed class FileIoSessionTests
         }
         finally
         {
-            HelperLog.Shutdown();
+            TestLog.Shutdown();
         }
     }
 
@@ -422,7 +422,7 @@ public sealed class FileIoSessionTests
         File.WriteAllText(Path.Combine(src, "b.txt"), "payload-b");
         Directory.CreateDirectory(Path.Combine(dst, "a.txt"));
         var dir = TempDir();
-        HelperLog.InitializeHost(HelperLog.AppIds.FileIo, cfg => cfg.LogDirectory = dir);
+        TestLog.InitializeHost(TestLog.AppIds.FileIo, cfg => cfg.LogDirectory = dir);
         try
         {
             var result = await FileIoHelper.Copy(src, dst, new FileIoJobOptions
@@ -433,13 +433,13 @@ public sealed class FileIoSessionTests
             }).RunAsync();
             Assert.True(result.Failed >= 1);
             Assert.True(File.Exists(Path.Combine(dst, "b.txt")));
-            Assert.Contains(HelperLog.RecentJsonLines, l => l.Contains("reason=InUse") || l.Contains("Failed"));
-            Assert.DoesNotContain(HelperLog.RecentJsonLines, HasExceptionPayload);
-            Assert.DoesNotContain(HelperLog.RecentJsonLines, l => l.Contains("payload-a"));
+            Assert.Contains(TestLog.RecentJsonLines, l => l.Contains("reason=InUse") || l.Contains("Failed"));
+            Assert.DoesNotContain(TestLog.RecentJsonLines, HasExceptionPayload);
+            Assert.DoesNotContain(TestLog.RecentJsonLines, l => l.Contains("payload-a"));
         }
         finally
         {
-            HelperLog.Shutdown();
+            TestLog.Shutdown();
         }
     }
 

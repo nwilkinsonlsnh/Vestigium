@@ -12,7 +12,7 @@ public sealed class JsonFileTests : IDisposable
 
     public JsonFileTests()
     {
-        HelperLog.Shutdown();
+        TestLog.Shutdown();
         _root = Path.Combine(Path.GetTempPath(), "VestigiumJsonExports", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(_root);
         JsonTestHooks.ExportRoot = _root;
@@ -23,7 +23,7 @@ public sealed class JsonFileTests : IDisposable
         JsonTestHooks.ExportRoot = null;
         JsonTestHooks.MaxDocumentBytes = null;
         JsonTestHooks.MaxJsonlLineBytes = null;
-        HelperLog.Shutdown();
+        TestLog.Shutdown();
         if (Directory.Exists(_root))
             Directory.Delete(_root, recursive: true);
     }
@@ -206,7 +206,7 @@ public sealed class JsonFileTests : IDisposable
         File.WriteAllText(path, "{\"pad\":\"xxxxxxxxxxxxxxxxxxxxxxxx\"}");
         var ex = Assert.Throws<JsonException>(() => JsonHelper.Open(path));
         Assert.Contains("cap", ex.Message, StringComparison.Ordinal);
-        Assert.DoesNotContain("xxxxxxxx", string.Join("\n", HelperLog.RecentJsonLines));
+        Assert.DoesNotContain("xxxxxxxx", string.Join("\n", TestLog.RecentJsonLines));
     }
 
     [Fact]
@@ -237,7 +237,7 @@ public sealed class JsonFileTests : IDisposable
         const string json = "{\"timeoutSeconds\":15}";
         var ex = Assert.Throws<JsonException>(() => JsonHelper.Parse(json));
         Assert.Contains("cap", ex.Message, StringComparison.Ordinal);
-        Assert.DoesNotContain("timeoutSeconds", string.Join("\n", HelperLog.RecentJsonLines));
+        Assert.DoesNotContain("timeoutSeconds", string.Join("\n", TestLog.RecentJsonLines));
     }
 
     [Fact]
@@ -301,7 +301,7 @@ public sealed class JsonFileTests : IDisposable
     {
         var logDir = Path.Combine(_root, "logs");
         Directory.CreateDirectory(logDir);
-        HelperLog.InitializeHost(HelperLog.AppIds.Json, cfg => cfg.LogDirectory = logDir);
+        TestLog.InitializeHost(TestLog.AppIds.Json, cfg => cfg.LogDirectory = logDir);
         const string secret = "hunter2-file-must-not-log";
         var path = Path.Combine(_root, "secret.json");
         JsonHelper.WriteFile(path, new { Level = secret });
@@ -309,7 +309,7 @@ public sealed class JsonFileTests : IDisposable
         doc.Set("level", "Information");
         doc.Commit();
         doc.Save();
-        var lines = HelperLog.RecentJsonLines;
+        var lines = TestLog.RecentJsonLines;
         Assert.DoesNotContain(lines, l => l.Contains(secret));
         Assert.Contains(lines, l => l.Contains("\"SUBCATEGORY\":\"Save\"") && l.Contains("bytes="));
         var loggedPath = JsonSerializer.Serialize(Path.GetFullPath(path))[1..^1];

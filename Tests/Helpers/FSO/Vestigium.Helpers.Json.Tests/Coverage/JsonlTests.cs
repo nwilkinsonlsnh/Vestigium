@@ -13,7 +13,7 @@ public sealed class JsonlTests : IDisposable
 
     public JsonlTests()
     {
-        HelperLog.Shutdown();
+        TestLog.Shutdown();
         _root = Path.Combine(Path.GetTempPath(), "VestigiumJsonlTests", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(_root);
         JsonTestHooks.ExportRoot = _root;
@@ -24,7 +24,7 @@ public sealed class JsonlTests : IDisposable
         JsonTestHooks.ExportRoot = null;
         JsonTestHooks.MaxDocumentBytes = null;
         JsonTestHooks.MaxJsonlLineBytes = null;
-        HelperLog.Shutdown();
+        TestLog.Shutdown();
         if (Directory.Exists(_root))
             Directory.Delete(_root, recursive: true);
     }
@@ -145,7 +145,7 @@ public sealed class JsonlTests : IDisposable
     {
         var logDir = Path.Combine(_root, "logs");
         Directory.CreateDirectory(logDir);
-        HelperLog.InitializeHost(HelperLog.AppIds.Json, cfg => cfg.LogDirectory = logDir);
+        TestLog.InitializeHost(TestLog.AppIds.Json, cfg => cfg.LogDirectory = logDir);
         const string secret = "hunter2-jsonl-must-not-log";
         var path = JsonHelper.NewExportPath("payload-records", JsonDocumentKind.Jsonl);
         File.WriteAllText(path, """{"code":"keep"}""" + "\n");
@@ -153,7 +153,7 @@ public sealed class JsonlTests : IDisposable
         doc.AppendRecord(JsonNode.Parse($$"""{"code":"{{secret}}"}""")!);
         doc.Commit();
         doc.Save();
-        var lines = HelperLog.RecentJsonLines;
+        var lines = TestLog.RecentJsonLines;
         Assert.DoesNotContain(lines, l => l.Contains(secret));
         Assert.Contains(lines, l => l.Contains("\"SUBCATEGORY\":\"Jsonl\"") && l.Contains("records="));
         Assert.Contains(lines, l => l.Contains("AppendRecord") && l.Contains("index=1"));
@@ -180,6 +180,6 @@ public sealed class JsonlTests : IDisposable
         File.WriteAllText(path, "{\"code\":\"this-is-too-long\"}\n", new UTF8Encoding(false));
         var ex = Assert.Throws<JsonException>(() => JsonHelper.OpenJsonl(path));
         Assert.Contains("line exceeds", ex.Message, StringComparison.Ordinal);
-        Assert.DoesNotContain("this-is-too-long", string.Join("\n", HelperLog.RecentJsonLines));
+        Assert.DoesNotContain("this-is-too-long", string.Join("\n", TestLog.RecentJsonLines));
     }
 }

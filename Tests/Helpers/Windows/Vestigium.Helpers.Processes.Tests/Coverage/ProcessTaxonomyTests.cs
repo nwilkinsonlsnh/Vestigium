@@ -11,20 +11,20 @@ public sealed class ProcessTaxonomyTests
     {
         string[] required =
         [
-            HelperLog.Subcategories.Probe,
-            HelperLog.Subcategories.Identity,
-            HelperLog.Subcategories.Inventory,
-            HelperLog.Subcategories.Process,
-            HelperLog.Subcategories.Thread,
-            HelperLog.Subcategories.Watch,
-            HelperLog.Subcategories.Start,
-            HelperLog.Subcategories.Kill,
-            HelperLog.Subcategories.System,
-            HelperLog.Subcategories.Campaign,
-            HelperLog.Subcategories.Jsonl
+            TestLog.Subcategories.Probe,
+            TestLog.Subcategories.Identity,
+            TestLog.Subcategories.Inventory,
+            TestLog.Subcategories.Process,
+            TestLog.Subcategories.Thread,
+            TestLog.Subcategories.Watch,
+            TestLog.Subcategories.Start,
+            TestLog.Subcategories.Kill,
+            TestLog.Subcategories.System,
+            TestLog.Subcategories.Campaign,
+            TestLog.Subcategories.Jsonl
         ];
         foreach (var sub in required)
-            Assert.True(HelperLog.Taxonomy.IsSubcategoryRegistered(HelperLog.Category, sub), sub);
+            Assert.True(TestLog.Taxonomy.IsSubcategoryRegistered(TestLog.Category, sub), sub);
     }
 
     [Fact]

@@ -9,7 +9,7 @@ public sealed class JsonSessionTests
 {
     public JsonSessionTests()
     {
-        HelperLog.Shutdown();
+        TestLog.Shutdown();
     }
 
     [Fact]
@@ -115,25 +115,25 @@ public sealed class JsonSessionTests
     {
         var dir = Path.Combine(Path.GetTempPath(), "VestigiumJsonTests", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
-        HelperLog.InitializeHost(HelperLog.AppIds.Json, cfg => cfg.LogDirectory = dir);
+        TestLog.InitializeHost(TestLog.AppIds.Json, cfg => cfg.LogDirectory = dir);
         try
         {
             using var doc = JsonHelper.Create();
             doc.Set("network.timeoutSeconds", 15);
-            var before = HelperLog.RecentJsonLines.Count;
+            var before = TestLog.RecentJsonLines.Count;
             Assert.Equal(15, doc.Get<int>("network.timeoutSeconds"));
             Assert.True(doc.TryGet<int>("network.timeoutSeconds", out _));
-            Assert.Equal(before, HelperLog.RecentJsonLines.Count);
+            Assert.Equal(before, TestLog.RecentJsonLines.Count);
 
             Assert.Throws<KeyNotFoundException>(() => doc.Get<int>("missing"));
-            var lines = HelperLog.RecentJsonLines;
+            var lines = TestLog.RecentJsonLines;
             Assert.Contains(lines, l => l.Contains("\"STATUS\":\"Failed\"") && l.Contains("path not found") && l.Contains("missing"));
             Assert.Contains(lines, l => l.Contains("\"SUBCATEGORY\":\"Query\""));
             Assert.DoesNotContain(lines, l => l.Contains("enter Get"));
         }
         finally
         {
-            HelperLog.Shutdown();
+            TestLog.Shutdown();
             Directory.Delete(dir, recursive: true);
         }
     }
@@ -161,7 +161,7 @@ public sealed class JsonSessionTests
     {
         var dir = Path.Combine(Path.GetTempPath(), "VestigiumJsonTests", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
-        HelperLog.InitializeHost(HelperLog.AppIds.Json, cfg => cfg.LogDirectory = dir);
+        TestLog.InitializeHost(TestLog.AppIds.Json, cfg => cfg.LogDirectory = dir);
         try
         {
             const string secret = "hunter2-session-must-not-log";
@@ -173,7 +173,7 @@ public sealed class JsonSessionTests
             doc.Commit();
             doc.Cancel();
 
-            var lines = HelperLog.RecentJsonLines;
+            var lines = TestLog.RecentJsonLines;
             Assert.DoesNotContain(lines, l => l.Contains(secret));
             Assert.Contains(lines, l => l.Contains("Set") && l.Contains("path=level"));
             Assert.Contains(lines, l => l.Contains("\"SUBCATEGORY\":\"Diff\"") && l.Contains("ops=1"));
@@ -185,7 +185,7 @@ public sealed class JsonSessionTests
         }
         finally
         {
-            HelperLog.Shutdown();
+            TestLog.Shutdown();
             Directory.Delete(dir, recursive: true);
         }
     }

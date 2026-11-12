@@ -12,9 +12,9 @@ public sealed partial class HashingBranchTests
         HashingAlgorithm.Sha256,
         HashingAlgorithm.Sha384,
         HashingAlgorithm.Sha512,
-        HashingAlgorithm.Sha3_256,
-        HashingAlgorithm.Sha3_384,
-        HashingAlgorithm.Sha3_512,
+        HashingAlgorithm.Sha3256,
+        HashingAlgorithm.Sha3384,
+        HashingAlgorithm.Sha3512,
         HashingAlgorithm.Md5,
         HashingAlgorithm.Sha1,
     ];
@@ -33,9 +33,9 @@ public sealed partial class HashingBranchTests
         HmacAlgorithm.Sha256,
         HmacAlgorithm.Sha384,
         HmacAlgorithm.Sha512,
-        HmacAlgorithm.Sha3_256,
-        HmacAlgorithm.Sha3_384,
-        HmacAlgorithm.Sha3_512,
+        HmacAlgorithm.Sha3256,
+        HmacAlgorithm.Sha3384,
+        HmacAlgorithm.Sha3512,
     ];
 
     [Fact]

@@ -72,18 +72,18 @@ public sealed class ChartViewTests
     {
         var dir = Path.Combine(Path.GetTempPath(), "VestigiumHelpersTests", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
-        HelperLog.InitializeHost(HelperLog.AppIds.Charts, cfg => cfg.LogDirectory = dir);
+        TestLog.InitializeHost(TestLog.AppIds.Charts, cfg => cfg.LogDirectory = dir);
         try
         {
             Assert.Equal("Vestigium.Helpers.Charts", ChartHelper.Probe());
-            Assert.Contains(HelperLog.RecentJsonLines, l =>
+            Assert.Contains(TestLog.RecentJsonLines, l =>
                 l.Contains("\"APPID\":\"Charts\"") && l.Contains("\"STATUS\":\"Pending\""));
-            Assert.Contains(HelperLog.RecentJsonLines, l =>
+            Assert.Contains(TestLog.RecentJsonLines, l =>
                 l.Contains("\"STATUS\":\"Success\"") && l.Contains("Identity=Vestigium.Helpers.Charts"));
         }
         finally
         {
-            HelperLog.Shutdown();
+            TestLog.Shutdown();
         }
     }
 

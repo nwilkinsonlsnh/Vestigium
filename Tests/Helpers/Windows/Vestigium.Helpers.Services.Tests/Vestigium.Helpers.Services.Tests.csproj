@@ -30,4 +30,7 @@
   <ItemGroup>
     <ProjectReference Include="../../../../Helpers/Network/Vestigium.Helpers.Network/Vestigium.Helpers.Network.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../../Helpers/Windows/Vestigium.Helpers.Processes/Vestigium.Helpers.Processes.csproj" />
+  </ItemGroup>
 </Project>

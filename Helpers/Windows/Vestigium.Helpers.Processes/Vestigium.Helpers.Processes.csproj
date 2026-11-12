@@ -24,6 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Vestigium.Helpers.Tests" />
+    <InternalsVisibleTo Include="Vestigium.Helpers.Services.Tests" />
     <InternalsVisibleTo Include="Vestigium.Helpers.SystemInfo.Tests" />
     <InternalsVisibleTo Include="Vestigium.Helpers.Kql.Tests" />
     <InternalsVisibleTo Include="Vestigium.Helpers.Processes.Tests" />

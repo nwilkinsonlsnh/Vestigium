@@ -10,7 +10,7 @@ public sealed class HashingSessionTests
 {
     public HashingSessionTests()
     {
-        HelperLog.Shutdown();
+        TestLog.Shutdown();
     }
 
     [Fact]
@@ -73,15 +73,15 @@ public sealed class HashingSessionTests
     [Fact]
     public void Sha3_abc_matches_fips_when_os_supports_it()
     {
-        if (!HashingHelper.IsSupported(HashingAlgorithm.Sha3_256))
+        if (!HashingHelper.IsSupported(HashingAlgorithm.Sha3256))
             return;
 
         Assert.Equal(
             "3a985da74fe225b2045c172d6bd390bd855f086e3e9d525b46bfe24511431532",
-            HashingHelper.HashString("abc", HashingAlgorithm.Sha3_256));
+            HashingHelper.HashString("abc", HashingAlgorithm.Sha3256));
         Assert.Equal(
             "a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a",
-            HashingHelper.HashString("", HashingAlgorithm.Sha3_256));
+            HashingHelper.HashString("", HashingAlgorithm.Sha3256));
     }
 
     [Fact]
@@ -168,29 +168,29 @@ public sealed class HashingSessionTests
     [Fact]
     public void Hmac_sha3_rfc4231_style_when_os_supports_it()
     {
-        if (!HashingHelper.IsHmacSupported(HmacAlgorithm.Sha3_256))
+        if (!HashingHelper.IsHmacSupported(HmacAlgorithm.Sha3256))
             return;
 
         var key = HmacKey.FromBytes(Enumerable.Repeat((byte)0x0b, 20).ToArray());
         Assert.Equal(
             "ba85192310dffa96e2a3a40e69774351140bb7185e1202cdcc917589f95e16bb",
-            HashingHelper.HmacString("Hi There", key, HmacAlgorithm.Sha3_256));
+            HashingHelper.HmacString("Hi There", key, HmacAlgorithm.Sha3256));
         Assert.Equal(
             "68d2dcf7fd4ddd0a2240c8a437305f61fb7334cfb5d0226e1bc27dc10a2e723a20d370b47743130e26ac7e3d532886bd",
-            HashingHelper.HmacString("Hi There", key, HmacAlgorithm.Sha3_384));
+            HashingHelper.HmacString("Hi There", key, HmacAlgorithm.Sha3384));
         Assert.Equal(
             "eb3fbd4b2eaab8f5c504bd3a41465aacec15770a7cabac531e482f860b5ec7ba47ccb2c6f2afce8f88d22b6dc61380f23a668fd3888bb80537c0a0b86407689e",
-            HashingHelper.HmacString("Hi There", key, HmacAlgorithm.Sha3_512));
+            HashingHelper.HmacString("Hi There", key, HmacAlgorithm.Sha3512));
         var sha256 = HashingHelper.HmacString("Hi There", key);
-        Assert.NotEqual(sha256, HashingHelper.HmacString("Hi There", key, HmacAlgorithm.Sha3_256));
-        Assert.Equal(32, HashingHelper.HmacLength(HmacAlgorithm.Sha3_256));
-        Assert.Equal(48, HashingHelper.HmacLength(HmacAlgorithm.Sha3_384));
-        Assert.Equal(64, HashingHelper.HmacLength(HmacAlgorithm.Sha3_512));
+        Assert.NotEqual(sha256, HashingHelper.HmacString("Hi There", key, HmacAlgorithm.Sha3256));
+        Assert.Equal(32, HashingHelper.HmacLength(HmacAlgorithm.Sha3256));
+        Assert.Equal(48, HashingHelper.HmacLength(HmacAlgorithm.Sha3384));
+        Assert.Equal(64, HashingHelper.HmacLength(HmacAlgorithm.Sha3512));
         Assert.True(HashingHelper.VerifyHmacString(
             "Hi There",
             key,
             "ba85192310dffa96e2a3a40e69774351140bb7185e1202cdcc917589f95e16bb",
-            HmacAlgorithm.Sha3_256));
+            HmacAlgorithm.Sha3256));
     }
 
     [Fact]
@@ -304,9 +304,9 @@ public sealed class HashingSessionTests
                 Assert.True(HashingHelper.VerifyHmacFile(path, key, fileHex, alg));
             }
 
-            if (HashingHelper.IsHmacSupported(HmacAlgorithm.Sha3_256))
+            if (HashingHelper.IsHmacSupported(HmacAlgorithm.Sha3256))
             {
-                foreach (var alg in new[] { HmacAlgorithm.Sha3_256, HmacAlgorithm.Sha3_384, HmacAlgorithm.Sha3_512 })
+                foreach (var alg in new[] { HmacAlgorithm.Sha3256, HmacAlgorithm.Sha3384, HmacAlgorithm.Sha3512 })
                 {
                     var fileHex = HashingHelper.HmacFile(path, key, alg);
                     var memHex = HashingHelper.HmacBytes(payload, key, alg);
@@ -349,7 +349,7 @@ public sealed class HashingSessionTests
     {
         var dir = Path.Combine(Path.GetTempPath(), "VestigiumHashTests", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
-        HelperLog.InitializeHost(HelperLog.AppIds.Hashing, cfg =>
+        TestLog.InitializeHost(TestLog.AppIds.Hashing, cfg =>
         {
             cfg.LogDirectory = dir;
             cfg.MinimumDiskLevel = VestigiumLogLevel.Debug;
@@ -362,7 +362,7 @@ public sealed class HashingSessionTests
             var keyB64 = key.ToBase64();
             _ = HashingHelper.HmacString("probe-message-16", key);
             _ = HashingHelper.HashString("abc");
-            var blob = string.Join('\n', HelperLog.RecentJsonLines);
+            var blob = string.Join('\n', TestLog.RecentJsonLines);
             Assert.DoesNotContain("gallery-demo-only", blob, StringComparison.Ordinal);
             Assert.DoesNotContain(stored, blob, StringComparison.Ordinal);
             Assert.DoesNotContain("$argon2id$", blob, StringComparison.Ordinal);
@@ -373,7 +373,7 @@ public sealed class HashingSessionTests
         }
         finally
         {
-            HelperLog.Shutdown();
+            TestLog.Shutdown();
             Directory.Delete(dir, recursive: true);
         }
     }

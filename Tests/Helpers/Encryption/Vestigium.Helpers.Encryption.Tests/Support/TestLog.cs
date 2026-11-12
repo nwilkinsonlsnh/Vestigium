@@ -4,7 +4,7 @@ using Vestigium.Helpers.Encryption;
 namespace Vestigium.Helpers;
 
 /// <summary>Test-only stand-in. Hosts initialize Vestigium.Logging.</summary>
-public static class HelperLog
+public static class TestLog
 {
     public const string Category = "Helpers";
 

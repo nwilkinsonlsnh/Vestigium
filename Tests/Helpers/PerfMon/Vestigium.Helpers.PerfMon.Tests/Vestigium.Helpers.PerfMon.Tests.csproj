@@ -45,4 +45,7 @@
   <ItemGroup>
     <ProjectReference Include="../../../../Helpers/PerfMon/Vestigium.Helpers.PerfMon.PageFile/Vestigium.Helpers.PerfMon.PageFile.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../../Helpers/Network/Vestigium.Helpers.Network/Vestigium.Helpers.Network.csproj" />
+  </ItemGroup>
 </Project>

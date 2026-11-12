@@ -37,10 +37,10 @@ public sealed class ProcessDeltaTests
     [Fact]
     public void Watch_tick_fault_logs_warning_without_query_text()
     {
-        HelperLog.Shutdown();
+        TestLog.Shutdown();
         var dir = Path.Combine(Path.GetTempPath(), "VestigiumHelpersTests", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
-        HelperLog.InitializeHost(HelperLog.AppIds.Processes, cfg => cfg.LogDirectory = dir);
+        TestLog.InitializeHost(TestLog.AppIds.Processes, cfg => cfg.LogDirectory = dir);
         try
         {
             using var watch = ProcessHelper.Watch("Name LIKE '%edge%'", TimeSpan.FromMilliseconds(250), ProcessWatchFields.All);
@@ -53,17 +53,17 @@ public sealed class ProcessDeltaTests
             ProcessTestHooks.QueryWatchFault = new InvalidOperationException("boom CCleaner% secret");
             Assert.True(gotEmpty.Wait(TimeSpan.FromSeconds(5)));
             Assert.Contains(
-                HelperLog.RecentJsonLines,
+                TestLog.RecentJsonLines,
                 line => line.Contains("Watch query tick failed", StringComparison.Ordinal));
             Assert.DoesNotContain(
-                HelperLog.RecentJsonLines,
+                TestLog.RecentJsonLines,
                 line => line.Contains("CCleaner", StringComparison.OrdinalIgnoreCase)
                     || line.Contains("%edge%", StringComparison.OrdinalIgnoreCase));
         }
         finally
         {
             ProcessTestHooks.QueryWatchFault = null;
-            HelperLog.Shutdown();
+            TestLog.Shutdown();
         }
     }
 }

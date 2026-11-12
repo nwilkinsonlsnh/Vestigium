@@ -11,7 +11,7 @@ public sealed class XmlSessionTests
 {
     public XmlSessionTests()
     {
-        HelperLog.Shutdown();
+        TestLog.Shutdown();
         var area = Path.Combine(Path.GetTempPath(), "VestigiumXmlTests", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(area);
         Environment.SetEnvironmentVariable("VESTIGIUM_XML_TESTAREA", area);
@@ -31,7 +31,7 @@ public sealed class XmlSessionTests
     {
         var dir = Path.Combine(Path.GetTempPath(), "VestigiumXmlTests", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
-        HelperLog.InitializeHost(HelperLog.AppIds.Xml, cfg => cfg.LogDirectory = dir);
+        TestLog.InitializeHost(TestLog.AppIds.Xml, cfg => cfg.LogDirectory = dir);
         try
         {
             Assert.Equal(XmlHelper.Identity, XmlHelper.Probe());
@@ -41,7 +41,7 @@ public sealed class XmlSessionTests
         }
         finally
         {
-            HelperLog.Shutdown();
+            TestLog.Shutdown();
             Directory.Delete(dir, recursive: true);
         }
     }
@@ -137,7 +137,7 @@ public sealed class XmlSessionTests
     {
         var dir = Path.Combine(Path.GetTempPath(), "VestigiumXmlTests", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
-        HelperLog.InitializeHost(HelperLog.AppIds.Xml, cfg => cfg.LogDirectory = dir);
+        TestLog.InitializeHost(TestLog.AppIds.Xml, cfg => cfg.LogDirectory = dir);
         try
         {
             const string secret = "hunter2-xml-must-not-log";
@@ -150,7 +150,7 @@ public sealed class XmlSessionTests
             doc.Commit();
             doc.Cancel();
 
-            var lines = HelperLog.RecentJsonLines;
+            var lines = TestLog.RecentJsonLines;
             Assert.DoesNotContain(lines, l => l.Contains(secret));
             Assert.Contains(lines, l => l.Contains("\"SUBCATEGORY\":\"Diff\"") && l.Contains("ops="));
             Assert.Contains(lines, l => l.Contains("\"SUBCATEGORY\":\"Snapshot\""));
@@ -158,7 +158,7 @@ public sealed class XmlSessionTests
         }
         finally
         {
-            HelperLog.Shutdown();
+            TestLog.Shutdown();
             Directory.Delete(dir, recursive: true);
         }
     }

@@ -1,10 +1,10 @@
 using Vestigium.Logging;
-using Vestigium.Helpers.Kql;
+using Vestigium.Helpers.Hashing;
 
 namespace Vestigium.Helpers;
 
 /// <summary>Test-only stand-in. Hosts initialize Vestigium.Logging.</summary>
-public static class HelperLog
+public static class TestLog
 {
     public const string Category = "Helpers";
 
@@ -72,7 +72,7 @@ public static class HelperLog
             cfg.OperationsLogEnabled = false;
             configure?.Invoke(cfg);
             LogDirectory = cfg.LogDirectory;
-            KqlLoggingCatalog.Register(cfg);
+            HashingCatalog.Register(cfg);
         });
     }
 

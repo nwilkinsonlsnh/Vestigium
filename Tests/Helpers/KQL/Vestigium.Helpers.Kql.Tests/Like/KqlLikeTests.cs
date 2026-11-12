@@ -51,16 +51,16 @@ public sealed class KqlLikeTests
     [Fact]
     public void Exact_equals_with_wildcard_logs_warning_and_still_compiles()
     {
-        HelperLog.Shutdown();
+        TestLog.Shutdown();
         var dir = Path.Combine(Path.GetTempPath(), "VestigiumHelpersTests", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
-        HelperLog.InitializeHost(HelperLog.AppIds.Kql, cfg => cfg.LogDirectory = dir);
+        TestLog.InitializeHost(TestLog.AppIds.Kql, cfg => cfg.LogDirectory = dir);
         try
         {
             using var session = KqlHelper.Create(KqlPack.Process);
             var compiled = KqlHelper.Compile("Name == 'CCleaner%'", session);
             Assert.True(compiled.Ok, compiled.Error?.ToString());
-            var lines = HelperLog.RecentJsonLines;
+            var lines = TestLog.RecentJsonLines;
             Assert.Contains(
                 lines,
                 line => line.Contains("exact compare treats wildcard chars as literals", StringComparison.Ordinal)
@@ -69,29 +69,29 @@ public sealed class KqlLikeTests
         }
         finally
         {
-            HelperLog.Shutdown();
+            TestLog.Shutdown();
         }
     }
 
     [Fact]
     public void Exact_equals_without_wildcard_does_not_warn()
     {
-        HelperLog.Shutdown();
+        TestLog.Shutdown();
         var dir = Path.Combine(Path.GetTempPath(), "VestigiumHelpersTests", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
-        HelperLog.InitializeHost(HelperLog.AppIds.Kql, cfg => cfg.LogDirectory = dir);
+        TestLog.InitializeHost(TestLog.AppIds.Kql, cfg => cfg.LogDirectory = dir);
         try
         {
             using var session = KqlHelper.Create(KqlPack.Process);
             var compiled = KqlHelper.Compile("Name == 'msedge'", session);
             Assert.True(compiled.Ok, compiled.Error?.ToString());
             Assert.DoesNotContain(
-                HelperLog.RecentJsonLines,
+                TestLog.RecentJsonLines,
                 line => line.Contains("exact compare treats wildcard chars as literals", StringComparison.Ordinal));
         }
         finally
         {
-            HelperLog.Shutdown();
+            TestLog.Shutdown();
         }
     }
 }

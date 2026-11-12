@@ -46,10 +46,10 @@ public sealed class ProcessPhaseGTests
     [Fact]
     public void StartAs_failure_log_has_no_password()
     {
-        HelperLog.Shutdown();
+        TestLog.Shutdown();
         var dir = Path.Combine(Path.GetTempPath(), "VestigiumHelpersTests", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
-        HelperLog.InitializeHost(HelperLog.AppIds.Processes, cfg => cfg.LogDirectory = dir);
+        TestLog.InitializeHost(TestLog.AppIds.Processes, cfg => cfg.LogDirectory = dir);
         try
         {
             using var secret = new SecureString();
@@ -61,15 +61,15 @@ public sealed class ProcessPhaseGTests
                 new ProcessStartAs { UserName = "nobody", Domain = ".", Password = secret, LoadUserProfile = false });
             Assert.False(result.Ok);
             Assert.Contains(
-                HelperLog.RecentJsonLines,
+                TestLog.RecentJsonLines,
                 line => line.Contains("StartAs", StringComparison.Ordinal) && line.Contains("user=nobody", StringComparison.Ordinal));
             Assert.DoesNotContain(
-                HelperLog.RecentJsonLines,
+                TestLog.RecentJsonLines,
                 line => line.Contains("SuperSecretPass", StringComparison.OrdinalIgnoreCase));
         }
         finally
         {
-            HelperLog.Shutdown();
+            TestLog.Shutdown();
         }
     }
 }

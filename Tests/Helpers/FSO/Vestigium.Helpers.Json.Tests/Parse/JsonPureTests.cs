@@ -10,7 +10,7 @@ public sealed class JsonPureTests
 {
     public JsonPureTests()
     {
-        HelperLog.Shutdown();
+        TestLog.Shutdown();
     }
 
     [Fact]
@@ -25,11 +25,11 @@ public sealed class JsonPureTests
         Directory.CreateDirectory(dir);
         Directory.CreateDirectory(export);
         JsonTestHooks.ExportRoot = export;
-        HelperLog.InitializeHost(HelperLog.AppIds.Json, cfg => cfg.LogDirectory = dir);
+        TestLog.InitializeHost(TestLog.AppIds.Json, cfg => cfg.LogDirectory = dir);
         try
         {
             Assert.Equal("Vestigium.Helpers.Json", JsonHelper.Probe());
-            var lines = HelperLog.RecentJsonLines;
+            var lines = TestLog.RecentJsonLines;
             Assert.Contains(lines, l => l.Contains("\"STATUS\":\"Pending\""));
             Assert.Contains(lines, l => l.Contains("\"STATUS\":\"Success\""));
             Assert.Contains(lines, l => l.Contains("\"APPID\":\"Json\""));
@@ -50,7 +50,7 @@ public sealed class JsonPureTests
         finally
         {
             JsonTestHooks.ExportRoot = null;
-            HelperLog.Shutdown();
+            TestLog.Shutdown();
             Directory.Delete(dir, recursive: true);
         }
     }
@@ -190,19 +190,19 @@ public sealed class JsonPureTests
     {
         var dir = Path.Combine(Path.GetTempPath(), "VestigiumJsonTests", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
-        HelperLog.InitializeHost(HelperLog.AppIds.Json, cfg => cfg.LogDirectory = dir);
+        TestLog.InitializeHost(TestLog.AppIds.Json, cfg => cfg.LogDirectory = dir);
         try
         {
             const string secret = "hunter2-payload-must-not-log";
             _ = JsonHelper.ToJson(new ProbeDto { TimeoutSeconds = 1, Level = secret });
-            Assert.DoesNotContain(HelperLog.RecentJsonLines, l => l.Contains(secret));
-            Assert.Contains(HelperLog.RecentJsonLines, l => l.Contains("ToJson") && l.Contains("bytes="));
+            Assert.DoesNotContain(TestLog.RecentJsonLines, l => l.Contains(secret));
+            Assert.Contains(TestLog.RecentJsonLines, l => l.Contains("ToJson") && l.Contains("bytes="));
             Assert.StartsWith(Path.GetTempPath().TrimEnd(Path.DirectorySeparatorChar), dir);
-            Assert.All(HelperLog.RecentJsonLines, line => Assert.DoesNotContain("\"EXCEPTION\":\"", line.Replace("\"EXCEPTION\":null", "")));
+            Assert.All(TestLog.RecentJsonLines, line => Assert.DoesNotContain("\"EXCEPTION\":\"", line.Replace("\"EXCEPTION\":null", "")));
         }
         finally
         {
-            HelperLog.Shutdown();
+            TestLog.Shutdown();
             Directory.Delete(dir, recursive: true);
         }
     }

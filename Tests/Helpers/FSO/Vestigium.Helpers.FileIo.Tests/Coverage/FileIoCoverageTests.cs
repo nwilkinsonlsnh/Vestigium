@@ -9,7 +9,7 @@ public sealed class FileIoCoverageTests
 {
     public FileIoCoverageTests()
     {
-        HelperLog.Shutdown();
+        TestLog.Shutdown();
     }
 
     [Fact]

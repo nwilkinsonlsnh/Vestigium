@@ -12,7 +12,7 @@ public sealed class KqlHelperTests
 
     [Fact]
     public void Kql_appid_is_registered()
-        => Assert.True(HelperLog.Taxonomy.IsSubcategoryRegistered(HelperLog.Category, HelperLog.AppIds.Kql));
+        => Assert.True(TestLog.Taxonomy.IsSubcategoryRegistered(TestLog.Category, TestLog.AppIds.Kql));
 
     [Fact]
     public void Process_pack_exposes_identity_and_resource_fields()

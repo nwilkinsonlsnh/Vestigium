@@ -11,7 +11,7 @@ public sealed class JsonCoverageTests
 {
     public JsonCoverageTests()
     {
-        HelperLog.Shutdown();
+        TestLog.Shutdown();
     }
 
     [Fact]
@@ -220,7 +220,7 @@ public sealed class JsonCoverageTests
     {
         var dir = Path.Combine(Path.GetTempPath(), "VestigiumJsonTests", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
-        HelperLog.InitializeHost(HelperLog.AppIds.Json, cfg => cfg.LogDirectory = dir);
+        TestLog.InitializeHost(TestLog.AppIds.Json, cfg => cfg.LogDirectory = dir);
         try
         {
             using var doc = JsonHelper.Create();
@@ -228,14 +228,14 @@ public sealed class JsonCoverageTests
             var ex = Assert.Throws<InvalidOperationException>(() => doc.Get<int>("level"));
             Assert.Contains("int", ex.Message, StringComparison.OrdinalIgnoreCase);
             Assert.Throws<KeyNotFoundException>(() => doc.Get<string>("missing"));
-            Assert.DoesNotContain(HelperLog.RecentJsonLines, l =>
+            Assert.DoesNotContain(TestLog.RecentJsonLines, l =>
                 l.Contains("\"SUBCATEGORY\":\"Query\"") && l.Contains("\"STATUS\":\"Failed\""));
-            Assert.DoesNotContain(HelperLog.RecentJsonLines, l => l.Contains("path type mismatch"));
-            Assert.DoesNotContain(HelperLog.RecentJsonLines, l => l.Contains("path not found"));
+            Assert.DoesNotContain(TestLog.RecentJsonLines, l => l.Contains("path type mismatch"));
+            Assert.DoesNotContain(TestLog.RecentJsonLines, l => l.Contains("path not found"));
         }
         finally
         {
-            HelperLog.Shutdown();
+            TestLog.Shutdown();
             Directory.Delete(dir, recursive: true);
         }
     }
@@ -470,21 +470,21 @@ public sealed class JsonCoverageTests
     [Fact]
     public void KindFromPath_SamePath_and_dot_stems()
     {
-        Assert.Equal(JsonDocumentKind.Json, JsonIO.KindFromPath(null));
-        Assert.Equal(JsonDocumentKind.Json, JsonIO.KindFromPath(""));
-        Assert.Equal(JsonDocumentKind.Json, JsonIO.KindFromPath("a.json"));
-        Assert.Equal(JsonDocumentKind.Json, JsonIO.KindFromPath("a.jsonl.bak"));
-        Assert.Equal(JsonDocumentKind.Jsonl, JsonIO.KindFromPath("a.JSONL"));
-        Assert.False(JsonIO.SamePath(null, "a.json"));
-        Assert.False(JsonIO.SamePath("  ", "a.json"));
+        Assert.Equal(JsonDocumentKind.Json, JsonIo.KindFromPath(null));
+        Assert.Equal(JsonDocumentKind.Json, JsonIo.KindFromPath(""));
+        Assert.Equal(JsonDocumentKind.Json, JsonIo.KindFromPath("a.json"));
+        Assert.Equal(JsonDocumentKind.Json, JsonIo.KindFromPath("a.jsonl.bak"));
+        Assert.Equal(JsonDocumentKind.Jsonl, JsonIo.KindFromPath("a.JSONL"));
+        Assert.False(JsonIo.SamePath(null, "a.json"));
+        Assert.False(JsonIo.SamePath("  ", "a.json"));
         var full = Path.GetFullPath("x.json");
-        Assert.True(JsonIO.SamePath(full, full));
+        Assert.True(JsonIo.SamePath(full, full));
         var root = Path.Combine(Path.GetTempPath(), "VestigiumJsonExports", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(root);
-        Assert.Throws<ArgumentException>(() => JsonIO.ResolveExportFile(root, "  ", JsonDocumentKind.Json));
-        Assert.Throws<ArgumentException>(() => JsonIO.ResolveExportFile(root, ".", JsonDocumentKind.Json));
-        Assert.Throws<ArgumentException>(() => JsonIO.ResolveExportFile(root, "..", JsonDocumentKind.Jsonl));
-        var named = JsonIO.ResolveExportFile(root, "payload", JsonDocumentKind.Json);
+        Assert.Throws<ArgumentException>(() => JsonIo.ResolveExportFile(root, "  ", JsonDocumentKind.Json));
+        Assert.Throws<ArgumentException>(() => JsonIo.ResolveExportFile(root, ".", JsonDocumentKind.Json));
+        Assert.Throws<ArgumentException>(() => JsonIo.ResolveExportFile(root, "..", JsonDocumentKind.Jsonl));
+        var named = JsonIo.ResolveExportFile(root, "payload", JsonDocumentKind.Json);
         Assert.EndsWith(".json", named);
     }
 
