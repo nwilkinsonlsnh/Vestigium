@@ -12,7 +12,7 @@ Why the library is shaped this way. It does not add requirements.
 
 ## 1. Intent
 
-URL and access-log parser. Projects URL fields into the LogParser row shape.
+See Requirements 1a. This document records locked decisions only.
 
 ---
 
@@ -20,32 +20,22 @@ URL and access-log parser. Projects URL fields into the LogParser row shape.
 
 | Decision | Why |
 |---|---|
-| Depends on the LogParser core | Locked. |
-| Does not fetch | Locked. |
-| Logging APPID stamps library identity | Folder follows the host. |
+| Library identity APPID | Folder follows the host. |
 | No host adapter | Orchestration is a different project. |
+| Fail closed | Corrupt or denied input is a result or a throw, never a silent success. |
 
 ---
 
-## 3. Dependencies
+## 3. Still out
 
-| Package | Role |
-|---|---|
-| Vestigium.Helpers.LogParser | Primary |
-| Vestigium.Logging | JSONL writer. This library never initializes it. |
+Host adapters. Drawing. Persistence beyond what Requirements names.
 
----
 
-## 4. Still out
+## Revision History
 
-- HTTP client.
-
----
-
-## 5. Revision History
-
-Initial release. Add a row when this document changes. Do not bump the revision until the change is accepted.
+Initial monorepo release. Add a row when this document changes. Do not bump the revision until the change is accepted.
 
 | Revision | Date | Author | Description |
 |---|---|---|---|
-| 1a | 11 Nov 2026 | Nathaniel Wilkinson | Initial release. |
+| 1a | 11 Nov 2026 | Nathaniel Wilkinson | Initial monorepo release. |
+
