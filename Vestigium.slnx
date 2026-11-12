@@ -4,6 +4,9 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Folder Name="/Scripts/">
+    <File Path="Scripts/Nuke-Solution.ps1" />
+  </Folder>
   <Folder Name="/Controls/" />
   <Folder Name="/Helpers/" />
   <Folder Name="/Helpers/Analytics/">
