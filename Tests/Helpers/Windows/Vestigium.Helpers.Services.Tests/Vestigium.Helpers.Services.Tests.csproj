@@ -28,9 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Vestigium.Helpers.Network" Version="2.1.1" />
+    <ProjectReference Include="../../../../Helpers/Network/Vestigium.Helpers.Network/Vestigium.Helpers.Network.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Vestigium.Helpers.Processes" Version="1.0.0" />
+    <ProjectReference Include="../../../../Helpers/Windows/Vestigium.Helpers.Processes/Vestigium.Helpers.Processes.csproj" />
   </ItemGroup>
 </Project>

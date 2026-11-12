@@ -28,24 +28,24 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Vestigium.Helpers.PerfMon.Cpu" Version="0.1.2" />
+    <ProjectReference Include="../../../../Helpers/PerfMon/Vestigium.Helpers.PerfMon.Cpu/Vestigium.Helpers.PerfMon.Cpu.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Vestigium.Helpers.PerfMon.Disk" Version="0.1.1" />
+    <ProjectReference Include="../../../../Helpers/PerfMon/Vestigium.Helpers.PerfMon.Disk/Vestigium.Helpers.PerfMon.Disk.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Vestigium.Helpers.PerfMon.Gpu" Version="0.1.1" />
+    <ProjectReference Include="../../../../Helpers/PerfMon/Vestigium.Helpers.PerfMon.Gpu/Vestigium.Helpers.PerfMon.Gpu.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Vestigium.Helpers.PerfMon.Memory" Version="0.1.2" />
+    <ProjectReference Include="../../../../Helpers/PerfMon/Vestigium.Helpers.PerfMon.Memory/Vestigium.Helpers.PerfMon.Memory.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Vestigium.Helpers.PerfMon.Network" Version="0.1.2" />
+    <ProjectReference Include="../../../../Helpers/PerfMon/Vestigium.Helpers.PerfMon.Network/Vestigium.Helpers.PerfMon.Network.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Vestigium.Helpers.PerfMon.PageFile" Version="0.1.1" />
+    <ProjectReference Include="../../../../Helpers/PerfMon/Vestigium.Helpers.PerfMon.PageFile/Vestigium.Helpers.PerfMon.PageFile.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Vestigium.Helpers.Network" Version="2.1.1" />
+    <ProjectReference Include="../../../../Helpers/Network/Vestigium.Helpers.Network/Vestigium.Helpers.Network.csproj" />
   </ItemGroup>
 </Project>
