@@ -12,7 +12,7 @@ Why the library is shaped this way. It does not add requirements.
 
 ## 1. Intent
 
-Raw socket helpers for hosts that need them. Not a packet sniffer product.
+See Requirements 1a. This document records locked decisions only.
 
 ---
 
@@ -20,33 +20,22 @@ Raw socket helpers for hosts that need them. Not a packet sniffer product.
 
 | Decision | Why |
 |---|---|
-| Requires elevation where the OS demands it | Locked. |
-| Depends on the Network core | Locked. |
-| Logging APPID stamps library identity | Folder follows the host. |
+| Library identity APPID | Folder follows the host. |
 | No host adapter | Orchestration is a different project. |
+| Fail closed | Corrupt or denied input is a result or a throw, never a silent success. |
 
 ---
 
-## 3. Dependencies
+## 3. Still out
 
-| Package | Role |
-|---|---|
-| Vestigium.Helpers.Network | Primary |
-| Vestigium.Logging | JSONL writer. This library never initializes it. |
+Host adapters. Drawing. Persistence beyond what Requirements names.
 
----
 
-## 4. Still out
+## Revision History
 
-- Full capture UI.
-- Protocol decode suite.
-
----
-
-## 5. Revision History
-
-Initial release. Add a row when this document changes. Do not bump the revision until the change is accepted.
+Initial monorepo release. Add a row when this document changes. Do not bump the revision until the change is accepted.
 
 | Revision | Date | Author | Description |
 |---|---|---|---|
-| 1a | 11 Nov 2026 | Nathaniel Wilkinson | Initial release. |
+| 1a | 11 Nov 2026 | Nathaniel Wilkinson | Initial monorepo release. |
+
