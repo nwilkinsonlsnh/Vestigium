@@ -1,7 +1,7 @@
 # Vestigium.Helpers.Analytics — Requirements Specification
 
 **Document ID:** VEST-HLP-ANALYTICS-SRS-000  
-**Version:** 1.0a  
+**Version:** 1a  
 **Status:** Staging — monorepo release  
 **Date:** 11 November 2026  
 **Target:** .NET 10 LTS / `net10.0`  
@@ -294,8 +294,10 @@ Computing UCL in Charts. Drawing. Streaming sketches. Time-bucket histograms. Ba
 
 ---
 
-## 18. Document control
+## 18. Revision History
 
-| Version | Date | Change |
-|---|---|---|
-| 1.0a | 11 Nov 2026 | Staging contract for the Vestigium monorepo. |
+Initial release. Add a row when this document changes. Do not bump the revision until the change is accepted.
+
+| Revision | Date | Author | Description |
+|---|---|---|---|
+| 1a | 11 Nov 2026 | Nathaniel Wilkinson | Initial release. |
