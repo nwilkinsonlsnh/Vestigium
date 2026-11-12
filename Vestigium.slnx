@@ -66,16 +66,57 @@
   <Folder Name="/Suite/WPF/Windows/" />
   <Folder Name="/Tests/" />
   <Folder Name="/Tests/Helpers/" />
-  <Folder Name="/Tests/Helpers/Analytics/" />
-  <Folder Name="/Tests/Helpers/Charts/" />
-  <Folder Name="/Tests/Helpers/Encryption/" />
-  <Folder Name="/Tests/Helpers/FSO/" />
-  <Folder Name="/Tests/Helpers/KQL/" />
-  <Folder Name="/Tests/Helpers/LogParser/" />
-  <Folder Name="/Tests/Helpers/Network/" />
-  <Folder Name="/Tests/Helpers/PerfMon/" />
-  <Folder Name="/Tests/Helpers/Watch/" />
-  <Folder Name="/Tests/Helpers/Windows/" />
+  <Folder Name="/Tests/Helpers/Analytics/">
+    <Project Path="Tests/Helpers/Analytics/Vestigium.Helpers.Analytics.Tests/Vestigium.Helpers.Analytics.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Tests/Helpers/Charts/">
+    <Project Path="Tests/Helpers/Charts/Vestigium.Helpers.Charts.Tests/Vestigium.Helpers.Charts.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Tests/Helpers/Encryption/">
+    <Project Path="Tests/Helpers/Encryption/Vestigium.Helpers.Encryption.Tests/Vestigium.Helpers.Encryption.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Tests/Helpers/FSO/">
+    <Project Path="Tests/Helpers/FSO/Vestigium.Helpers.ClosedXml.Tests/Vestigium.Helpers.ClosedXml.Tests.csproj" />
+    <Project Path="Tests/Helpers/FSO/Vestigium.Helpers.Csv.Tests/Vestigium.Helpers.Csv.Tests.csproj" />
+    <Project Path="Tests/Helpers/FSO/Vestigium.Helpers.FileIo.Tests/Vestigium.Helpers.FileIo.Tests.csproj" />
+    <Project Path="Tests/Helpers/FSO/Vestigium.Helpers.FileSystemPaths.Tests/Vestigium.Helpers.FileSystemPaths.Tests.csproj" />
+    <Project Path="Tests/Helpers/FSO/Vestigium.Helpers.Hashing.Tests/Vestigium.Helpers.Hashing.Tests.csproj" />
+    <Project Path="Tests/Helpers/FSO/Vestigium.Helpers.Json.Tests/Vestigium.Helpers.Json.Tests.csproj" />
+    <Project Path="Tests/Helpers/FSO/Vestigium.Helpers.Pdf.Tests/Vestigium.Helpers.Pdf.Tests.csproj" />
+    <Project Path="Tests/Helpers/FSO/Vestigium.Helpers.Xml.Tests/Vestigium.Helpers.Xml.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Tests/Helpers/KQL/">
+    <Project Path="Tests/Helpers/KQL/Vestigium.Helpers.Kql.ActiveSetup.Tests/Vestigium.Helpers.Kql.ActiveSetup.Tests.csproj" />
+    <Project Path="Tests/Helpers/KQL/Vestigium.Helpers.Kql.AppMgmt.Tests/Vestigium.Helpers.Kql.AppMgmt.Tests.csproj" />
+    <Project Path="Tests/Helpers/KQL/Vestigium.Helpers.Kql.Tests/Vestigium.Helpers.Kql.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Tests/Helpers/LogParser/">
+    <Project Path="Tests/Helpers/LogParser/Vestigium.Helpers.LogParser.Har.Tests/Vestigium.Helpers.LogParser.Har.Tests.csproj" />
+    <Project Path="Tests/Helpers/LogParser/Vestigium.Helpers.LogParser.Url.Tests/Vestigium.Helpers.LogParser.Url.Tests.csproj" />
+    <Project Path="Tests/Helpers/LogParser/Vestigium.Helpers.LogParser.Tests/Vestigium.Helpers.LogParser.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Tests/Helpers/Network/">
+    <Project Path="Tests/Helpers/Network/Vestigium.Helpers.Network.RawSocket.Tests/Vestigium.Helpers.Network.RawSocket.Tests.csproj" />
+    <Project Path="Tests/Helpers/Network/Vestigium.Helpers.Network.Tests/Vestigium.Helpers.Network.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Tests/Helpers/PerfMon/">
+    <Project Path="Tests/Helpers/PerfMon/Vestigium.Helpers.PerfMon.Cpu.Tests/Vestigium.Helpers.PerfMon.Cpu.Tests.csproj" />
+    <Project Path="Tests/Helpers/PerfMon/Vestigium.Helpers.PerfMon.Disk.Tests/Vestigium.Helpers.PerfMon.Disk.Tests.csproj" />
+    <Project Path="Tests/Helpers/PerfMon/Vestigium.Helpers.PerfMon.Gpu.Tests/Vestigium.Helpers.PerfMon.Gpu.Tests.csproj" />
+    <Project Path="Tests/Helpers/PerfMon/Vestigium.Helpers.PerfMon.Memory.Tests/Vestigium.Helpers.PerfMon.Memory.Tests.csproj" />
+    <Project Path="Tests/Helpers/PerfMon/Vestigium.Helpers.PerfMon.Network.Tests/Vestigium.Helpers.PerfMon.Network.Tests.csproj" />
+    <Project Path="Tests/Helpers/PerfMon/Vestigium.Helpers.PerfMon.PageFile.Tests/Vestigium.Helpers.PerfMon.PageFile.Tests.csproj" />
+    <Project Path="Tests/Helpers/PerfMon/Vestigium.Helpers.PerfMon.Tests/Vestigium.Helpers.PerfMon.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Tests/Helpers/Watch/">
+    <Project Path="Tests/Helpers/Watch/Vestigium.Helpers.Watch.Dns.Tests/Vestigium.Helpers.Watch.Dns.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Tests/Helpers/Windows/">
+    <Project Path="Tests/Helpers/Windows/Vestigium.Helpers.Processes.Tests/Vestigium.Helpers.Processes.Tests.csproj" />
+    <Project Path="Tests/Helpers/Windows/Vestigium.Helpers.Services.Tests/Vestigium.Helpers.Services.Tests.csproj" />
+    <Project Path="Tests/Helpers/Windows/Vestigium.Helpers.SystemInfo.Tests/Vestigium.Helpers.SystemInfo.Tests.csproj" />
+    <Project Path="Tests/Helpers/Windows/Vestigium.Helpers.WinReg.Tests/Vestigium.Helpers.WinReg.Tests.csproj" />
+  </Folder>
   <Folder Name="/_Documentation/">
     <Project Path="../Vestigium.Documentation/Vestigium.Documentation.csproj" Id="2418ff60-f4f6-468c-83b7-d3946523537e" />
   </Folder>
