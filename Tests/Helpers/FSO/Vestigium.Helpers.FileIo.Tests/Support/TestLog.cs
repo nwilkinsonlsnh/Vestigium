@@ -1,4 +1,5 @@
 using Vestigium.Logging;
+using Vestigium.Helpers.Analytics;
 using Vestigium.Helpers.FileIo;
 
 namespace Vestigium.Helpers;
@@ -73,6 +74,7 @@ public static class TestLog
             configure?.Invoke(cfg);
             LogDirectory = cfg.LogDirectory;
             FileIoCatalog.Register(cfg);
+            AnalyticsCatalog.Register(cfg);
         });
     }
 

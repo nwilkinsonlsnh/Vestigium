@@ -19,7 +19,7 @@ public sealed class NetworkInventoryTests
         string? catalog = null;
         for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir is not null; dir = dir.Parent)
         {
-            var hit = Path.Combine(dir.FullName, "src", "Vestigium.Helpers.Network", "NetworkCatalog.cs");
+            var hit = Path.Combine(dir.FullName, "Helpers", "Network", "Vestigium.Helpers.Network", "NetworkCatalog.cs");
             if (File.Exists(hit))
             {
                 catalog = File.ReadAllText(hit);

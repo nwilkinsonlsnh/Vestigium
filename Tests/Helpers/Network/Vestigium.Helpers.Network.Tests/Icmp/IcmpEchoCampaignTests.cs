@@ -3,6 +3,7 @@ using Vestigium.Helpers.Network;
 
 namespace Vestigium.Helpers.Network.Tests;
 
+[Collection("CampaignRoot")]
 public sealed class IcmpEchoCampaignTests : IDisposable
 {
     private readonly string _root = Path.Combine(Path.GetTempPath(), "VestigiumNetworkCampaigns", Guid.NewGuid().ToString("N"));

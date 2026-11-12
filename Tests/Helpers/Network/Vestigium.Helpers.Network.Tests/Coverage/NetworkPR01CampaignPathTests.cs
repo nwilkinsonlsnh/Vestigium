@@ -2,6 +2,7 @@ using Vestigium.Helpers.Network;
 
 namespace Vestigium.Helpers.Network.Tests;
 
+[Collection("CampaignRoot")]
 public sealed class NetworkPr01CampaignPathTests : IDisposable
 {
     private readonly string _root = Path.Combine(Path.GetTempPath(), "vest-pr01-camp-" + Guid.NewGuid().ToString("N"));

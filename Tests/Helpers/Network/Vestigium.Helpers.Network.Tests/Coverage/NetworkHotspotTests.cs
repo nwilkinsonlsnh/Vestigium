@@ -152,6 +152,7 @@ public sealed class NetworkHotspotTests
             MaxDuration = TimeSpan.FromMilliseconds(150),
             Timeout = TimeSpan.FromMilliseconds(80),
             Interval = TimeSpan.FromMilliseconds(20),
+            AllowBurst = true,
             BufferSize = 8,
             Ttl = 32,
             DontFragment = true,

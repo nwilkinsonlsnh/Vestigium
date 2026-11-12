@@ -4,6 +4,7 @@ using Vestigium.Helpers.Network;
 
 namespace Vestigium.Helpers.Network.Tests;
 
+[Collection("CampaignRoot")]
 public sealed class NetworkPr01Tests : IDisposable
 {
     private const string SampleMac = "00:1A:2B:3C:4D:5E";

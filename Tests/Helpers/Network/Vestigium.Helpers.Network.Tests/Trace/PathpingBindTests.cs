@@ -32,7 +32,7 @@ public sealed class PathpingBindTests
     {
         for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir is not null; dir = dir.Parent)
         {
-            var hit = Path.Combine(dir.FullName, "src", "Vestigium.Helpers.Network", name);
+            var hit = Path.Combine(dir.FullName, "Helpers", "Network", "Vestigium.Helpers.Network", name);
             if (File.Exists(hit))
                 return hit;
         }

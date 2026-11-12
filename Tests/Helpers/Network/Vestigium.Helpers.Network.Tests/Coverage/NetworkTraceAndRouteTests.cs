@@ -4,6 +4,7 @@ using Vestigium.Logging;
 namespace Vestigium.Helpers.Network.Tests;
 
 [Collection("Logger")]
+[Collection("CampaignRoot")]
 public sealed class NetworkTraceAndRouteTests
 {
     public NetworkTraceAndRouteTests()
@@ -273,7 +274,7 @@ public sealed class NetworkTraceAndRouteTests
     {
         for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir is not null; dir = dir.Parent)
         {
-            var hit = Path.Combine(dir.FullName, "src", "Vestigium.Helpers.Network", fileName);
+            var hit = Path.Combine(dir.FullName, "Helpers", "Network", "Vestigium.Helpers.Network", fileName);
             if (File.Exists(hit))
                 return hit;
         }

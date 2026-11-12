@@ -394,7 +394,7 @@ public sealed class PerfMonPm01Tests
     {
         var names = typeof(SampleJob).Assembly.GetReferencedAssemblies().Select(a => a.Name!);
         Assert.DoesNotContain(names, n => n.StartsWith("Vestigium.Helpers.PerfMon.", StringComparison.Ordinal));
-        Assert.Contains("Vestigium.Helpers.Tests", typeof(PerfMonPm01Tests).Assembly.GetName().Name);
+        Assert.Contains("Vestigium.Helpers.PerfMon.Tests", typeof(PerfMonPm01Tests).Assembly.GetName().Name);
         Assert.NotNull(typeof(FakeCounterSource));
     }
 

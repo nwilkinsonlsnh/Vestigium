@@ -1,4 +1,5 @@
 using Vestigium.Logging;
+using Vestigium.Helpers.Kql;
 using Vestigium.Helpers.Processes;
 
 namespace Vestigium.Helpers;
@@ -82,6 +83,7 @@ public static class TestLog
             configure?.Invoke(cfg);
             LogDirectory = cfg.LogDirectory;
             ProcessesCatalog.Register(cfg);
+            KqlLoggingCatalog.Register(cfg);
         });
     }
 

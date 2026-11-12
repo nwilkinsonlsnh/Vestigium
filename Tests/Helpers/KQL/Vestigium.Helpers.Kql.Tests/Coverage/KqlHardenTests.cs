@@ -10,13 +10,14 @@ public sealed class KqlHardenTests
     [Fact]
     public void Kql_project_does_not_reference_processes()
     {
-        var path = Path.GetFullPath(Path.Combine(
-            AppContext.BaseDirectory,
-            "..", "..", "..", "..",
-            "Vestigium.Helpers.Kql",
-            "Vestigium.Helpers.Kql.csproj"));
-        Assert.True(File.Exists(path), path);
-        var text = File.ReadAllText(path);
+        string? path = null;
+        for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir is not null; dir = dir.Parent)
+        {
+            var hit = Path.Combine(dir.FullName, "Helpers", "KQL", "Vestigium.Helpers.Kql", "Vestigium.Helpers.Kql.csproj");
+            if (File.Exists(hit)) { path = hit; break; }
+        }
+        Assert.True(path is not null, "Vestigium.Helpers.Kql.csproj not found walking up from BaseDirectory.");
+        var text = File.ReadAllText(path!);
         Assert.DoesNotContain("Vestigium.Helpers.Processes", text, StringComparison.OrdinalIgnoreCase);
     }
 
