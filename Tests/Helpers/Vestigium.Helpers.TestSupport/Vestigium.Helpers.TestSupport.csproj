@@ -8,7 +8,6 @@
     <RootNamespace>Vestigium.Helpers</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Vestigium.Logging" Version="2.0.0" />
     <PackageReference Include="Vestigium.Helpers.Analytics" Version="1.0.4" />
     <PackageReference Include="Vestigium.Helpers.Charts" Version="1.2.0" />
     <PackageReference Include="Vestigium.Helpers.ClosedXml" Version="1.0.1" />
