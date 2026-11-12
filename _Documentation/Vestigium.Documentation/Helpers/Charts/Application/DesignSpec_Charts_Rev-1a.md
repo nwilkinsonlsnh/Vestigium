@@ -1,18 +1,27 @@
-# Vestigium.Helpers.Charts — Design Specification
+# Vestigium.Helpers.Charts — Design
 
 **Document ID:** VEST-HLP-CHARTS-DSN-000  
 **Version:** 1a  
-**Status:** Staging companion to Requirements 1a  
+**Status:** Staging — monorepo release  
 **Date:** 11 November 2026  
-**Binding:** `Requirements_Charts-Rev1a.md` wins on conflict
+**Binding:** `Requirements_Charts-Rev1a.md` wins on conflict  
 
-Why the library is shaped this way. It does not add requirements.
+This page records *why* Charts is shaped this way. It does not add requirements.
 
 ---
 
 ## 1. Intent
 
-ScottPlot wrapper that puts Analytics numbers on a WPF form. Analytics supplies the numbers. Charts draws them. It does not compute UCL, CL, LCL, run rules, spec fences, or KDE points. ScottPlot types are not public.
+Put Analytics numbers on a WPF form without every host learning ScottPlot. The public type is `FrameworkElement`. ScottPlot stays internal.
+
+```
+Analytics.NumericSeries
+    + ControlLimits / RunRuleReport / SpecLimits / Confidence / PdfPoints / PercentileInterval
+        → ChartView.*(series, inputs) → FrameworkElement
+Analytics.Demo / ClosedXml.Demo / Charts.Demo drop that element on a form.
+```
+
+ClosedXml the library still writes Excel charts itself. Its **demo** may host ChartView as a preview of the same series.
 
 ---
 
@@ -20,38 +29,89 @@ ScottPlot wrapper that puts Analytics numbers on a WPF form. Analytics supplies 
 
 | Decision | Why |
 |---|---|
-| Charts paints | Locked. |
-| ScottPlot types stay internal | Locked. |
-| Empty series and x/y length mismatch are rejected | Locked. |
-| Line and Scatter accept at most two series | Locked. |
-| On a non-Windows host, From returns a text stand-in | Locked. |
-| The library never calls VestigiumLogger | Locked. |
-| Logging APPID stamps library identity | Folder follows the host. |
-| No host adapter | Orchestration is a different project. |
+| Wrapper, not an engine | We do not own a plot renderer. ScottPlot 5 draws; we bind. |
+| UCL / CL / LCL are inputs | A lone spike on small n sits inside 3σ because s inflates. Moving range lives in Analytics so Charts cannot “fix” the band. |
+| Spec lines are inputs | LSL/USL are customer fences. Painting them as LCL would lie. |
+| Run-rule marks are inputs | Indexes come from `RunRuleReport.AllIndexes`. Charts maps them onto plotted X/Y. |
+| Five-number box is the default | Operators asked for min / Q1 / median / Q3 / max, labeled. Tukey is the outlier view. |
+| `ChartSamples` live here | Seeded bells for the gallery. Not a process model. Not Analytics test fixtures. |
+| Excel charts stay in ClosedXml | Native OOXML on save. This package must not reference ClosedXML. |
+| `net10.0-windows` | `ScottPlot.WPF`. SavePng is the headless path. Tests Compile-remove ChartView host on Linux. |
+| Layout-only math only | OLS, display bell, Pareto accumulate. KDE / percentile CI / capability stay in Analytics. |
+| One light palette | Print and Excel-adjacent. Dark is a second mode later, not a second product. |
+| Probe may compute limits | Suite smoke only. Public Control still requires caller fences. |
+| Line/Scatter cap of two | NicIQ Throughput is Receive + Send on one plot. Same Y unit, two colors, two legend names. N-series would be a different product. Trend and process fences stay on series 0 so the one-series path does not change meaning. Each series keeps its own X; Charts does not resample. |
 
 ---
 
-## 3. Dependencies
+## 3. Shape
 
-| Package | Role |
+| File | Role |
 |---|---|
-| Vestigium.Helpers.Analytics | Primary |
-| Vestigium.Logging | JSONL writer. This library never initializes it. |
+| `ChartView.cs` | Public doors, SavePng, WPF host |
+| `ChartView.Interval.cs` | PercentileInterval door |
+| `ChartTypes.cs` | Kind, options, spec, palette, TrendFit |
+| `PlotBuilder.cs` | Fill switch + most kinds |
+| `PlotBuilder.Xy.cs` | Resolve 1–2 Line/Scatter strokes |
+| `PlotBuilder.Control.cs` | Control layer (fences, outside, run-rule marks, spec lines) |
+| `PlotBuilder.Interval.cs` | PercentileInterval fill |
+| `ChartControlOverlay.cs` | Map run-rule indexes → points |
+| `ChartSpecOverlay.cs` | Map SpecLimits → LSL/USL lines |
+| `ChartHelper.cs` | Identity + Probe |
+| `ChartSamples.cs` | Seeded gallery series |
+| `ChartsLog` / `ChartsCatalog` / `ChartsEvents` | Logging |
+
+`ChartKind.PercentileInterval` is routed through `TryFillExtra` so the main switch stays closed over the original kinds.
 
 ---
 
-## 4. Still out
+## 4. What Charts computes vs paints
 
-- Computing UCL in Charts.
-- Public ScottPlot types.
-- Host adapters.
+| Computes here | Paints from Analytics |
+|---|---|
+| OLS through plotted X/Y | ControlLimits, OutOfControlIndexes |
+| Display bell N(μ, s) × n × binWidth | `PdfPoints` × n × binWidth |
+| Pareto sort + cumulative share | Frequency / ParetoPoints |
+| Pie Other collapse | Slice values |
+| Box layout from slice fences | Q1/Q3/median/outliers |
+| | Mean interval at caller γ |
+| | PercentileInterval bounds |
+| | RunRuleReport indexes |
+| | SpecLimits Lower/Upper |
 
 ---
 
-## 5. Revision History
+## 5. What closed to reach 2.0
 
-Initial release. Add a row when this document changes. Do not bump the revision until the change is accepted.
+PR05 (archived under `Archive/PR01/`):
+
+- Honor `IntervalLevel` on MeanInterval
+- Paint host run-rule indexes on Control
+- Paint host LSL/USL
+- Histogram `ShowKde`
+- `ChartKind.PercentileInterval`
+
+---
+
+## 6. Still out
+
+Refresh-in-place, dark palette, N-series overlay, filled area, SaveSvg, host adapters, public `ScottPlot.Plot`, computing fences. Two-series Line/Scatter shipped in 1.0.6.
+
+---
+
+## 7. Document control
+
+| Version | Date | Change |
+|---|---|---|
+| 2.0 | 19 Sep 2026 | First standalone Design. Content lifted from Guide v1.1 + PR05. |
+| 2.1 | 29 Sep 2026 | Two-series Line/Scatter. Cap 2. Same PlotBuilder. |
+
+---
+
+## Revision History
+
+Initial monorepo release. Add a row when this document changes. Do not bump the revision until the change is accepted.
 
 | Revision | Date | Author | Description |
 |---|---|---|---|
-| 1a | 11 Nov 2026 | Nathaniel Wilkinson | Initial release. |
+| 1a | 11 Nov 2026 | Nathaniel Wilkinson | Initial monorepo release. Carried forward from the prior library contract. |
