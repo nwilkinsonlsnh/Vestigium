@@ -28,6 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../Helpers/Windows/Vestigium.Helpers.Processes/Vestigium.Helpers.Processes.csproj" />
+    <PackageReference Include="Vestigium.Helpers.Processes" Version="1.0.0" />
   </ItemGroup>
 </Project>

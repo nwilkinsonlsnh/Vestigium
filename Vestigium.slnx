@@ -121,4 +121,7 @@
     <Project Path="_Documentation/Vestigium.Documentation/Vestigium.Documentation.csproj" />
   </Folder>
   <Project Path="Vestigium.csproj" />
+  <Folder Name="/Tests/">
+    <Project Path="Tests/Helpers/Vestigium.Helpers.TestSupport/Vestigium.Helpers.TestSupport.csproj" />
+  </Folder>
 </Solution>

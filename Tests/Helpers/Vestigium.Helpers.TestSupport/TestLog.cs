@@ -1,9 +1,25 @@
 using Vestigium.Logging;
+using Vestigium.Helpers.Analytics;
+using Vestigium.Helpers.Charts;
+using Vestigium.Helpers.ClosedXml;
+using Vestigium.Helpers.Csv;
+using Vestigium.Helpers.Encryption;
+using Vestigium.Helpers.FileIo;
+using Vestigium.Helpers.Hashing;
+using Vestigium.Helpers.Json;
+using Vestigium.Helpers.Kql;
+using Vestigium.Helpers.Network;
 using Vestigium.Helpers.Processes;
+using Vestigium.Helpers.Services;
+using Vestigium.Helpers.WinReg;
+using Vestigium.Helpers.Xml;
 
 namespace Vestigium.Helpers;
 
-/// <summary>Test-only stand-in. Hosts initialize Vestigium.Logging.</summary>
+/// <summary>
+/// Shared test host. Registers every published catalog, matching the old suite.
+/// Package versions are the current NuGet releases.
+/// </summary>
 public static class TestLog
 {
     public const string Category = "Helpers";
@@ -60,7 +76,6 @@ public static class TestLog
         public const string Kill = "Kill";
         public const string System = "System";
         public const string Campaign = "Campaign";
-
     }
 
     public static readonly TaxonomyGate Taxonomy = new();
@@ -81,7 +96,7 @@ public static class TestLog
             cfg.OperationsLogEnabled = false;
             configure?.Invoke(cfg);
             LogDirectory = cfg.LogDirectory;
-            ProcessesCatalog.Register(cfg);
+            RegisterAll(cfg);
         });
     }
 
@@ -91,9 +106,36 @@ public static class TestLog
         VestigiumLog.Information(10000, status, Category, subcategory, message, appId: appId);
     }
 
+    private static void RegisterAll(VestigiumLoggerOptions cfg)
+    {
+        AnalyticsCatalog.Register(cfg);
+        ChartsCatalog.Register(cfg);
+        ClosedXmlCatalog.Register(cfg);
+        CsvCatalog.Register(cfg);
+        EncryptionCatalog.Register(cfg);
+        FileIoCatalog.Register(cfg);
+        HashingCatalog.Register(cfg);
+        JsonCatalog.Register(cfg);
+        KqlLoggingCatalog.Register(cfg);
+        NetworkCatalog.Register(cfg);
+        ProcessesCatalog.Register(cfg);
+        ServicesCatalog.Register(cfg);
+        WinRegCatalog.Register(cfg);
+        XmlCatalog.Register(cfg);
+    }
+
     public sealed class TaxonomyGate
     {
         public bool IsSubcategoryRegistered(string category, string subcategory) =>
             !string.IsNullOrWhiteSpace(category) && !string.IsNullOrWhiteSpace(subcategory);
+    }
+}
+
+public static class HelperDemoHost
+{
+    public static int Run(string appId, string identity, Action body)
+    {
+        try { body(); return 0; }
+        catch { return 1; }
     }
 }

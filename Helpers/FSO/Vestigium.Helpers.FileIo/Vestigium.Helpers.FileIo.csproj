@@ -21,7 +21,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Vestigium.Helpers.Hashing" Version="1.4.1" />
-    <PackageReference Include="Vestigium.Helpers.Analytics" Version="1.0.1" />
+    <PackageReference Include="Vestigium.Helpers.Analytics" Version="1.0.4" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="README.md">

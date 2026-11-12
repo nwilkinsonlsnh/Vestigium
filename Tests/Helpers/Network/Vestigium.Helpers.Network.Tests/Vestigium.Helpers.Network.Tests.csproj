@@ -32,18 +32,21 @@
     <PackageReference Include="Vestigium.Logging" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../../../../Helpers/Windows/Vestigium.Helpers.WinReg/Vestigium.Helpers.WinReg.csproj" />
+    <PackageReference Include="Vestigium.Helpers.WinReg" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../../../../Helpers/Windows/Vestigium.Helpers.Services/Vestigium.Helpers.Services.csproj" />
+    <PackageReference Include="Vestigium.Helpers.Services" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../../../../Helpers/Windows/Vestigium.Helpers.Processes/Vestigium.Helpers.Processes.csproj" />
+    <PackageReference Include="Vestigium.Helpers.Processes" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../../../../Helpers/KQL/Vestigium.Helpers.Kql/Vestigium.Helpers.Kql.csproj" />
+    <PackageReference Include="Vestigium.Helpers.Kql" Version="3.4.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../../../../Helpers/Network/Vestigium.Helpers.Network.RawSocket/Vestigium.Helpers.Network.RawSocket.csproj" />
+    <PackageReference Include="Vestigium.Helpers.Network.RawSocket" Version="1.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../Vestigium.Helpers.TestSupport/Vestigium.Helpers.TestSupport.csproj" />
   </ItemGroup>
 </Project>
