@@ -5,14 +5,39 @@
     <Platform Name="x86" />
   </Configurations>
   <Folder Name="/Controls/" />
-  <Folder Name="/Documentation/">
-    <Project Path="../Vestigium.Documentation/Vestigium.Documentation.csproj" Id="2418ff60-f4f6-468c-83b7-d3946523537e" />
-  </Folder>
   <Folder Name="/Helpers/" />
+  <Folder Name="/Helpers/Analytics/">
+    <Project Path="Helpers/Analytics/Vestigium.Helpers.Analytics/Vestigium.Helpers.Analytics.csproj" />
+  </Folder>
+  <Folder Name="/Helpers/Charts/">
+    <Project Path="Helpers/Charts/Vestigium.Helpers.Charts/Vestigium.Helpers.Charts.csproj" />
+  </Folder>
+  <Folder Name="/Helpers/Encryption/">
+    <Project Path="Helpers/Encryption/Vestigium.Helpers.Encryption/Vestigium.Helpers.Encryption.csproj" />
+  </Folder>
+  <Folder Name="/Helpers/FSO/">
+    <Project Path="Helpers/FSO/Vestigium.Helpers.ClosedXml/Vestigium.Helpers.ClosedXml.csproj" />
+    <Project Path="Helpers/FSO/Vestigium.Helpers.Csv/Vestigium.Helpers.Csv.csproj" />
+    <Project Path="Helpers/FSO/Vestigium.Helpers.FileIo/Vestigium.Helpers.FileIo.csproj" />
+    <Project Path="Helpers/FSO/Vestigium.Helpers.FileSystemPaths/Vestigium.Helpers.FileSystemPaths.csproj" />
+    <Project Path="Helpers/FSO/Vestigium.Helpers.Hashing/Vestigium.Helpers.Hashing.csproj" />
+    <Project Path="Helpers/FSO/Vestigium.Helpers.Json/Vestigium.Helpers.Json.csproj" />
+    <Project Path="Helpers/FSO/Vestigium.Helpers.Pdf/Vestigium.Helpers.Pdf.csproj" />
+    <Project Path="Helpers/FSO/Vestigium.Helpers.Xml/Vestigium.Helpers.Xml.csproj" />
+  </Folder>
+  <Folder Name="/Helpers/KQL/">
+    <Project Path="Helpers/KQL/Vestigium.Helpers.Kql.ActiveSetup/Vestigium.Helpers.Kql.ActiveSetup.csproj" />
+    <Project Path="Helpers/KQL/Vestigium.Helpers.Kql.AppMgmt/Vestigium.Helpers.Kql.AppMgmt.csproj" />
+    <Project Path="Helpers/KQL/Vestigium.Helpers.Kql/Vestigium.Helpers.Kql.csproj" />
+  </Folder>
   <Folder Name="/Helpers/LogParser/">
     <Project Path="Helpers/LogParser/Vestigium.Helpers.LogParser.Har/Vestigium.Helpers.LogParser.Har.csproj" />
     <Project Path="Helpers/LogParser/Vestigium.Helpers.LogParser.Url/Vestigium.Helpers.LogParser.Url.csproj" />
     <Project Path="Helpers/LogParser/Vestigium.Helpers.LogParser/Vestigium.Helpers.LogParser.csproj" />
+  </Folder>
+  <Folder Name="/Helpers/Network/">
+    <Project Path="Helpers/Network/Vestigium.Helpers.Network.RawSocket/Vestigium.Helpers.Network.RawSocket.csproj" />
+    <Project Path="Helpers/Network/Vestigium.Helpers.Network/Vestigium.Helpers.Network.csproj" />
   </Folder>
   <Folder Name="/Helpers/PerfMon/">
     <Project Path="Helpers/PerfMon/Vestigium.Helpers.PerfMon.Cpu/Vestigium.Helpers.PerfMon.Cpu.csproj" />
@@ -26,6 +51,12 @@
   <Folder Name="/Helpers/Watch/">
     <Project Path="Helpers/Watch/Vestigium.Helpers.Watch.Dns/Vestigium.Helpers.Watch.Dns.csproj" />
   </Folder>
+  <Folder Name="/Helpers/Windows/">
+    <Project Path="Helpers/Windows/Vestigium.Helpers.Processes/Vestigium.Helpers.Processes.csproj" />
+    <Project Path="Helpers/Windows/Vestigium.Helpers.Services/Vestigium.Helpers.Services.csproj" />
+    <Project Path="Helpers/Windows/Vestigium.Helpers.SystemInfo/Vestigium.Helpers.SystemInfo.csproj" />
+    <Project Path="Helpers/Windows/Vestigium.Helpers.WinReg/Vestigium.Helpers.WinReg.csproj" />
+  </Folder>
   <Folder Name="/Suite/" />
   <Folder Name="/Suite/CLI/" />
   <Folder Name="/Suite/CLI/Network/" />
@@ -33,5 +64,20 @@
   <Folder Name="/Suite/WPF/" />
   <Folder Name="/Suite/WPF/Network/" />
   <Folder Name="/Suite/WPF/Windows/" />
+  <Folder Name="/Tests/" />
+  <Folder Name="/Tests/Helpers/" />
+  <Folder Name="/Tests/Helpers/Analytics/" />
+  <Folder Name="/Tests/Helpers/Charts/" />
+  <Folder Name="/Tests/Helpers/Encryption/" />
+  <Folder Name="/Tests/Helpers/FSO/" />
+  <Folder Name="/Tests/Helpers/KQL/" />
+  <Folder Name="/Tests/Helpers/LogParser/" />
+  <Folder Name="/Tests/Helpers/Network/" />
+  <Folder Name="/Tests/Helpers/PerfMon/" />
+  <Folder Name="/Tests/Helpers/Watch/" />
+  <Folder Name="/Tests/Helpers/Windows/" />
+  <Folder Name="/_Documentation/">
+    <Project Path="../Vestigium.Documentation/Vestigium.Documentation.csproj" Id="2418ff60-f4f6-468c-83b7-d3946523537e" />
+  </Folder>
   <Project Path="Vestigium.csproj" />
 </Solution>
