@@ -17,6 +17,7 @@
   </PropertyGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Vestigium.Helpers.Tests" />
+    <InternalsVisibleTo Include="Vestigium.Helpers.Csv.Tests" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Analytics\Vestigium.Helpers.Analytics\Vestigium.Helpers.Analytics.csproj" />

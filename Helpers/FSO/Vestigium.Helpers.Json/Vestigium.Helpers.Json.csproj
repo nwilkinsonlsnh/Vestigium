@@ -24,6 +24,7 @@
   </PropertyGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Vestigium.Helpers.Tests" />
+    <InternalsVisibleTo Include="Vestigium.Helpers.Json.Tests" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">

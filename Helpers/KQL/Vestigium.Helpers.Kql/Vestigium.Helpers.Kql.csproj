@@ -17,6 +17,7 @@
   </PropertyGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Vestigium.Helpers.Tests" />
+    <InternalsVisibleTo Include="Vestigium.Helpers.Kql.Tests" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="README.md">

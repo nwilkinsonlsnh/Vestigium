@@ -10,6 +10,7 @@
 
 	<ItemGroup>
 		<InternalsVisibleTo Include="Vestigium.Helpers.Tests" />
+    <InternalsVisibleTo Include="Vestigium.Helpers.LogParser.Tests" />
 	</ItemGroup>
 
 	<ItemGroup>

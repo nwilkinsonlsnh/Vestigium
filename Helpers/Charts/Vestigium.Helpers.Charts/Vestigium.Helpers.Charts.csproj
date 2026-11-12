@@ -19,6 +19,7 @@
   </PropertyGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Vestigium.Helpers.Tests" />
+    <InternalsVisibleTo Include="Vestigium.Helpers.Charts.Tests" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ScottPlot.WPF" Version="5.1.59" />

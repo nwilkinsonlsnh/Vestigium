@@ -25,4 +25,7 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Vestigium.Helpers.Kql.AppMgmt.Tests" />
+  </ItemGroup>
 </Project>
