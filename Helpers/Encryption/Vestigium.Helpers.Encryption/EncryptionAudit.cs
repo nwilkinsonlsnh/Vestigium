@@ -38,7 +38,10 @@ internal static class EncryptionAudit
             || value.Contains("-----"))
             return true;
 
-        var compact = value.Replace(" ", "", StringComparison.Ordinal).Replace("\n", "", StringComparison.Ordinal);
+        if (value.Any(char.IsWhiteSpace))
+            return false;
+
+        var compact = value.Replace("\n", "", StringComparison.Ordinal);
         return compact.Length switch
         {
             >= 32 when compact.All(Uri.IsHexDigit) => true,

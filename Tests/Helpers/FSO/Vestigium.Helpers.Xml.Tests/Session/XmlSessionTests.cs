@@ -6,6 +6,29 @@ using Vestigium.Logging;
 
 namespace Vestigium.Helpers.Xml.Tests;
 
+    private static string Gold(string fileName)
+    {
+        string? hit = null;
+        for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir is not null; dir = dir.Parent)
+        {
+            var candidate = Path.Combine(dir.FullName, "Tests", "Helpers", "FSO", "Vestigium.Helpers.Xml.Tests", "Documents", "Xml", fileName);
+            if (File.Exists(candidate))
+            {
+                hit = candidate;
+                break;
+            }
+        }
+
+        if (hit is null)
+            throw new FileNotFoundException(fileName);
+
+        var destDir = Path.Combine(Path.GetTempPath(), "VestigiumXmlGold", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(destDir);
+        var dest = Path.Combine(destDir, fileName);
+        File.Copy(hit, dest, overwrite: true);
+        return dest;
+    }
+
 [Collection("Logger")]
 public sealed class XmlSessionTests
 {
@@ -49,7 +72,7 @@ public sealed class XmlSessionTests
     [Fact]
     public void Osinfo_snapshot_set_diff_commit_save_reload()
     {
-        var path = XmlContentSeeder.CreateScratchCopy("osinfo.xml");
+        var path = Gold("osinfo.xml");
         using (var doc = XmlHelper.Open(path))
         {
             doc.Snapshot();
@@ -71,7 +94,7 @@ public sealed class XmlSessionTests
     [Fact]
     public void Cancel_after_set_leaves_disk_untouched()
     {
-        var path = XmlContentSeeder.CreateScratchCopy("osinfo.xml");
+        var path = Gold("osinfo.xml");
         var before = File.ReadAllBytes(path);
         using (var doc = XmlHelper.Open(path))
         {
@@ -86,7 +109,7 @@ public sealed class XmlSessionTests
     [Fact]
     public void ReAgent_set_attribute_round_trips()
     {
-        var path = XmlContentSeeder.CreateScratchCopy("ReAgent.xml");
+        var path = Gold("ReAgent.xml");
         using (var doc = XmlHelper.Open(path))
         {
             doc.Snapshot();
@@ -144,7 +167,7 @@ public sealed class XmlSessionTests
         try
         {
             const string secret = "hunter2-xml-must-not-log";
-            var path = XmlContentSeeder.CreateScratchCopy("osinfo.xml");
+            var path = Gold("osinfo.xml");
             using var doc = XmlHelper.Open(path);
             doc.Snapshot();
             doc.SetText("//u:action/u:name", secret);
