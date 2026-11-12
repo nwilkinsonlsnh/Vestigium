@@ -18,8 +18,8 @@
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Vestigium.Helpers.Json\Vestigium.Helpers.Json.csproj" />
-    <ProjectReference Include="..\Vestigium.Helpers.Kql\Vestigium.Helpers.Kql.csproj" />
+    <ProjectReference Include="..\..\FSO\Vestigium.Helpers.Json\Vestigium.Helpers.Json.csproj" />
+    <ProjectReference Include="..\..\KQL\Vestigium.Helpers.Kql\Vestigium.Helpers.Kql.csproj" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="10.0.12" />
   </ItemGroup>
   <ItemGroup>
