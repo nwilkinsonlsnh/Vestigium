@@ -11,6 +11,12 @@
     <Product>Vestigium</Product>
     <Description>Root C# library for the Vestigium suite. .NET 10 LTS.</Description>
     <Copyright>Copyright © Nathaniel Wilkinson / LSNH</Copyright>
+
+    <!-- Root is an empty umbrella. Do not compile sources that belong to child projects. -->
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
 </Project>
