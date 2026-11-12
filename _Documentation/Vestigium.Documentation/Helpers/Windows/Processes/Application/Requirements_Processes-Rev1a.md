@@ -1,75 +1,62 @@
-# Vestigium.Helpers.Processes — Requirements Specification
+# Vestigium.Helpers.Processes — Requirements
 
 **Document ID:** VEST-HLP-PROCESSES-SRS-000  
 **Version:** 1a  
 **Status:** Staging — monorepo release  
 **Date:** 11 November 2026  
-**Target:** .NET 10 LTS / `net10.0-windows`  
-**Companions:** `DesignSpec_Processes_Rev-1a.md`  
 **Package:** `Vestigium.Helpers.Processes`  
-**APPID:** `Processes`  
-**EventIds:** reserved
+**TFM:** `net10.0-windows`
 
-Binding contract for Processes as staged in the Vestigium monorepo.
-
----
-
-## 0. Purpose
-
-Windows process inventory and control helpers. Not taskkill. Not a process monitor product.
+Companion addendum: [`Requirements_v1.3_Addendum.md`](Requirements_v1.3_Addendum.md).
 
 ---
 
-## 1. Surface
+## 1. Purpose
 
-- List.
-- Query.
-- Start / stop when the caller asks.
+Give a Windows host one façade (`ProcessHelper`) for the process table: list, get, search, tree, threads, watch, start, stop, comments, autostart, campaigns. Kql is the filter dialect. This package owns the rows.
 
 ---
 
-## 2. Rules that do not move
+## 2. Locked decisions
 
-- Windows only.
-- Does not spawn taskkill.
-- Elevation is the caller's problem.
-
----
-
-## 3. Logging
-
-The library never calls `VestigiumLogger.Initialize` and never chooses a log folder. Hosts that want a disk trace call `Initialize` and the library catalog `Register`.
-
-Writes are no-ops until the host initializes. JSONL lands at `%ProgramData%\Vestigium\Logs\{host-APPID}\`.
-
----
-
-## 4. Packaging
-
-| Item | Value |
+| # | Decision |
 |---|---|
-| TFM | `net10.0-windows` |
-| Depends on | Vestigium.Logging |
-| License | MIT |
+| 1 | Windows only. |
+| 2 | Missing PID: `Get` / `TryGet` return null / false. No fake row. |
+| 3 | Term search is StartsWith / EndsWith / Contains. Kql search is `Search(query)`. |
+| 4 | `maxResults` 1..4096. Campaign `MaxMatches` 1..256. |
+| 5 | Watch interval 250 ms through 60 s. |
+| 6 | Kill skips denylist, PPL, and `IntegrityLevel.Protected`. Confirm does not override. |
+| 7 | Never log the Start-As password. Never log per-tick watcher samples. |
+| 8 | Campaigns are in-process. No `schtasks`. Host must stay running. |
+| 9 | Comment persist keys are SHA-256 of the normalized image path. |
+| 10 | Autostart is best-effort (Run / RunOnce / Startup folder), not Autoruns. |
+| 11 | Library never calls `VestigiumLogger.Initialize`. APPID `Processes`. |
+| 12 | Kql pack Process for process search; Thread / System for those helpers. |
 
 ---
 
-## 5. Tests
+## 3. Goals
 
-Unit tests live under `Tests/Helpers/` in the matching folder for `Vestigium.Helpers.Processes.Tests`.
+**G1.** List / Get / Search the table.  
+**G2.** Tree and threads for one PID.  
+**G3.** Watch one PID or a Kql query.  
+**G4.** Start / StartAs / Kill with fail-closed denies.  
+**G5.** Campaign windows write JSONL samples.  
+**G6.** Field availability is Ok / Denied / Unsupported / Gone — not empty strings pretending to be values.
 
 ---
 
-## 6. Non-goals
+## 4. Still out
 
-- Full process monitor UI.
+Linux process table, scheduled-task campaigns, dumping protected memory, a full Autoruns clone.
 
 ---
 
-## 7. Revision History
+## Revision History
 
-Initial release. Add a row when this document changes. Do not bump the revision until the change is accepted.
+Initial monorepo release. Add a row when this document changes. Do not bump the revision until the change is accepted.
 
 | Revision | Date | Author | Description |
 |---|---|---|---|
-| 1a | 11 Nov 2026 | Nathaniel Wilkinson | Initial release. |
+| 1a | 11 Nov 2026 | Nathaniel Wilkinson | Initial monorepo release. Carried forward from the prior library contract. |
