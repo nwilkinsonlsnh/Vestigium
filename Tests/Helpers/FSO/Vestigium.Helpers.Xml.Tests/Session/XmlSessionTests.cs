@@ -6,29 +6,6 @@ using Vestigium.Logging;
 
 namespace Vestigium.Helpers.Xml.Tests;
 
-    private static string Gold(string fileName)
-    {
-        string? hit = null;
-        for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir is not null; dir = dir.Parent)
-        {
-            var candidate = Path.Combine(dir.FullName, "Tests", "Helpers", "FSO", "Vestigium.Helpers.Xml.Tests", "Documents", "Xml", fileName);
-            if (File.Exists(candidate))
-            {
-                hit = candidate;
-                break;
-            }
-        }
-
-        if (hit is null)
-            throw new FileNotFoundException(fileName);
-
-        var destDir = Path.Combine(Path.GetTempPath(), "VestigiumXmlGold", Guid.NewGuid().ToString("N"));
-        Directory.CreateDirectory(destDir);
-        var dest = Path.Combine(destDir, fileName);
-        File.Copy(hit, dest, overwrite: true);
-        return dest;
-    }
-
 [Collection("Logger")]
 public sealed class XmlSessionTests
 {
@@ -187,5 +164,28 @@ public sealed class XmlSessionTests
             TestLog.Shutdown();
             Directory.Delete(dir, recursive: true);
         }
+    }
+
+    private static string Gold(string fileName)
+    {
+        string? hit = null;
+        for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir is not null; dir = dir.Parent)
+        {
+            var candidate = Path.Combine(dir.FullName, "Tests", "Helpers", "FSO", "Vestigium.Helpers.Xml.Tests", "Documents", "Xml", fileName);
+            if (File.Exists(candidate))
+            {
+                hit = candidate;
+                break;
+            }
+        }
+
+        if (hit is null)
+            throw new FileNotFoundException(fileName);
+
+        var destDir = Path.Combine(Path.GetTempPath(), "VestigiumXmlGold", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(destDir);
+        var dest = Path.Combine(destDir, fileName);
+        File.Copy(hit, dest, overwrite: true);
+        return dest;
     }
 }
