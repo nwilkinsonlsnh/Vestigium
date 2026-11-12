@@ -118,7 +118,7 @@
     <Project Path="Tests/Helpers/Windows/Vestigium.Helpers.WinReg.Tests/Vestigium.Helpers.WinReg.Tests.csproj" />
   </Folder>
   <Folder Name="/_Documentation/">
-    <Project Path="../Vestigium.Documentation/Vestigium.Documentation.csproj" Id="2418ff60-f4f6-468c-83b7-d3946523537e" />
+    <Project Path="_Documentation/Vestigium.Documentation/Vestigium.Documentation.csproj" Id="2418ff60-f4f6-468c-83b7-d3946523537e" />
   </Folder>
   <Project Path="Vestigium.csproj" />
 </Solution>
