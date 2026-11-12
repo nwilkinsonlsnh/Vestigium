@@ -1,7 +1,7 @@
 # Vestigium.Helpers.Analytics — Design Specification
 
 **Document ID:** VEST-HLP-ANALYTICS-DSN-000  
-**Version:** 1.0a  
+**Version:** 1a  
 **Status:** Staging companion to Requirements Rev1a  
 **Date:** 11 November 2026  
 **Binding:** `Requirements_Analytics-Rev1a.md` wins on conflict  
@@ -140,8 +140,10 @@ EWMA, CUSUM, bootstrap percentile CI, other kernels, soft cap on n, moments as d
 
 ---
 
-## 8. Document control
+## 8. Revision History
 
-| Version | Date | Change |
-|---|---|---|
-| 1.0a | 11 Nov 2026 | Staging design for the Vestigium monorepo. |
+Initial release. Add a row when this document changes. Do not bump the revision until the change is accepted.
+
+| Revision | Date | Author | Description |
+|---|---|---|---|
+| 1a | 11 Nov 2026 | Nathaniel Wilkinson | Initial release. |
