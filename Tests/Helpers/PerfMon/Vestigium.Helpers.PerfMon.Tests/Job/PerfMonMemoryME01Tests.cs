@@ -293,12 +293,12 @@ public sealed class PerfMonMemoryMe01Tests
         var dir = new DirectoryInfo(AppContext.BaseDirectory);
         while (dir is not null)
         {
-            var hit = dir.GetFiles("Vestigium.Helpers.PerfMon.MemoryCatalog.csproj", SearchOption.AllDirectories).FirstOrDefault();
+            var hit = dir.GetFiles("Vestigium.Helpers.PerfMon.Memory.csproj", SearchOption.AllDirectories).FirstOrDefault();
             if (hit is not null)
                 return hit.FullName;
             dir = dir.Parent;
         }
-        throw new FileNotFoundException("Vestigium.Helpers.PerfMon.MemoryCatalog.csproj");
+        throw new FileNotFoundException("Vestigium.Helpers.PerfMon.Memory.csproj");
     }
 
     [Fact]
@@ -312,7 +312,7 @@ public sealed class PerfMonMemoryMe01Tests
         Assert.Equal(MemoryCatalog.AvailableMBytes, MemoryPaths.ShortCounters[0]);
         Assert.Equal(MemoryCatalog.PagesPerSec, MemoryPaths.ShortCounters[^1]);
         Assert.Contains("Copy Read Hits %", Cache.Counters);
-        Assert.Contains("Available MBytes", NUMANodeMemoryCatalog.Counters);
+        Assert.Contains("Available MBytes", NUMANodeMemory.Counters);
         Assert.Contains("Bytes cached", ReadyBoostCache.Counters);
         Assert.Equal(MemoryObjects.HyperVDynamicMemory, "Hyper-V Dynamic Memory Integration Service");
         Assert.False(MemoryCounterCatalog.IsKnownCounter(MemoryObjects.HyperVDynamicMemory, "Available MBytes"));

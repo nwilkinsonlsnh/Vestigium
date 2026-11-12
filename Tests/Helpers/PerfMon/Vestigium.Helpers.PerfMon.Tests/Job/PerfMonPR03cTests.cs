@@ -38,7 +38,7 @@ public sealed class PerfMonPr03cTests
             ],
             allowOnly: ["WinNAT", "IPsec Driver", "SMB Server"]);
 
-        Assert.Null(typeof(MemoryCatalog).Assembly.GetType("Vestigium.Helpers.PerfMon.MemoryCatalog.HyperVDynamicMemoryIntegrationService"));
+        Assert.Null(typeof(MemoryCatalog).Assembly.GetType("Vestigium.Helpers.PerfMon.Memory.HyperVDynamicMemoryIntegrationService"));
         Assert.Null(typeof(PhysicalDisk).Assembly.GetType("Vestigium.Helpers.PerfMon.Disk.ReFS"));
         Assert.Null(typeof(NetworkAdapter).Assembly.GetType("Vestigium.Helpers.PerfMon.Network.WinNAT"));
     }
@@ -48,7 +48,7 @@ public sealed class PerfMonPr03cTests
     {
         foreach (var name in new[]
                  {
-                     "Vestigium.Helpers.PerfMon.MemoryCatalog.csproj",
+                     "Vestigium.Helpers.PerfMon.Memory.csproj",
                      "Vestigium.Helpers.PerfMon.Disk.csproj",
                      "Vestigium.Helpers.PerfMon.Network.csproj",
                      "Vestigium.Helpers.PerfMon.Gpu.csproj"
@@ -69,7 +69,7 @@ public sealed class PerfMonPr03cTests
     {
         string[] missing =
         [
-            "Vestigium.Helpers.PerfMon.MemoryCatalog.HyperVDynamicMemoryIntegrationService",
+            "Vestigium.Helpers.PerfMon.Memory.HyperVDynamicMemoryIntegrationService",
             "Vestigium.Helpers.PerfMon.Disk.ReFS",
             "Vestigium.Helpers.PerfMon.Disk.StorportUnitQueue",
             "Vestigium.Helpers.PerfMon.Disk.VHDBucketizedPerformance",

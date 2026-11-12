@@ -36,7 +36,7 @@ public sealed class PerfMonPr02bTests
         foreach (var name in new[]
                  {
                      "Vestigium.Helpers.PerfMon.PageFile.csproj",
-                     "Vestigium.Helpers.PerfMon.MemoryCatalog.csproj",
+                     "Vestigium.Helpers.PerfMon.Memory.csproj",
                      "Vestigium.Helpers.PerfMon.Cpu.csproj",
                      "Vestigium.Helpers.PerfMon.Disk.csproj"
                  })
