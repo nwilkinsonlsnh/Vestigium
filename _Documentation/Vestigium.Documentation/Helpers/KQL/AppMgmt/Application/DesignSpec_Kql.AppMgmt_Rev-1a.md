@@ -12,7 +12,7 @@ Why the library is shaped this way. It does not add requirements.
 
 ## 1. Intent
 
-KQL helpers for installed-application inventory. Reads uninstall keys and projects them as rows.
+See Requirements 1a. This document records locked decisions only.
 
 ---
 
@@ -20,34 +20,22 @@ KQL helpers for installed-application inventory. Reads uninstall keys and projec
 
 | Decision | Why |
 |---|---|
-| Windows only | Locked. |
-| Read-only | Locked. |
-| Depends on the Kql core | Locked. |
-| Logging APPID stamps library identity | Folder follows the host. |
+| Library identity APPID | Folder follows the host. |
 | No host adapter | Orchestration is a different project. |
+| Fail closed | Corrupt or denied input is a result or a throw, never a silent success. |
 
 ---
 
-## 3. Dependencies
+## 3. Still out
 
-| Package | Role |
-|---|---|
-| Vestigium.Helpers.Kql | Primary |
-| Vestigium.Logging | JSONL writer. This library never initializes it. |
+Host adapters. Drawing. Persistence beyond what Requirements names.
 
----
 
-## 4. Still out
+## Revision History
 
-- Uninstall.
-- Host UI.
-
----
-
-## 5. Revision History
-
-Initial release. Add a row when this document changes. Do not bump the revision until the change is accepted.
+Initial monorepo release. Add a row when this document changes. Do not bump the revision until the change is accepted.
 
 | Revision | Date | Author | Description |
 |---|---|---|---|
-| 1a | 11 Nov 2026 | Nathaniel Wilkinson | Initial release. |
+| 1a | 11 Nov 2026 | Nathaniel Wilkinson | Initial monorepo release. |
+
