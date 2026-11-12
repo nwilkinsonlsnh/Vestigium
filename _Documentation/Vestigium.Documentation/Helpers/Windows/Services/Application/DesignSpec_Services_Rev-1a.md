@@ -1,18 +1,25 @@
-# Vestigium.Helpers.Services — Design Specification
+# Vestigium.Helpers.Services — Design
 
 **Document ID:** VEST-HLP-SERVICES-DSN-000  
 **Version:** 1a  
-**Status:** Staging companion to Requirements 1a  
+**Status:** Staging — monorepo release  
 **Date:** 11 November 2026  
-**Binding:** `Requirements_Services-Rev1a.md` wins on conflict
+**Binding:** `Requirements_Services-Rev1a.md` wins on conflict  
 
-Why the library is shaped this way. It does not add requirements.
+This page records *why* Services is shaped this way. It does not add requirements.
 
 ---
 
 ## 1. Intent
 
-Windows service inventory and control. Reads ServiceController and projects rows. Not services.msc.
+One Windows façade over SCM. Snapshotter fills `ServiceInfo`. Control / logon / recovery are separate types so inventory never writes.
+
+```
+List / Get / Search(term)
+Search(query) → KqlHelper.Compile(KqlPack.Service) → ServiceKqlRow
+Start / Stop / SetLogon / SetRecovery → ServiceControlResult
+Watch / Campaign sample on an interval
+```
 
 ---
 
@@ -20,34 +27,64 @@ Windows service inventory and control. Reads ServiceController and projects rows
 
 | Decision | Why |
 |---|---|
-| Windows only | Locked. |
-| Depends on Kql and Processes | Locked. |
-| Elevation is the caller's problem | Locked. |
-| Logging APPID stamps library identity | Folder follows the host. |
-| No host adapter | Orchestration is a different project. |
+| Result not exception on Access Denied | Hosts can show a row without try/catch on every button. |
+| ProtectedNames in one place | EventLog and peers must not change start type from a helper call. |
+| Password never on `ServiceInfo` | Inventory must stay safe to serialize. |
+| Tree cap + seen set | SCM graphs have cycles. |
+| Campaigns in-process | Same pattern as Processes. |
+| Never `Initialize` | Folder follows the host APPID. |
 
 ---
 
-## 3. Dependencies
+## 3. Shape
 
-| Package | Role |
+| File | Role |
 |---|---|
-| Vestigium.Helpers.Kql | Primary |
-| Vestigium.Logging | JSONL writer. This library never initializes it. |
+| `ServiceHelper.cs` | Inventory, search, tree, control, watch |
+| `ServiceHelper.Campaigns.cs` | Create / Load / remote client |
+| `ServiceSnapshotter` | Fill `ServiceInfo` |
+| `ServiceControl` / `ServiceLogon` / `ServiceRecovery` | Writes |
+| `ServiceTreeWalker` | DependsOn / DependedBy |
+| `ServiceKqlRow` | `IKqlRow` adapter |
+| `ServiceCampaign` | Windows + JSONL |
+| `ServicesCatalog` / `ServicesEvents` | Logging |
+
+Tests live under `src/Vestigium.Helpers.Tests/`.
 
 ---
 
-## 4. Still out
+## 4. Exception policy
 
-- Service install.
-- services.msc.
+| Class | When |
+|---|---|
+| `ArgumentOutOfRangeException` | Bad interval or maxResults. |
+| `ArgumentException` | Kql compile failed. |
+| `InvalidOperationException` | Tree on a gone name. |
+| `FileNotFoundException` | LoadCampaign missing recipe. |
+
+Control APIs return `ServiceControlResult` instead of throwing on Access Denied.
 
 ---
 
-## 5. Revision History
+## 5. Still out
 
-Initial release. Add a row when this document changes. Do not bump the revision until the change is accepted.
+systemd, `schtasks`, service install/delete, overriding ProtectedNames.
+
+---
+
+## 6. Document control
+
+| Version | Date | Change |
+|---|---|---|
+| 1.1 | (prior) | As-built stub. |
+| 1.1 | 21 Sep 2026 | Expanded to standalone Design. |
+
+---
+
+## Revision History
+
+Initial monorepo release. Add a row when this document changes. Do not bump the revision until the change is accepted.
 
 | Revision | Date | Author | Description |
 |---|---|---|---|
-| 1a | 11 Nov 2026 | Nathaniel Wilkinson | Initial release. |
+| 1a | 11 Nov 2026 | Nathaniel Wilkinson | Initial monorepo release. Carried forward from the prior library contract. |
