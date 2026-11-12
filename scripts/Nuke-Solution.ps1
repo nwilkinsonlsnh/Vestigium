@@ -24,6 +24,10 @@ param (
 )
 
 $ErrorActionPreference = "Stop"
+# dotnet writes progress to stderr. Do not treat that as a terminating error.
+if (Get-Variable -Name PSNativeCommandUseErrorActionPreference -ErrorAction SilentlyContinue) {
+    $PSNativeCommandUseErrorActionPreference = $false
+}
 
 function Resolve-Solution {
     param([string]$InputPath)
@@ -105,7 +109,7 @@ Write-Host "Projects: $($projects.Count)" -ForegroundColor Yellow
 Write-Host ""
 
 Write-Host "[PHASE 1] Official SDK clean..." -ForegroundColor Cyan
-dotnet clean $solution
+& dotnet clean $solution 2>&1 | ForEach-Object { Write-Host $_ }
 if ($LASTEXITCODE -ne 0) {
     Write-Host "dotnet clean reported an error. The wipe still runs." -ForegroundColor Yellow
 }
@@ -154,8 +158,8 @@ if ($SkipBuild) {
 }
 
 Write-Host "[PHASE 3] Restore and rebuild..." -ForegroundColor Cyan
-dotnet restore $solution
-dotnet build $solution --no-incremental
+& dotnet restore $solution 2>&1 | ForEach-Object { Write-Host $_ }
+& dotnet build $solution --no-incremental 2>&1 | ForEach-Object { Write-Host $_ }
 
 Write-Host ""
 if ($LASTEXITCODE -eq 0 -and $failed -eq 0) {
