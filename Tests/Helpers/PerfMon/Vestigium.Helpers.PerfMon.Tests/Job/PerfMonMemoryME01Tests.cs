@@ -3,7 +3,7 @@ using System.Text.Json;
 using Vestigium.Helpers.PerfMon;
 using Vestigium.Helpers.PerfMon.Memory;
 using Vestigium.Logging;
-using MemoryCatalog = Vestigium.Helpers.PerfMon.MemoryCatalog.Memory;
+using MemoryCatalog = Vestigium.Helpers.PerfMon.Memory.Memory;
 
 namespace Vestigium.Helpers.PerfMon.Tests;
 

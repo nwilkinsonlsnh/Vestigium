@@ -2,7 +2,7 @@ using System.Text.Json;
 using Vestigium.Helpers.PerfMon.Disk;
 using Vestigium.Helpers.PerfMon.Memory;
 using Vestigium.Helpers.PerfMon.Network;
-using MemoryCatalog = Vestigium.Helpers.PerfMon.MemoryCatalog.Memory;
+using MemoryCatalog = Vestigium.Helpers.PerfMon.Memory.Memory;
 
 namespace Vestigium.Helpers.PerfMon.Tests;
 

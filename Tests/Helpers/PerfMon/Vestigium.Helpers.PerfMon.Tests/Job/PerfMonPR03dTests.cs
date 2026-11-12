@@ -1,7 +1,7 @@
 using Vestigium.Helpers.PerfMon;
 using Vestigium.Helpers.PerfMon.Cpu;
 using Vestigium.Helpers.PerfMon.Memory;
-using MemoryCatalog = Vestigium.Helpers.PerfMon.MemoryCatalog.Memory;
+using MemoryCatalog = Vestigium.Helpers.PerfMon.Memory.Memory;
 
 namespace Vestigium.Helpers.PerfMon.Tests;
 
