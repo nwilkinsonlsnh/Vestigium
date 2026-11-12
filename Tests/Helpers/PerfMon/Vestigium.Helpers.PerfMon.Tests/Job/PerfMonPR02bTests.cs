@@ -3,6 +3,7 @@ using Vestigium.Helpers.PerfMon.Cpu;
 using Vestigium.Helpers.PerfMon.Disk;
 using Vestigium.Helpers.PerfMon.Memory;
 using Vestigium.Helpers.PerfMon.PageFile;
+using MemoryCatalog = Vestigium.Helpers.PerfMon.MemoryCatalog.Memory;
 
 namespace Vestigium.Helpers.PerfMon.Tests;
 
@@ -14,7 +15,7 @@ public sealed class PerfMonPr02bTests
         Assembly[] probes =
         [
             typeof(PagingFile).Assembly,
-            typeof(Memory).Assembly,
+            typeof(MemoryCatalog).Assembly,
             typeof(Processor).Assembly,
             typeof(PhysicalDisk).Assembly
         ];
@@ -35,7 +36,7 @@ public sealed class PerfMonPr02bTests
         foreach (var name in new[]
                  {
                      "Vestigium.Helpers.PerfMon.PageFile.csproj",
-                     "Vestigium.Helpers.PerfMon.Memory.csproj",
+                     "Vestigium.Helpers.PerfMon.MemoryCatalog.csproj",
                      "Vestigium.Helpers.PerfMon.Cpu.csproj",
                      "Vestigium.Helpers.PerfMon.Disk.csproj"
                  })

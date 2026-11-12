@@ -88,3 +88,12 @@ public static class TestLog
             !string.IsNullOrWhiteSpace(category) && !string.IsNullOrWhiteSpace(subcategory);
     }
 }
+
+public static class HelperDemoHost
+{
+    public static int Run(string appId, string identity, Action body)
+    {
+        try { body(); return 0; }
+        catch { return 1; }
+    }
+}

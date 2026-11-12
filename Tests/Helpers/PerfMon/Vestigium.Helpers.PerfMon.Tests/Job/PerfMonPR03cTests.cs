@@ -2,6 +2,7 @@ using System.Text.Json;
 using Vestigium.Helpers.PerfMon.Disk;
 using Vestigium.Helpers.PerfMon.Memory;
 using Vestigium.Helpers.PerfMon.Network;
+using MemoryCatalog = Vestigium.Helpers.PerfMon.MemoryCatalog.Memory;
 
 namespace Vestigium.Helpers.PerfMon.Tests;
 
@@ -37,7 +38,7 @@ public sealed class PerfMonPr03cTests
             ],
             allowOnly: ["WinNAT", "IPsec Driver", "SMB Server"]);
 
-        Assert.Null(typeof(Memory).Assembly.GetType("Vestigium.Helpers.PerfMon.Memory.HyperVDynamicMemoryIntegrationService"));
+        Assert.Null(typeof(MemoryCatalog).Assembly.GetType("Vestigium.Helpers.PerfMon.MemoryCatalog.HyperVDynamicMemoryIntegrationService"));
         Assert.Null(typeof(PhysicalDisk).Assembly.GetType("Vestigium.Helpers.PerfMon.Disk.ReFS"));
         Assert.Null(typeof(NetworkAdapter).Assembly.GetType("Vestigium.Helpers.PerfMon.Network.WinNAT"));
     }
@@ -47,7 +48,7 @@ public sealed class PerfMonPr03cTests
     {
         foreach (var name in new[]
                  {
-                     "Vestigium.Helpers.PerfMon.Memory.csproj",
+                     "Vestigium.Helpers.PerfMon.MemoryCatalog.csproj",
                      "Vestigium.Helpers.PerfMon.Disk.csproj",
                      "Vestigium.Helpers.PerfMon.Network.csproj",
                      "Vestigium.Helpers.PerfMon.Gpu.csproj"
@@ -68,7 +69,7 @@ public sealed class PerfMonPr03cTests
     {
         string[] missing =
         [
-            "Vestigium.Helpers.PerfMon.Memory.HyperVDynamicMemoryIntegrationService",
+            "Vestigium.Helpers.PerfMon.MemoryCatalog.HyperVDynamicMemoryIntegrationService",
             "Vestigium.Helpers.PerfMon.Disk.ReFS",
             "Vestigium.Helpers.PerfMon.Disk.StorportUnitQueue",
             "Vestigium.Helpers.PerfMon.Disk.VHDBucketizedPerformance",
@@ -80,7 +81,7 @@ public sealed class PerfMonPr03cTests
         ];
         var assemblies = new[]
         {
-            typeof(Memory).Assembly,
+            typeof(MemoryCatalog).Assembly,
             typeof(PhysicalDisk).Assembly,
             typeof(NetworkAdapter).Assembly
         };

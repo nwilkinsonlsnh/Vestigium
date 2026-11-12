@@ -52,6 +52,15 @@ public static class TestLog
         public const string Save = "Save";
         public const string Jsonl = "Jsonl";
         public const string Stats = "Stats";
+        public const string Inventory = "Inventory";
+        public const string Process = "Process";
+        public const string Thread = "Thread";
+        public const string Watch = "Watch";
+        public const string Start = "Start";
+        public const string Kill = "Kill";
+        public const string System = "System";
+        public const string Campaign = "Campaign";
+
     }
 
     public static readonly TaxonomyGate Taxonomy = new();

@@ -1,6 +1,7 @@
 using Vestigium.Helpers.PerfMon;
 using Vestigium.Helpers.PerfMon.Cpu;
 using Vestigium.Helpers.PerfMon.Memory;
+using MemoryCatalog = Vestigium.Helpers.PerfMon.MemoryCatalog.Memory;
 
 namespace Vestigium.Helpers.PerfMon.Tests;
 
@@ -32,14 +33,14 @@ public sealed class PerfMonPR03dTests
         var paths = MemoryPerf.HostPaths();
         Assert.Equal(
             [
-                Memory.AvailableMBytes,
-                Memory.CommittedBytes,
-                Memory.PercentCommittedBytesInUse,
-                Memory.CommitLimit,
-                Memory.CacheBytes
+                MemoryCatalog.AvailableMBytes,
+                MemoryCatalog.CommittedBytes,
+                MemoryCatalog.PercentCommittedBytesInUse,
+                MemoryCatalog.CommitLimit,
+                MemoryCatalog.CacheBytes
             ],
             paths.Select(path => path.Counter).ToArray());
-        Assert.All(paths, path => Assert.Equal(Memory.Category, path.Category));
+        Assert.All(paths, path => Assert.Equal(MemoryCatalog.Category, path.Category));
     }
 
     [Fact]
