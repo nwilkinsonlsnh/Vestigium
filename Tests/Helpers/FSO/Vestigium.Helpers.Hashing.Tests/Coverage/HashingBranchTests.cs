@@ -5,7 +5,7 @@ using Vestigium.Helpers.Hashing;
 namespace Vestigium.Helpers.Hashing.Tests;
 
 [Collection("Logger")]
-public sealed class HashingBranchTests
+public sealed partial class HashingBranchTests
 {
     static readonly HashingAlgorithm[] Digests =
     [

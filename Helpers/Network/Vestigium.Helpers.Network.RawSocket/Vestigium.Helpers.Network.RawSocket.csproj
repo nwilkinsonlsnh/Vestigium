@@ -19,6 +19,7 @@
   </PropertyGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Vestigium.Helpers.Tests" />
+    <InternalsVisibleTo Include="Vestigium.Helpers.Network.Tests" />
     <InternalsVisibleTo Include="Vestigium.Helpers.Network.RawSocket.Tests" />
   </ItemGroup>
   <ItemGroup>

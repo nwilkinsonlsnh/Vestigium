@@ -26,4 +26,8 @@
     <ProjectReference Include="../../../../Helpers/Encryption/Vestigium.Helpers.Encryption/Vestigium.Helpers.Encryption.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <PackageReference Include="Vestigium.Logging" Version="2.0.0" />
+  </ItemGroup>
 </Project>

@@ -27,4 +27,22 @@
     <ProjectReference Include="../../../../Helpers/PerfMon/Vestigium.Helpers.PerfMon/Vestigium.Helpers.PerfMon.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="../../../../Helpers/PerfMon/Vestigium.Helpers.PerfMon.Cpu/Vestigium.Helpers.PerfMon.Cpu.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../../Helpers/PerfMon/Vestigium.Helpers.PerfMon.Disk/Vestigium.Helpers.PerfMon.Disk.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../../Helpers/PerfMon/Vestigium.Helpers.PerfMon.Gpu/Vestigium.Helpers.PerfMon.Gpu.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../../Helpers/PerfMon/Vestigium.Helpers.PerfMon.Memory/Vestigium.Helpers.PerfMon.Memory.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../../Helpers/PerfMon/Vestigium.Helpers.PerfMon.Network/Vestigium.Helpers.PerfMon.Network.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../../Helpers/PerfMon/Vestigium.Helpers.PerfMon.PageFile/Vestigium.Helpers.PerfMon.PageFile.csproj" />
+  </ItemGroup>
 </Project>

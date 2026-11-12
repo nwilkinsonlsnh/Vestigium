@@ -27,4 +27,7 @@
     <ProjectReference Include="../../../../Helpers/Windows/Vestigium.Helpers.SystemInfo/Vestigium.Helpers.SystemInfo.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="../../../../Helpers/Windows/Vestigium.Helpers.Processes/Vestigium.Helpers.Processes.csproj" />
+  </ItemGroup>
 </Project>
