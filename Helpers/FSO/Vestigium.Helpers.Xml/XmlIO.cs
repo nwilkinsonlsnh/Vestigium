@@ -208,13 +208,16 @@ internal static class XmlIo
             NewLineHandling = NewLineHandling.None
         };
 
-        var builder = new StringBuilder();
-        using (var writer = XmlWriter.Create(builder, settings))
+        // XmlWriter over a StringBuilder reports utf-16 and stamps that into the
+        // declaration. Write through a UTF-8 stream so the declaration matches the bytes.
+        using var buffer = new MemoryStream();
+        using (var writer = XmlWriter.Create(buffer, settings))
         {
             document.Save(writer);
         }
 
-        var xml = builder.ToString();
+        var xml = Encoding.UTF8.GetString(buffer.ToArray());
+        xml = xml.Replace("encoding=\"utf-16\"", "encoding=\"utf-8\"", StringComparison.Ordinal);
         if (doctype is null) return xml;
         var declEnd = xml.IndexOf("?>", StringComparison.Ordinal);
         if (declEnd >= 0)
