@@ -34,7 +34,5 @@
   <ItemGroup>
     <PackageReference Include="Vestigium.Helpers.Processes" Version="1.0.0" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="../../Vestigium.Helpers.TestSupport/Vestigium.Helpers.TestSupport.csproj" />
-  </ItemGroup>
+
 </Project>

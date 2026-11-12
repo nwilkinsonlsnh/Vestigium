@@ -46,7 +46,5 @@
   <ItemGroup>
     <PackageReference Include="Vestigium.Helpers.Network.RawSocket" Version="1.1.1" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="../../Vestigium.Helpers.TestSupport/Vestigium.Helpers.TestSupport.csproj" />
-  </ItemGroup>
+
 </Project>

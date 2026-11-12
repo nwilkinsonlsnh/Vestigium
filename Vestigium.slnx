@@ -65,7 +65,9 @@
   <Folder Name="/Suite/WPF/Network/" />
   <Folder Name="/Suite/WPF/Windows/" />
   <Folder Name="/Tests/" />
-  <Folder Name="/Tests/Helpers/" />
+  <Folder Name="/Tests/Helpers/">
+    <Project Path="Tests/Helpers/Vestigium.Helpers.TestSupport/Vestigium.Helpers.TestSupport.csproj" />
+  </Folder>
   <Folder Name="/Tests/Helpers/Analytics/">
     <Project Path="Tests/Helpers/Analytics/Vestigium.Helpers.Analytics.Tests/Vestigium.Helpers.Analytics.Tests.csproj" />
   </Folder>
@@ -121,7 +123,4 @@
     <Project Path="_Documentation/Vestigium.Documentation/Vestigium.Documentation.csproj" />
   </Folder>
   <Project Path="Vestigium.csproj" />
-  <Folder Name="/Tests/">
-    <Project Path="Tests/Helpers/Vestigium.Helpers.TestSupport/Vestigium.Helpers.TestSupport.csproj" />
-  </Folder>
 </Solution>
