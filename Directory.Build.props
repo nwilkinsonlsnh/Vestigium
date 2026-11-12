@@ -7,4 +7,8 @@
   <ItemGroup Condition="'$(IsTestProject)' != 'true'">
     <PackageReference Include="Vestigium.Logging" Version="2.0.0" />
   </ItemGroup>
+
+  <ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
+    <Using Include="Xunit" />
+  </ItemGroup>
 </Project>
