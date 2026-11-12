@@ -121,8 +121,11 @@ public sealed class XmlSessionTests
         doc.Commit();
         var saved = doc.SaveAs(dest);
         Assert.True(File.Exists(saved));
-        Assert.Throws<IOException>(() => { doc.SaveAs(dest); });
-        doc.SaveAs(dest, XmlCollision.Overwrite);
+        using var other = XmlHelper.Create();
+        other.Insert("/", new XElement("root"));
+        other.Commit();
+        Assert.Throws<IOException>(() => { other.SaveAs(dest); });
+        other.SaveAs(dest, XmlCollision.Overwrite);
     }
 
     [Fact]

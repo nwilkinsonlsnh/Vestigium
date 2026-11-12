@@ -341,7 +341,7 @@ public sealed class HashingSessionTests
         Assert.True(HashingHelper.VerifyPassword("gallery-demo-only", stored));
         Assert.False(HashingHelper.VerifyPassword("gallery-demo-xx", stored));
         Assert.Throws<ArgumentException>(() => HashingHelper.HashPassword("short"));
-        Assert.Throws<FormatException>(() => HashingHelper.VerifyPassword("gallery-demo-only", "not-a-phc"));
+        Assert.False(HashingHelper.VerifyPassword("gallery-demo-only", "not-a-phc"));
     }
 
     [Fact]

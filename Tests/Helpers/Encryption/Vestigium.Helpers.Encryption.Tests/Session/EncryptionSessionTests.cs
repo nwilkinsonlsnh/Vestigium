@@ -621,7 +621,7 @@ public sealed class EncryptionSessionTests
 
             var lines = string.Join('\n', TestLog.RecentJsonLines);
             Assert.Contains("\"SUBCATEGORY\":\"Token\"", lines);
-            Assert.Contains("Disable:", lines);
+            Assert.Contains("\"verb\":\"Disable\"", lines);
             Assert.Contains("Override:", lines);
             Assert.Contains("by=qa-operator", lines);
             Assert.Contains("reason=restore for incident 42", lines);

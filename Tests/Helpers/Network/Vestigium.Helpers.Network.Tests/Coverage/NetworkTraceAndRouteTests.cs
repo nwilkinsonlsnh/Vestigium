@@ -73,15 +73,15 @@ public sealed class NetworkTraceAndRouteTests
         Assert.True(path is not null, "NetworkRouteMutation.cs not found walking up from BaseDirectory.");
         var src = File.ReadAllText(path);
         Assert.Contains(
-            "NetworkLog.Success(TestLog.Subcategories.Route, $\"AddRoute dest={change.Destination}/{change.PrefixLength} gw={change.Gateway} win-v6\")",
+            "NetworkLog.Success(HelperLog.Subcategories.Route, $\"AddRoute dest={change.Destination}/{change.PrefixLength} gw={change.Gateway} win-v6\")",
             src,
             StringComparison.Ordinal);
         Assert.Contains(
-            "NetworkLog.Success(TestLog.Subcategories.Route, $\"ChangeRoute dest={change.Destination}/{change.PrefixLength} gw={change.Gateway} win-v6\")",
+            "NetworkLog.Success(HelperLog.Subcategories.Route, $\"ChangeRoute dest={change.Destination}/{change.PrefixLength} gw={change.Gateway} win-v6\")",
             src,
             StringComparison.Ordinal);
         Assert.Contains(
-            "NetworkLog.Success(TestLog.Subcategories.Route, $\"RemoveRoute dest={change.Destination}/{change.PrefixLength} gw={change.Gateway} win-v6\")",
+            "NetworkLog.Success(HelperLog.Subcategories.Route, $\"RemoveRoute dest={change.Destination}/{change.PrefixLength} gw={change.Gateway} win-v6\")",
             src,
             StringComparison.Ordinal);
     }
@@ -239,8 +239,8 @@ public sealed class NetworkTraceAndRouteTests
         Assert.True(path is not null, "Network csproj not found walking up from BaseDirectory.");
         var src = File.ReadAllText(path);
         Assert.Contains("Vestigium.Helpers.Json\" Version=\"1.0.1\"", src, StringComparison.Ordinal);
-        Assert.Contains("Vestigium.Helpers.Analytics\" Version=\"1.0.1\"", src, StringComparison.Ordinal);
-        Assert.Contains("Vestigium.Helpers.FileIo\" Version=\"1.1.2\"", src, StringComparison.Ordinal);
+        Assert.Contains("Vestigium.Helpers.Analytics\" Version=\"1.0.4\"", src, StringComparison.Ordinal);
+        Assert.Contains("Vestigium.Helpers.FileIo\" Version=\"4.1.0\"", src, StringComparison.Ordinal);
         Assert.DoesNotContain("Include=\"Vestigium.Logging\"", src, StringComparison.Ordinal);
         Assert.DoesNotContain("Include=\"Vestigium.Helpers.Charts\"", src, StringComparison.Ordinal);
     }

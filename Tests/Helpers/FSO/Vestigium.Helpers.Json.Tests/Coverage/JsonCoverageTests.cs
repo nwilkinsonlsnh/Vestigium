@@ -35,7 +35,7 @@ public sealed class JsonCoverageTests
     public void FromJson_custom_max_depth_rejects_a_deeper_payload()
     {
         const string nested = """{"a":{"b":{"c":1}}}""";
-        Assert.ThrowsAny<JsonException>(() =>
+        Assert.ThrowsAny<InvalidOperationException>(() =>
             JsonHelper.FromJson<JsonElement>(nested, new JsonReadOptions { MaxDepth = 2 }));
         var custom = JsonCodec.Read(new JsonReadOptions { MaxDepth = 8 });
         Assert.NotSame(JsonCodec.Read(null), custom);
@@ -104,7 +104,7 @@ public sealed class JsonCoverageTests
         Assert.Throws<JsonException>(() => JsonHelper.Open(nullPath));
         var truncated = Path.Combine(dir, "bad.json");
         File.WriteAllText(truncated, "{\"a\":");
-        Assert.ThrowsAny<JsonException>(() => JsonHelper.Open(truncated));
+        Assert.ThrowsAny<InvalidOperationException>(() => JsonHelper.Open(truncated));
     }
 
     [Fact]

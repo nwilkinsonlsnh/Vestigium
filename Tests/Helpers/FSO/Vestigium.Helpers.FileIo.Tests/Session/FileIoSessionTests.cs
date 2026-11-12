@@ -400,8 +400,8 @@ public sealed class FileIoSessionTests
             }).RunAsync();
             Assert.Equal("Success", result.Status);
             var lines = string.Join('\n', TestLog.RecentJsonLines);
-            Assert.Contains("by=wilkinson", lines);
-            Assert.Contains("reason=export-archive", lines);
+            Assert.Contains("\"by\":\"wilkinson\"", lines);
+            Assert.Contains("\"reason\":\"export-archive\"", lines);
             Assert.Contains("Stats job=", lines);
             Assert.DoesNotContain("nathan capture", lines);
             Assert.DoesNotContain("\"EXCEPTION\":\"", lines);

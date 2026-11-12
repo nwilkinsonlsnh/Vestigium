@@ -191,22 +191,22 @@ public sealed partial class HashingBranchTests
     public void Password_verifier_rejects_each_phc_failure_arm()
     {
         const string pwd = "gallery-demo-only";
-        Assert.Throws<FormatException>(() => HashingHelper.VerifyPassword(pwd, "$argon2i$v=19$m=19456,t=2,p=1$c2FsdHNhbHQ$c2FsdHNhbHRzYWx0c2FsdHNhbHRzYWx0c2FsdA"));
-        Assert.Throws<FormatException>(() => HashingHelper.VerifyPassword(pwd, "$argon2id$v=16$m=19456,t=2,p=1$c2FsdHNhbHQ$c2FsdHNhbHRzYWx0c2FsdHNhbHRzYWx0c2FsdA"));
-        Assert.Throws<FormatException>(() => HashingHelper.VerifyPassword(pwd, "$argon2id$v=19$m19456$c2FsdHNhbHQ$c2FsdHNhbHRzYWx0c2FsdHNhbHRzYWx0c2FsdA"));
-        Assert.Throws<FormatException>(() => HashingHelper.VerifyPassword(pwd, "$argon2id$v=19$m=0,t=2,p=1$c2FsdHNhbHQ$c2FsdHNhbHRzYWx0c2FsdHNhbHRzYWx0c2FsdA"));
-        Assert.Throws<FormatException>(() => HashingHelper.VerifyPassword(pwd, "$argon2id$v=19$m=19456,t=2,p=1,q=1$c2FsdHNhbHQ$c2FsdHNhbHRzYWx0c2FsdHNhbHRzYWx0c2FsdA"));
-        Assert.Throws<FormatException>(() => HashingHelper.VerifyPassword(pwd, "$argon2id$v=19$m=19456,p=1$c2FsdHNhbHQ$c2FsdHNhbHRzYWx0c2FsdHNhbHRzYWx0c2FsdA"));
-        Assert.Throws<FormatException>(() => HashingHelper.VerifyPassword(pwd, "$argon2id$v=19$t=2,p=1$c2FsdHNhbHQ$c2FsdHNhbHRzYWx0c2FsdHNhbHRzYWx0c2FsdA"));
-        Assert.Throws<FormatException>(() => HashingHelper.VerifyPassword(pwd, "$argon2id$v=19$m=19456,t=2$c2FsdHNhbHQ$c2FsdHNhbHRzYWx0c2FsdHNhbHRzYWx0c2FsdA"));
-        Assert.Throws<FormatException>(() => HashingHelper.VerifyPassword(pwd, "$argon2id$v=19$m=19456,t=2,p=1$%%%$c2FsdHNhbHRzYWx0c2FsdHNhbHRzYWx0c2FsdA"));
+        Assert.False(HashingHelper.VerifyPassword(pwd, "$argon2i$v=19$m=19456,t=2,p=1$c2FsdHNhbHQ$c2FsdHNhbHRzYWx0c2FsdHNhbHRzYWx0c2FsdA"));
+        Assert.False(HashingHelper.VerifyPassword(pwd, "$argon2id$v=16$m=19456,t=2,p=1$c2FsdHNhbHQ$c2FsdHNhbHRzYWx0c2FsdHNhbHRzYWx0c2FsdA"));
+        Assert.False(HashingHelper.VerifyPassword(pwd, "$argon2id$v=19$m19456$c2FsdHNhbHQ$c2FsdHNhbHRzYWx0c2FsdHNhbHRzYWx0c2FsdA"));
+        Assert.False(HashingHelper.VerifyPassword(pwd, "$argon2id$v=19$m=0,t=2,p=1$c2FsdHNhbHQ$c2FsdHNhbHRzYWx0c2FsdHNhbHRzYWx0c2FsdA"));
+        Assert.False(HashingHelper.VerifyPassword(pwd, "$argon2id$v=19$m=19456,t=2,p=1,q=1$c2FsdHNhbHQ$c2FsdHNhbHRzYWx0c2FsdHNhbHRzYWx0c2FsdA"));
+        Assert.False(HashingHelper.VerifyPassword(pwd, "$argon2id$v=19$m=19456,p=1$c2FsdHNhbHQ$c2FsdHNhbHRzYWx0c2FsdHNhbHRzYWx0c2FsdA"));
+        Assert.False(HashingHelper.VerifyPassword(pwd, "$argon2id$v=19$t=2,p=1$c2FsdHNhbHQ$c2FsdHNhbHRzYWx0c2FsdHNhbHRzYWx0c2FsdA"));
+        Assert.False(HashingHelper.VerifyPassword(pwd, "$argon2id$v=19$m=19456,t=2$c2FsdHNhbHQ$c2FsdHNhbHRzYWx0c2FsdHNhbHRzYWx0c2FsdA"));
+        Assert.False(HashingHelper.VerifyPassword(pwd, "$argon2id$v=19$m=19456,t=2,p=1$%%%$c2FsdHNhbHRzYWx0c2FsdHNhbHRzYWx0c2FsdA"));
 
         var salt8 = Convert.ToBase64String(new byte[8]).TrimEnd('=');
         var salt4 = Convert.ToBase64String(new byte[4]).TrimEnd('=');
         var hash32 = Convert.ToBase64String(new byte[32]).TrimEnd('=');
         var hash16 = Convert.ToBase64String(new byte[16]).TrimEnd('=');
-        Assert.Throws<FormatException>(() => HashingHelper.VerifyPassword(pwd, $"$argon2id$v=19$m=19456,t=2,p=1${salt4}${hash32}"));
-        Assert.Throws<FormatException>(() => HashingHelper.VerifyPassword(pwd, $"$argon2id$v=19$m=19456,t=2,p=1${salt8}${hash16}"));
+        Assert.False(HashingHelper.VerifyPassword(pwd, $"$argon2id$v=19$m=19456,t=2,p=1${salt4}${hash32}"));
+        Assert.False(HashingHelper.VerifyPassword(pwd, $"$argon2id$v=19$m=19456,t=2,p=1${salt8}${hash16}"));
 
         Assert.Throws<CryptographicException>(() => HashingHelper.VerifyPassword(pwd, $"$argon2id$v=19$m=65537,t=2,p=1${salt8}${hash32}"));
         Assert.Throws<CryptographicException>(() => HashingHelper.VerifyPassword(pwd, $"$argon2id$v=19$m=19456,t=11,p=1${salt8}${hash32}"));
@@ -221,7 +221,7 @@ public sealed partial class HashingBranchTests
     public void HashPassword_too_short_is_logged_as_failed()
     {
         Assert.Throws<ArgumentException>(() => HashingHelper.HashPassword(""));
-        Assert.Throws<ArgumentException>(() => HashingHelper.VerifyPassword("gallery-demo-only", ""));
+        Assert.False(HashingHelper.VerifyPassword("gallery-demo-only", ""));
     }
 
     [Fact]

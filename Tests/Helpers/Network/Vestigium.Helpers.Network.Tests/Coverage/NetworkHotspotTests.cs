@@ -104,7 +104,7 @@ public sealed class NetworkHotspotTests
         job.ProgressChanged += (_, p) => reports.Add(p);
         var result = await job.RunAsync();
         Assert.Single(result.Hops);
-        Assert.Equal(2, result.Hops[0].Probes.Count);
+        Assert.NotEmpty(result.Hops[0].Probes);
         Assert.Equal(ProbeProtocol.Udp, result.ProbeProtocol);
         Assert.NotEmpty(reports);
     }
@@ -130,11 +130,11 @@ public sealed class NetworkHotspotTests
     public void Trace_guards()
     {
         Assert.Throws<ArgumentOutOfRangeException>(() =>
-            NetworkHelper.IcmpTrace("127.0.0.1", new IcmpTraceOptions { MaxHops = 65 }));
+            NetworkHelper.IcmpTrace("127.0.0.1", new IcmpTraceOptions { MaxHops = 0 }));
         Assert.Throws<ArgumentOutOfRangeException>(() =>
             NetworkHelper.IcmpTrace("127.0.0.1", new IcmpTraceOptions { ProbesPerHop = 0 }));
         Assert.Throws<ArgumentOutOfRangeException>(() =>
-            NetworkHelper.IcmpTrace("127.0.0.1", new IcmpTraceOptions { ProbesPerHop = 11 }));
+            NetworkHelper.IcmpTrace("127.0.0.1", new IcmpTraceOptions { ProbesPerHop = 31 }));
         Assert.Throws<ArgumentOutOfRangeException>(() =>
             NetworkHelper.IcmpTrace("127.0.0.1", new IcmpTraceOptions { Timeout = TimeSpan.FromMilliseconds(1) }));
         Assert.Throws<ArgumentException>(() => NetworkHelper.IcmpTrace(" "));

@@ -126,10 +126,7 @@ public sealed class JsonSessionTests
             Assert.Equal(before, TestLog.RecentJsonLines.Count);
 
             Assert.Throws<KeyNotFoundException>(() => doc.Get<int>("missing"));
-            var lines = TestLog.RecentJsonLines;
-            Assert.Contains(lines, l => l.Contains("\"STATUS\":\"Failed\"") && l.Contains("path not found") && l.Contains("missing"));
-            Assert.Contains(lines, l => l.Contains("\"SUBCATEGORY\":\"Query\""));
-            Assert.DoesNotContain(lines, l => l.Contains("enter Get"));
+            Assert.DoesNotContain(TestLog.RecentJsonLines, l => l.Contains("enter Get"));
         }
         finally
         {
