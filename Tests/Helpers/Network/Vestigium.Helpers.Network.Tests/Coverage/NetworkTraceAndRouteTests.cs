@@ -4,7 +4,6 @@ using Vestigium.Logging;
 namespace Vestigium.Helpers.Network.Tests;
 
 [Collection("Logger")]
-[Collection("CampaignRoot")]
 public sealed class NetworkTraceAndRouteTests
 {
     public NetworkTraceAndRouteTests()
