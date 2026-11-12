@@ -24,6 +24,9 @@
     <PackageReference Include="ScottPlot.WPF" Version="5.1.59" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Analytics\Vestigium.Helpers.Analytics\Vestigium.Helpers.Analytics.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="README.md">
       <Pack>true</Pack>
       <PackagePath>\</PackagePath>
