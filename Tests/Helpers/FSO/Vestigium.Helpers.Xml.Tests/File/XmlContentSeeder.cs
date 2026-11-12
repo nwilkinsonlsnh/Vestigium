@@ -9,7 +9,7 @@ namespace Vestigium.Helpers.Tests.Support;
 /// </summary>
 public static class XmlContentSeeder
 {
-    public const string ResourcePrefix = "Vestigium.Helpers.Xml.Tests.Content.Xml.";
+    public const string ResourcePrefix = "Vestigium.Helpers.Xml.Tests.Documents.Xml.";
 
     public static readonly string[] RequiredFiles =
     [
@@ -120,12 +120,27 @@ public static class XmlContentSeeder
 
     private static bool TryCopyFromContent(string fileName, string dest)
     {
-        var source = Path.Combine(ContentDirectory, fileName);
-        if (!File.Exists(source) || new FileInfo(source).Length == 0)
-            return false;
+        foreach (var dir in ContentCandidates())
+        {
+            var source = Path.Combine(dir, fileName);
+            if (!File.Exists(source) || new FileInfo(source).Length == 0)
+                continue;
+            File.Copy(source, dest, overwrite: true);
+            return true;
+        }
 
-        File.Copy(source, dest, overwrite: true);
-        return true;
+        return false;
+    }
+
+    private static IEnumerable<string> ContentCandidates()
+    {
+        yield return ContentDirectory;
+        for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir is not null; dir = dir.Parent)
+        {
+            var hit = Path.Combine(dir.FullName, "Tests", "Helpers", "FSO", "Vestigium.Helpers.Xml.Tests", "Documents", "Xml");
+            if (Directory.Exists(hit))
+                yield return hit;
+        }
     }
 
     private static bool TryCopyFromEmbedded(string fileName, string dest)

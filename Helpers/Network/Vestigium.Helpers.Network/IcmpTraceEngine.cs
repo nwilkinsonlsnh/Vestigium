@@ -121,7 +121,7 @@ internal static class IcmpTraceEngine
             $"trace job={jobId} target={target} maxHops={options.MaxHops} probes={options.ProbesPerHop}");
 
         var hops = new List<IcmpTraceHop>();
-        var protocol = options.Protocol ?? ProbeProtocol.Icmp;
+        var protocol = options.Protocol ?? (options.PreferUdp ? ProbeProtocol.Udp : ProbeProtocol.Icmp);
         var reached = false;
         var resolved = IPAddress.TryParse(target, out var parsed) ? parsed.ToString() : null;
         var probeTarget = target;
@@ -295,7 +295,7 @@ internal static class IcmpTraceEngine
                 .ConfigureAwait(false);
         }
 
-        if (options.Protocol is null && protocol() != ProbeProtocol.Tcp && IsSilent(row))
+        if (options.Protocol is null && !options.PreferUdp && protocol() != ProbeProtocol.Tcp && IsSilent(row))
         {
             setProtocol(ProbeProtocol.Tcp);
             NetworkLog.Warning(HelperLog.Subcategories.Icmp, $"trace job={jobId} silent; later hops use TCP port={options.TcpPort}");

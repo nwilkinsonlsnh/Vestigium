@@ -37,4 +37,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Documents\Xml\*.xml" />
+  </ItemGroup>
 </Project>
