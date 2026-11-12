@@ -4,9 +4,6 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Folder Name="/Scripts/">
-    <File Path="Scripts/Nuke-Solution.ps1" />
-  </Folder>
   <Folder Name="/Controls/" />
   <Folder Name="/Helpers/" />
   <Folder Name="/Helpers/Analytics/">
@@ -124,6 +121,9 @@
   </Folder>
   <Folder Name="/_Documentation/">
     <Project Path="_Documentation/Vestigium.Documentation/Vestigium.Documentation.csproj" />
+  </Folder>
+  <Folder Name="/_Documentation/_Scripts/">
+    <Project Path="_Documentation/_Scripts/Vestigium.Scripts/Vestigium.Scripts.csproj" />
   </Folder>
   <Project Path="Vestigium.csproj" />
 </Solution>
