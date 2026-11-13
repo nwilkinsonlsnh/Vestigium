@@ -6,13 +6,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
     <RootNamespace>Vestigium.Helpers.Hashing.Tests</RootNamespace>
     <AssemblyName>Vestigium.Helpers.Hashing.Tests</AssemblyName>
     <Version>1.0.0</Version>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <GenerateDependencyFile>true</GenerateDependencyFile>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,5 +33,10 @@
   <ItemGroup>
     <ProjectReference Include="../../../../Helpers/FSO/Vestigium.Helpers.Hashing/Vestigium.Helpers.Hashing.csproj" />
   </ItemGroup>
+
+  <Target Name="EnsureDepsJson" AfterTargets="Build">
+    <Error Condition="!Exists('$(TargetDir)$(AssemblyName).deps.json')"
+           Text="Hashing.Tests did not emit $(TargetDir)$(AssemblyName).deps.json" />
+  </Target>
 
 </Project>
