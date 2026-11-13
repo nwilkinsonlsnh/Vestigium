@@ -15,6 +15,7 @@
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GenerateDependencyFile>true</GenerateDependencyFile>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
   </PropertyGroup>
 
   <ItemGroup>
