@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RunSettings>
   <RunConfiguration>
-    <!-- Argon2 password tests live in Vestigium.Helpers.Hashing.Argon2.Tests.
-         A normal run skips them. Opt in with: dotnet test <Argon2 csproj> --filter Category=Argon2 -->
     <TestCaseFilter>Category!=Argon2</TestCaseFilter>
   </RunConfiguration>
 </RunSettings>
