@@ -34,10 +34,6 @@
     <ProjectReference Include="../../../../Helpers/FSO/Vestigium.Helpers.Hashing/Vestigium.Helpers.Hashing.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Include="Support\AssemblyInfo.cs" />
-  </ItemGroup>
-
   <Target Name="EnsureDepsJson" AfterTargets="Build">
     <Error Condition="!Exists('$(TargetDir)$(AssemblyName).deps.json')"
            Text="Hashing.Tests did not emit $(TargetDir)$(AssemblyName).deps.json" />
