@@ -41,7 +41,6 @@
   <Target Name="EnsureDepsJson" AfterTargets="Build">
     <Error Condition="!Exists('$(TargetDir)$(AssemblyName).deps.json')"
            Text="Hashing.Tests did not emit $(TargetDir)$(AssemblyName).deps.json" />
-    <Exec Command="powershell -NoProfile -Command "[System.Reflection.AssemblyName]::GetAssemblyName('$(TargetPath)').Version"" />
   </Target>
 
 </Project>
