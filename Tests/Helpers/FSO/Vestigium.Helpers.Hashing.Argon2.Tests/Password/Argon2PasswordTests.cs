@@ -5,6 +5,7 @@ using Vestigium.Logging;
 namespace Vestigium.Helpers.Hashing.Argon2.Tests;
 
 [Collection("Logger")]
+[Trait("Category", "Argon2")]
 public sealed class Argon2PasswordTests
 {
     public Argon2PasswordTests() => VestigiumLogger.Shutdown();
