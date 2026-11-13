@@ -83,6 +83,7 @@
     <Project Path="Tests/Helpers/FSO/Vestigium.Helpers.FileIo.Tests/Vestigium.Helpers.FileIo.Tests.csproj" />
     <Project Path="Tests/Helpers/FSO/Vestigium.Helpers.FileSystemPaths.Tests/Vestigium.Helpers.FileSystemPaths.Tests.csproj" />
     <Project Path="Tests/Helpers/FSO/Vestigium.Helpers.Hashing.Tests/Vestigium.Helpers.Hashing.Tests.csproj" />
+    <Project Path="Tests/Helpers/FSO/Vestigium.Helpers.Hashing.Argon2.Tests/Vestigium.Helpers.Hashing.Argon2.Tests.csproj" />
     <Project Path="Tests/Helpers/FSO/Vestigium.Helpers.Json.Tests/Vestigium.Helpers.Json.Tests.csproj" />
     <Project Path="Tests/Helpers/FSO/Vestigium.Helpers.Pdf.Tests/Vestigium.Helpers.Pdf.Tests.csproj" />
     <Project Path="Tests/Helpers/FSO/Vestigium.Helpers.Xml.Tests/Vestigium.Helpers.Xml.Tests.csproj" />

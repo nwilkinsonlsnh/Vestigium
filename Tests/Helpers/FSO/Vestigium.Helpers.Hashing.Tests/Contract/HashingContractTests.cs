@@ -48,19 +48,6 @@ public sealed class HashingContractTests
         var expected = Convert.ToHexString(SHA256.HashData(payload)).ToLowerInvariant();
         Assert.Equal(expected, HashingHelper.HashFile(path));
     }
-
-    [Fact]
-    public void HashPassword_is_not_hashstring_and_verify_roundtrips()
-    {
-        const string password = "gallery-demo-only";
-        var phc = HashingHelper.HashPassword(password);
-        Assert.StartsWith("$argon2id$", phc);
-        Assert.NotEqual(HashingHelper.HashString(password), phc);
-        Assert.True(HashingHelper.VerifyPassword(password, phc));
-        Assert.False(HashingHelper.VerifyPassword("gallery-demo-xxxx", phc));
-        Assert.False(HashingHelper.VerifyPassword(password, "not-a-phc"));
-    }
-
     [Fact]
     public void Md5_and_sha1_are_named_interop_only()
     {

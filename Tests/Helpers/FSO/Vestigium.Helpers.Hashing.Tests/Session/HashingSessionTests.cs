@@ -332,52 +332,6 @@ public sealed class HashingSessionTests
         Assert.NotEqual(key.ToHexLower(), wrong.ToHexLower());
         Assert.True(wrong.Length >= 16);
     }
-
-    [Fact]
-    public void Password_argon2id_phc_round_trips_and_rejects_wrong()
-    {
-        var stored = HashingHelper.HashPassword("gallery-demo-only");
-        Assert.StartsWith("$argon2id$v=19$m=19456,t=2,p=1$", stored);
-        Assert.True(HashingHelper.VerifyPassword("gallery-demo-only", stored));
-        Assert.False(HashingHelper.VerifyPassword("gallery-demo-xx", stored));
-        Assert.Throws<ArgumentException>(() => HashingHelper.HashPassword("short"));
-        Assert.False(HashingHelper.VerifyPassword("gallery-demo-only", "not-a-phc"));
-    }
-
-    [Fact]
-    public void Logs_never_contain_password_phc_or_hmac_key()
-    {
-        var dir = Path.Combine(Path.GetTempPath(), "VestigiumHashTests", Guid.NewGuid().ToString("N"));
-        Directory.CreateDirectory(dir);
-        TestLog.InitializeHost(TestLog.AppIds.Hashing, cfg =>
-        {
-            cfg.LogDirectory = dir;
-            cfg.MinimumDiskLevel = VestigiumLogLevel.Debug;
-        });
-        try
-        {
-            var stored = HashingHelper.HashPassword("gallery-demo-only");
-            using var key = HmacKey.Generate();
-            var keyHex = key.ToHexLower();
-            var keyB64 = key.ToBase64();
-            _ = HashingHelper.HmacString("probe-message-16", key);
-            _ = HashingHelper.HashString("abc");
-            var blob = string.Join('\n', TestLog.RecentJsonLines);
-            Assert.DoesNotContain("gallery-demo-only", blob, StringComparison.Ordinal);
-            Assert.DoesNotContain(stored, blob, StringComparison.Ordinal);
-            Assert.DoesNotContain("$argon2id$", blob, StringComparison.Ordinal);
-            Assert.DoesNotContain(keyHex, blob, StringComparison.OrdinalIgnoreCase);
-            Assert.DoesNotContain(keyB64, blob, StringComparison.Ordinal);
-            Assert.Contains("password hashed", blob, StringComparison.Ordinal);
-            Assert.Contains("\"APPID\":\"Hashing\"", blob, StringComparison.Ordinal);
-        }
-        finally
-        {
-            TestLog.Shutdown();
-            Directory.Delete(dir, recursive: true);
-        }
-    }
-
     [Fact]
     public void Verify_string_constant_time_mismatch()
     {
