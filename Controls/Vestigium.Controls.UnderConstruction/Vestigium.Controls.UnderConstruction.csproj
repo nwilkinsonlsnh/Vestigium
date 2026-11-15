@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>Vestigium.Controls.UnderConstruction</RootNamespace>
+    <AssemblyName>Vestigium.Controls.UnderConstruction</AssemblyName>
+    <Description>WPF placeholder page and overlay with title, subject, and multi-line description.</Description>
+    <PackageTags>wpf;mvvm;placeholder;vestigium</PackageTags>
+      <Version>1.0.1</Version>
+  </PropertyGroup>
+</Project>

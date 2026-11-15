@@ -1,0 +1,119 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Vestigium.Controls.QueryBar">
+  <SolidColorBrush x:Key="QueryBar.Fallback.Window" Color="#FF2E3440" />
+  <SolidColorBrush x:Key="QueryBar.Fallback.Card" Color="#FF3B4252" />
+  <SolidColorBrush x:Key="QueryBar.Fallback.Text" Color="#FFECEFF4" />
+  <SolidColorBrush x:Key="QueryBar.Fallback.Stroke" Color="#FF4C566A" />
+  <SolidColorBrush x:Key="QueryBar.Fallback.Clear" Color="#FFBF616A" />
+
+  <Style TargetType="local:VestigiumQueryBar">
+    <Setter Property="Background" Value="{DynamicResource Vestigium.Brushes.Surface.Window}" />
+    <Setter Property="Foreground" Value="{DynamicResource Vestigium.Brushes.Text.Primary}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Vestigium.Brushes.Stroke.Subtle}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="MinHeight" Value="28" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="local:VestigiumQueryBar">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="PART_TextBox" Grid.Column="0"
+                     Background="{TemplateBinding Background}"
+                     Foreground="{TemplateBinding Foreground}"
+                     BorderBrush="{TemplateBinding BorderBrush}"
+                     BorderThickness="{TemplateBinding BorderThickness}"
+                     CaretBrush="{TemplateBinding Foreground}"
+                     Padding="6,2"
+                     VerticalContentAlignment="Center" />
+            <Button x:Name="PART_Clear" Grid.Column="1" Width="28" Margin="4,0,0,0"
+                    Content="&#xE711;" FontFamily="Segoe MDL2 Assets"
+                    Foreground="{StaticResource QueryBar.Fallback.Clear}"
+                    ToolTip="Clear">
+              <Button.Template>
+                <ControlTemplate TargetType="Button">
+                  <Border Background="{StaticResource QueryBar.Fallback.Card}" BorderBrush="{StaticResource QueryBar.Fallback.Stroke}" BorderThickness="1">
+                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                  </Border>
+                </ControlTemplate>
+              </Button.Template>
+            </Button>
+            <ToggleButton x:Name="PART_Chevron" Grid.Column="2" Width="28" Margin="4,0,0,0"
+                          Content="&#xE70D;" FontFamily="Segoe MDL2 Assets"
+                          Foreground="{TemplateBinding Foreground}"
+                          ToolTip="Recent queries">
+              <ToggleButton.Template>
+                <ControlTemplate TargetType="ToggleButton">
+                  <Border x:Name="Chrome" Background="{StaticResource QueryBar.Fallback.Card}" BorderBrush="{StaticResource QueryBar.Fallback.Stroke}" BorderThickness="1">
+                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                  </Border>
+                  <ControlTemplate.Triggers>
+                    <Trigger Property="IsChecked" Value="True">
+                      <Setter TargetName="Chrome" Property="Background" Value="#FF434C5E" />
+                    </Trigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate>
+              </ToggleButton.Template>
+            </ToggleButton>
+            <Popup x:Name="PART_Completion" PlacementTarget="{Binding ElementName=PART_TextBox}" StaysOpen="False" AllowsTransparency="True">
+              <ListBox x:Name="PART_CompletionList" MinWidth="280" DisplayMemberPath="Display"
+                       Background="{StaticResource QueryBar.Fallback.Window}"
+                       Foreground="{StaticResource QueryBar.Fallback.Text}"
+                       BorderBrush="{StaticResource QueryBar.Fallback.Stroke}" />
+            </Popup>
+            <Popup x:Name="PART_Saved" Placement="Custom" StaysOpen="False" AllowsTransparency="True"
+                   IsOpen="{Binding IsChecked, ElementName=PART_Chevron}"
+                   Width="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
+              <Border Background="{StaticResource QueryBar.Fallback.Window}" BorderBrush="{StaticResource QueryBar.Fallback.Stroke}" BorderThickness="1" Padding="8">
+                <ListBox x:Name="PART_SavedList" Focusable="False"
+                         ItemsSource="{Binding Queries, RelativeSource={RelativeSource TemplatedParent}}"
+                         Background="{StaticResource QueryBar.Fallback.Window}"
+                         Foreground="{StaticResource QueryBar.Fallback.Text}"
+                         BorderThickness="0">
+                  <ListBox.ItemTemplate>
+                    <DataTemplate>
+                      <Grid Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="*" />
+                          <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" HorizontalContentAlignment="Left" Padding="6,2"
+                                Background="{StaticResource QueryBar.Fallback.Card}"
+                                Foreground="{StaticResource QueryBar.Fallback.Text}"
+                                Command="{Binding ApplyQueryCommand, RelativeSource={RelativeSource AncestorType=local:VestigiumQueryBar}}"
+                                CommandParameter="{Binding}">
+                          <TextBlock Text="{Binding Text}" TextWrapping="Wrap" />
+                        </Button>
+                        <Button Grid.Column="1" Width="28" Margin="6,0,0,0" FontFamily="Segoe MDL2 Assets"
+                                Background="{StaticResource QueryBar.Fallback.Card}"
+                                Foreground="{StaticResource QueryBar.Fallback.Text}"
+                                Command="{Binding PinQueryCommand, RelativeSource={RelativeSource AncestorType=local:VestigiumQueryBar}}"
+                                CommandParameter="{Binding}"
+                                ToolTip="Pin">
+                          <Button.Style>
+                            <Style TargetType="Button">
+                              <Setter Property="Content" Value="&#xE718;" />
+                              <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsSticky}" Value="True">
+                                  <Setter Property="Content" Value="&#xE841;" />
+                                </DataTrigger>
+                              </Style.Triggers>
+                            </Style>
+                          </Button.Style>
+                        </Button>
+                      </Grid>
+                    </DataTemplate>
+                  </ListBox.ItemTemplate>
+                </ListBox>
+              </Border>
+            </Popup>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+</ResourceDictionary>

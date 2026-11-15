@@ -4,7 +4,14 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Folder Name="/Controls/" />
+  <Folder Name="/Controls/">
+    <Project Path="Controls/Vestigium.Controls/Vestigium.Controls.csproj" />
+    <Project Path="Controls/Vestigium.Controls.NumericUpDown/Vestigium.Controls.NumericUpDown.csproj" />
+    <Project Path="Controls/Vestigium.Controls.QueryBar/Vestigium.Controls.QueryBar.csproj" />
+    <Project Path="Controls/Vestigium.Controls.StatusBar/Vestigium.Controls.StatusBar.csproj" />
+    <Project Path="Controls/Vestigium.Controls.UnderConstruction/Vestigium.Controls.UnderConstruction.csproj" />
+    <Project Path="Controls/Vestigium.Controls.ThemeLab/Vestigium.Controls.ThemeLab.csproj" />
+  </Folder>
   <Folder Name="/Helpers/" />
   <Folder Name="/Helpers/Analytics/">
     <Project Path="Helpers/Analytics/Vestigium.Helpers.Analytics/Vestigium.Helpers.Analytics.csproj" />
@@ -72,6 +79,9 @@
   <Folder Name="/Tests/" />
   <Folder Name="/Tests/Themes/">
     <Project Path="Tests/Themes/Vestigium.Themes.Tests/Vestigium.Themes.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Tests/Controls/">
+    <Project Path="Tests/Controls/Vestigium.Controls.Tests/Vestigium.Controls.Tests.csproj" />
   </Folder>
   <Folder Name="/Tests/Helpers/">
     <Project Path="Tests/Helpers/Vestigium.Helpers.TestSupport/Vestigium.Helpers.TestSupport.csproj" />
