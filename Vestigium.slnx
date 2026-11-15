@@ -121,7 +121,20 @@
     <Project Path="Tests/Helpers/Windows/Vestigium.Helpers.SystemInfo.Tests/Vestigium.Helpers.SystemInfo.Tests.csproj" />
     <Project Path="Tests/Helpers/Windows/Vestigium.Helpers.WinReg.Tests/Vestigium.Helpers.WinReg.Tests.csproj" />
   </Folder>
-  <Folder Name="/Themes/" />
+  <Folder Name="/Themes/">
+    <Project Path="Themes/Vestigium.Themes/Vestigium.Themes.csproj" />
+    <Project Path="Themes/Vestigium.Themes.Controls/Vestigium.Themes.Controls.csproj" />
+    <Project Path="Themes/Vestigium.Themes.LightBlue/Vestigium.Themes.LightBlue.csproj" />
+    <Project Path="Themes/Vestigium.Themes.DarkMode/Vestigium.Themes.DarkMode.csproj" />
+    <Project Path="Themes/Vestigium.Themes.Terminal/Vestigium.Themes.Terminal.csproj" />
+    <Project Path="Themes/Vestigium.Themes.SolarizedDark/Vestigium.Themes.SolarizedDark.csproj" />
+    <Project Path="Themes/Vestigium.Themes.StandardWPF/Vestigium.Themes.StandardWPF.csproj" />
+    <Project Path="Themes/Vestigium.Themes.Monokai/Vestigium.Themes.Monokai.csproj" />
+    <Project Path="Themes/Vestigium.Themes.Sublime/Vestigium.Themes.Sublime.csproj" />
+    <Project Path="Themes/Vestigium.Themes.Dracula/Vestigium.Themes.Dracula.csproj" />
+    <Project Path="Themes/Vestigium.Themes.Nord/Vestigium.Themes.Nord.csproj" />
+    <Project Path="Themes/Vestigium.Themes.Pack/Vestigium.Themes.Pack.csproj" />
+  </Folder>
   <Folder Name="/_Documentation/">
     <Project Path="_Documentation/Vestigium.Documentation/Vestigium.Documentation.csproj" />
   </Folder>
