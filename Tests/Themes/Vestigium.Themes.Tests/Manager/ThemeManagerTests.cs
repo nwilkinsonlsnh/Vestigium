@@ -32,48 +32,42 @@ public sealed class ThemeManagerTests
     }
 
     [Fact]
-    public void Switch_and_unload_require_initialize()
+    public void Switch_before_register_is_an_unknown_theme()
     {
+        // The test host owns one Application, so RequireApplication succeeds.
+        // An id that was never registered is a load failure, not a missing app.
         var manager = new ThemeManager();
         Assert.Throws<ArgumentException>(() => manager.SwitchTheme(" "));
-        Assert.Throws<InvalidOperationException>(() => manager.SwitchTheme("LightBlue"));
-        Assert.Throws<InvalidOperationException>(() => manager.Unload());
+        Assert.Throws<ThemeLoadException>(() => manager.SwitchTheme("LightBlue"));
     }
 
     [Fact]
-    public void Initialize_switch_and_unload_round_trip_on_an_sta_application()
+    public void Initialize_switch_and_unload_round_trip()
     {
-        Sta.Run(() =>
+        var app = Application.Current ?? throw new InvalidOperationException("Test host did not create the WPF Application.");
+        app.Dispatcher.Invoke(() =>
         {
-            var app = Application.Current ?? new Application();
-            try
-            {
-                var manager = new ThemeManager();
-                Assert.Throws<ThemeLoadException>(() => manager.Initialize(app));
+            var manager = new ThemeManager();
+            Assert.Throws<ThemeLoadException>(() => manager.Initialize(app));
 
-                manager.Register(ThemeDefinitions.SuiteV1[0]);
-                manager.Register(ThemeDefinitions.SuiteV1[1]);
-                ThemeDefinition? seen = null;
-                manager.ThemeChanged += (_, e) => seen = e.Current;
+            manager.Register(ThemeDefinitions.SuiteV1[0]);
+            manager.Register(ThemeDefinitions.SuiteV1[1]);
+            ThemeDefinition? seen = null;
+            manager.ThemeChanged += (_, e) => seen = e.Current;
 
-                manager.Initialize(app, "DarkMode");
-                Assert.Equal("DarkMode", manager.Current?.Id);
-                Assert.Equal("DarkMode", seen?.Id);
-                Assert.Contains(app.Resources.MergedDictionaries, d => d.Contains(ThemeResourceKeys.ThemeId));
+            manager.Initialize(app, "DarkMode");
+            Assert.Equal("DarkMode", manager.Current?.Id);
+            Assert.Equal("DarkMode", seen?.Id);
+            Assert.Contains(app.Resources.MergedDictionaries, d => d.Contains(ThemeResourceKeys.ThemeId));
 
-                manager.SwitchTheme("LightBlue");
-                Assert.Equal("LightBlue", manager.Current?.Id);
+            manager.SwitchTheme("LightBlue");
+            Assert.Equal("LightBlue", manager.Current?.Id);
 
-                Assert.Throws<ThemeLoadException>(() => manager.SwitchTheme("missing"));
+            Assert.Throws<ThemeLoadException>(() => manager.SwitchTheme("missing"));
 
-                manager.Unload();
-                Assert.Null(manager.Current);
-                Assert.DoesNotContain(app.Resources.MergedDictionaries, d => d.Contains(ThemeResourceKeys.ThemeId));
-            }
-            finally
-            {
-                app.Shutdown();
-            }
+            manager.Unload();
+            Assert.Null(manager.Current);
+            Assert.DoesNotContain(app.Resources.MergedDictionaries, d => d.Contains(ThemeResourceKeys.ThemeId));
         });
     }
 }
