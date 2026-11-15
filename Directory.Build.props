@@ -4,7 +4,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(MSBuildProjectName)' != 'Vestigium.Logging' and '$(MSBuildProjectName)' != 'Vestigium.Logging.Tests' and '$(MSBuildProjectName)' != 'Vestigium.Logging.Demo'">
     <PackageReference Include="Vestigium.Logging" Version="2.0.0" />
   </ItemGroup>
 

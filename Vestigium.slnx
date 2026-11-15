@@ -57,7 +57,11 @@
     <Project Path="Helpers/Windows/Vestigium.Helpers.SystemInfo/Vestigium.Helpers.SystemInfo.csproj" />
     <Project Path="Helpers/Windows/Vestigium.Helpers.WinReg/Vestigium.Helpers.WinReg.csproj" />
   </Folder>
-  <Folder Name="/Logging/" />
+  <Folder Name="/Logging/">
+    <Project Path="Logging/Vestigium.Logging/Vestigium.Logging.csproj" />
+    <Project Path="Logging/Vestigium.Logging.Tests/Vestigium.Logging.Tests.csproj" />
+    <Project Path="Logging/Vestigium.Logging.Demo/Vestigium.Logging.Demo.csproj" />
+  </Folder>
   <Folder Name="/Suite/" />
   <Folder Name="/Suite/CLI/" />
   <Folder Name="/Suite/CLI/Network/" />

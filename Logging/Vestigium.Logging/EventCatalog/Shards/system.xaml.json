@@ -1,0 +1,98 @@
+[
+    {
+        "EventId":  2035,
+        "EventName":  "XamlDuplicateMemberException",
+        "Category":  "System",
+        "Subcategory":  "Core",
+        "FullName":  "System.Xaml.XamlDuplicateMemberException",
+        "Namespace":  "System.Xaml",
+        "Description":  "Exception type System.Xaml.XamlDuplicateMemberException.",
+        "Severity":  "Error",
+        "Enabled":  true,
+        "Kind":  "Exception"
+    },
+    {
+        "EventId":  2040,
+        "EventName":  "XamlException",
+        "Category":  "System",
+        "Subcategory":  "Core",
+        "FullName":  "System.Xaml.XamlException",
+        "Namespace":  "System.Xaml",
+        "Description":  "Exception type System.Xaml.XamlException.",
+        "Severity":  "Error",
+        "Enabled":  true,
+        "Kind":  "Exception"
+    },
+    {
+        "EventId":  2045,
+        "EventName":  "XamlInternalException",
+        "Category":  "System",
+        "Subcategory":  "Core",
+        "FullName":  "System.Xaml.XamlInternalException",
+        "Namespace":  "System.Xaml",
+        "Description":  "Exception type System.Xaml.XamlInternalException.",
+        "Severity":  "Error",
+        "Enabled":  true,
+        "Kind":  "Exception"
+    },
+    {
+        "EventId":  2050,
+        "EventName":  "XamlObjectReaderException",
+        "Category":  "System",
+        "Subcategory":  "Core",
+        "FullName":  "System.Xaml.XamlObjectReaderException",
+        "Namespace":  "System.Xaml",
+        "Description":  "Exception type System.Xaml.XamlObjectReaderException.",
+        "Severity":  "Error",
+        "Enabled":  true,
+        "Kind":  "Exception"
+    },
+    {
+        "EventId":  2055,
+        "EventName":  "XamlObjectWriterException",
+        "Category":  "System",
+        "Subcategory":  "Core",
+        "FullName":  "System.Xaml.XamlObjectWriterException",
+        "Namespace":  "System.Xaml",
+        "Description":  "Exception type System.Xaml.XamlObjectWriterException.",
+        "Severity":  "Error",
+        "Enabled":  true,
+        "Kind":  "Exception"
+    },
+    {
+        "EventId":  2060,
+        "EventName":  "XamlParseException",
+        "Category":  "System",
+        "Subcategory":  "Core",
+        "FullName":  "System.Xaml.XamlParseException",
+        "Namespace":  "System.Xaml",
+        "Description":  "Exception type System.Xaml.XamlParseException.",
+        "Severity":  "Error",
+        "Enabled":  true,
+        "Kind":  "Exception"
+    },
+    {
+        "EventId":  2065,
+        "EventName":  "XamlSchemaException",
+        "Category":  "System",
+        "Subcategory":  "Core",
+        "FullName":  "System.Xaml.XamlSchemaException",
+        "Namespace":  "System.Xaml",
+        "Description":  "Exception type System.Xaml.XamlSchemaException.",
+        "Severity":  "Error",
+        "Enabled":  true,
+        "Kind":  "Exception"
+    },
+    {
+        "EventId":  2070,
+        "EventName":  "XamlXmlWriterException",
+        "Category":  "System",
+        "Subcategory":  "Core",
+        "FullName":  "System.Xaml.XamlXmlWriterException",
+        "Namespace":  "System.Xaml",
+        "Description":  "Exception type System.Xaml.XamlXmlWriterException.",
+        "Severity":  "Error",
+        "Enabled":  true,
+        "Kind":  "Exception"
+    }
+]
