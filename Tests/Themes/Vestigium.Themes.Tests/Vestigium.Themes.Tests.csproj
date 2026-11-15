@@ -30,6 +30,13 @@
     <ProjectReference Include="../../../Themes/Vestigium.Themes.Controls/Vestigium.Themes.Controls.csproj" />
     <ProjectReference Include="../../../Themes/Vestigium.Themes.LightBlue/Vestigium.Themes.LightBlue.csproj" />
     <ProjectReference Include="../../../Themes/Vestigium.Themes.DarkMode/Vestigium.Themes.DarkMode.csproj" />
+    <ProjectReference Include="../../../Themes/Vestigium.Themes.Terminal/Vestigium.Themes.Terminal.csproj" />
+    <ProjectReference Include="../../../Themes/Vestigium.Themes.SolarizedDark/Vestigium.Themes.SolarizedDark.csproj" />
+    <ProjectReference Include="../../../Themes/Vestigium.Themes.StandardWPF/Vestigium.Themes.StandardWPF.csproj" />
+    <ProjectReference Include="../../../Themes/Vestigium.Themes.Monokai/Vestigium.Themes.Monokai.csproj" />
+    <ProjectReference Include="../../../Themes/Vestigium.Themes.Sublime/Vestigium.Themes.Sublime.csproj" />
+    <ProjectReference Include="../../../Themes/Vestigium.Themes.Dracula/Vestigium.Themes.Dracula.csproj" />
+    <ProjectReference Include="../../../Themes/Vestigium.Themes.Nord/Vestigium.Themes.Nord.csproj" />
     <ProjectReference Include="../../../Themes/Vestigium.Themes.Pack/Vestigium.Themes.Pack.csproj" />
   </ItemGroup>
 
