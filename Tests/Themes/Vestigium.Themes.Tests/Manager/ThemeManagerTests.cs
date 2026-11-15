@@ -45,7 +45,7 @@ public sealed class ThemeManagerTests
     {
         Sta.Run(() =>
         {
-            var app = new Application();
+            var app = Application.Current ?? new Application();
             try
             {
                 var manager = new ThemeManager();
