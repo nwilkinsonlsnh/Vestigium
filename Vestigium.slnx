@@ -121,6 +121,7 @@
     <Project Path="Tests/Helpers/Windows/Vestigium.Helpers.SystemInfo.Tests/Vestigium.Helpers.SystemInfo.Tests.csproj" />
     <Project Path="Tests/Helpers/Windows/Vestigium.Helpers.WinReg.Tests/Vestigium.Helpers.WinReg.Tests.csproj" />
   </Folder>
+  <Folder Name="/Themes/" />
   <Folder Name="/_Documentation/">
     <Project Path="_Documentation/Vestigium.Documentation/Vestigium.Documentation.csproj" />
   </Folder>
