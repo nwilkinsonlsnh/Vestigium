@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Pack-only bag. Builds the product projects, then packs Vestigium.Themes.nuspec.
+    Restore name stays Vestigium.Themes.Pack so it does not collide with core.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>Vestigium.Themes.Pack</AssemblyName>
+    <RootNamespace>Vestigium.Themes.Pack</RootNamespace>
+    <IsPackable>true</IsPackable>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <NuspecFile>Vestigium.Themes.nuspec</NuspecFile>
+    <NuspecBasePath>$(MSBuildThisFileDirectory)..\..\</NuspecBasePath>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+    <Version>1.1.0</Version>
+      <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Vestigium.Themes\Vestigium.Themes.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\Vestigium.Themes.Controls\Vestigium.Themes.Controls.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\Vestigium.Themes.LightBlue\Vestigium.Themes.LightBlue.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\Vestigium.Themes.DarkMode\Vestigium.Themes.DarkMode.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\Vestigium.Themes.Terminal\Vestigium.Themes.Terminal.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\Vestigium.Themes.SolarizedDark\Vestigium.Themes.SolarizedDark.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\Vestigium.Themes.StandardWPF\Vestigium.Themes.StandardWPF.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\Vestigium.Themes.Monokai\Vestigium.Themes.Monokai.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\Vestigium.Themes.Sublime\Vestigium.Themes.Sublime.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\Vestigium.Themes.Dracula\Vestigium.Themes.Dracula.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\Vestigium.Themes.Nord\Vestigium.Themes.Nord.csproj" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup></ItemGroup>
+</Project>
