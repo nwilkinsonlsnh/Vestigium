@@ -26,11 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../Themes/Vestigium.Themes/Vestigium.Themes.csproj" />
-    <ProjectReference Include="../../../../Themes/Vestigium.Themes.Controls/Vestigium.Themes.Controls.csproj" />
-    <ProjectReference Include="../../../../Themes/Vestigium.Themes.LightBlue/Vestigium.Themes.LightBlue.csproj" />
-    <ProjectReference Include="../../../../Themes/Vestigium.Themes.DarkMode/Vestigium.Themes.DarkMode.csproj" />
-    <ProjectReference Include="../../../../Themes/Vestigium.Themes.Pack/Vestigium.Themes.Pack.csproj" />
+    <ProjectReference Include="../../../Themes/Vestigium.Themes/Vestigium.Themes.csproj" />
+    <ProjectReference Include="../../../Themes/Vestigium.Themes.Controls/Vestigium.Themes.Controls.csproj" />
+    <ProjectReference Include="../../../Themes/Vestigium.Themes.LightBlue/Vestigium.Themes.LightBlue.csproj" />
+    <ProjectReference Include="../../../Themes/Vestigium.Themes.DarkMode/Vestigium.Themes.DarkMode.csproj" />
+    <ProjectReference Include="../../../Themes/Vestigium.Themes.Pack/Vestigium.Themes.Pack.csproj" />
   </ItemGroup>
 
 </Project>
