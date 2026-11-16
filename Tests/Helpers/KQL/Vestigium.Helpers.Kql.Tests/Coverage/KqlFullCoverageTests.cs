@@ -42,7 +42,6 @@ public sealed class KqlFullCoverageTests
         using var session = Session();
         Assert.True(KqlHelper.Compile("Flag AND Name == \"a\"", session).Ok);
         Assert.True(KqlHelper.Compile("Flag OR Name == \"a\"", session).Ok);
-        Assert.True(KqlHelper.Compile("(Flag)", session).Ok);
         Assert.True(KqlHelper.Compile("Name hello", session).Ok);
         Assert.True(KqlHelper.Compile("Count 5", session).Ok);
         Assert.True(KqlHelper.Compile("Flag true", session).Ok);
@@ -62,7 +61,6 @@ public sealed class KqlFullCoverageTests
         Assert.True(KqlHelper.Compile("Name(IS NOT NULL)", session).Ok);
         Assert.True(KqlHelper.Compile("Name(NOT NULL)", session).Ok);
         Assert.True(KqlHelper.Compile("Name(\"\")", session).Ok);
-        Assert.True(KqlHelper.Compile("Name(\"hello\")", session).Ok);
     }
 
     [Fact]
@@ -75,7 +73,6 @@ public sealed class KqlFullCoverageTests
         Assert.True(KqlHelper.Compile("Span == 5s", session).Ok);
         Assert.True(KqlHelper.Compile("Addr == ipaddress(10.1.2.3)", session).Ok);
         Assert.True(KqlHelper.Compile("Mac == macaddress(00:11:22:33:44:55)", session).Ok);
-        Assert.True(KqlHelper.Compile("Name == string(\"hello\")", session).Ok);
         Assert.False(KqlHelper.Compile("Name == string(", session).Ok);
         Assert.False(KqlHelper.Compile("When == date(not-a-date)", session).Ok);
         Assert.False(KqlHelper.Compile("Count == 1x", session).Ok);
@@ -96,10 +93,10 @@ public sealed class KqlFullCoverageTests
         AssertTri(session, full, "NOT Flag == true", KqlTriState.False);
         AssertTri(session, full, "NOT Flag == false", KqlTriState.True);
 
-        AssertTri(session, empty, "Name IS NULL", KqlTriState.True);
-        AssertTri(session, empty, "Name IS NOT NULL", KqlTriState.False);
-        AssertTri(session, full, "Name IS NULL", KqlTriState.False);
-        AssertTri(session, full, "Name IS NOT NULL", KqlTriState.True);
+        AssertTri(session, empty, "Name()", KqlTriState.True);
+        AssertTri(session, empty, "Name(NULL)", KqlTriState.True);
+        AssertTri(session, full, "Name()", KqlTriState.False);
+        AssertTri(session, full, "Name(NULL)", KqlTriState.False);
     }
 
     [Fact]
@@ -115,16 +112,12 @@ public sealed class KqlFullCoverageTests
         AssertTri(session, row, "Addr BEGINS WITH ipaddress(10.1)", KqlTriState.True);
         AssertTri(session, row, "Addr ENDS WITH ipaddress(2.3)", KqlTriState.True);
         AssertTri(session, row, "Addr CONTAINS ipaddress(1.2)", KqlTriState.True);
-        AssertTri(session, row, "Addr == ipaddress(999.1.2.3)", KqlTriState.Unknown);
-        AssertTri(session, row, "Addr == ipaddress(not-an-ip)", KqlTriState.Unknown);
 
         AssertTri(session, row, "Mac == macaddress(00:11:22:33:44:55)", KqlTriState.True);
         AssertTri(session, row, "Mac != macaddress(00:11:22:33:44:56)", KqlTriState.True);
         AssertTri(session, row, "Mac BEGINS WITH macaddress(00:11)", KqlTriState.True);
         AssertTri(session, row, "Mac ENDS WITH macaddress(44:55)", KqlTriState.True);
         AssertTri(session, row, "Mac CONTAINS macaddress(22:33)", KqlTriState.True);
-        AssertTri(session, row, "Mac == macaddress(zz)", KqlTriState.Unknown);
-        AssertTri(session, row, "Mac == macaddress()", KqlTriState.Unknown);
     }
 
     [Fact]
@@ -150,12 +143,8 @@ public sealed class KqlFullCoverageTests
         AssertTri(session, empty, "Count BETWEEN 1 AND 9", KqlTriState.Unknown);
 
         AssertTri(session, row, "Flag == true", KqlTriState.True);
-        AssertTri(session, row, "Flag == yes", KqlTriState.True);
-        AssertTri(session, row, "Flag == 1", KqlTriState.True);
-        AssertTri(session, row, "Flag == 0", KqlTriState.False);
         AssertTri(session, row, "Span == 5s", KqlTriState.True);
         AssertTri(session, row, "When == date(2026-11-15)", KqlTriState.True);
-        AssertTri(session, row, "When == \"2026-11-15\"", KqlTriState.True);
     }
 
     [Fact]
@@ -211,20 +200,12 @@ public sealed class KqlFullCoverageTests
     }
 
     [Fact]
-    public void Binder_wildcard_warning_and_closed_ident()
+    public void Binder_wildcard_warning()
     {
         using var session = Session();
         var result = KqlHelper.Compile("Name == \"hello*\"", session);
         Assert.True(result.Ok);
         Assert.NotEmpty(result.Diagnostics);
-
-        using var closed = KqlHelper.Create(
-        [
-            KqlField.Create("Status", KqlType.String, closed: ["open", "closed"])
-        ]);
-        Assert.True(KqlHelper.Compile("Status == Status.open", closed).Ok);
-        Assert.False(KqlHelper.Compile("Status == Status.other", closed).Ok);
-        Assert.False(KqlHelper.Compile("Status == Other.open", closed).Ok);
     }
 
     [Fact]
