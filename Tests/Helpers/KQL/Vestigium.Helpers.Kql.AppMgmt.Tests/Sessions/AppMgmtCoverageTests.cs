@@ -70,7 +70,7 @@ public sealed class AppMgmtCoverageTests
 
         var rowWith = FootprintsAdapter.ToRow(session, withCount);
         Assert.Equal("Registry", rowWith.Get("footprint.kind").Raw);
-        Assert.Equal(3, rowWith.Get("footprint.refcount").Raw);
+        Assert.Equal(3L, rowWith.Get("footprint.refcount").Raw);
 
         var withoutCount = new FootprintsFacts
         {
@@ -84,7 +84,7 @@ public sealed class AppMgmtCoverageTests
 
         var rowWithout = FootprintsAdapter.ToRow(session, withoutCount);
         Assert.Equal("File", rowWithout.Get("footprint.kind").Raw);
-        Assert.Throws<KeyNotFoundException>(() => rowWithout.Get("footprint.refcount"));
+        Assert.True(rowWithout.Get("footprint.refcount").IsUnknown);
     }
 
     [Fact]
@@ -107,7 +107,7 @@ public sealed class AppMgmtCoverageTests
     [InlineData("bloat.name LIKE '%Candy%'")]
     [InlineData("feature.IsEnabled == true")]
     [InlineData("feature.caption LIKE '%Hyper%'")]
-    [InlineData("footprint.kind == Registry")]
+    [InlineData("footprint.kind == \"Registry\"")]
     public void Bloatware_And_Feature_Compile(string text)
     {
         using var bloat = AppMgmtKql.Bloatware();
