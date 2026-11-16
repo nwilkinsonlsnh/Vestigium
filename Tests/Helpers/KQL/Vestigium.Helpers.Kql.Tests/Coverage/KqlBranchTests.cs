@@ -151,8 +151,8 @@ public sealed class KqlBranchTests
         var row = new KqlFixtureRow(session)
             .Set("Name", "hello")
             .Set("Count", 5L)
-            .Set("Flag", "yes")
-            .Set("When", DateTime.Today)
+            .Set("Flag", true)
+            .Set("When", new DateTimeOffset(2026, 11, 15, 0, 0, 0, TimeSpan.Zero))
             .Set("Span", TimeSpan.FromSeconds(5))
             .Set("Addr", "10.1.2.3")
             .Set("Mac", "00:11:22:33:44:55");
@@ -162,7 +162,7 @@ public sealed class KqlBranchTests
         AssertMatch(session, row, "Name ENDS WITH \"lo\"");
         AssertMatch(session, row, "Count == 5");
         AssertMatch(session, row, "Flag == true");
-        AssertMatch(session, row, "When == date(today)");
+        AssertMatch(session, row, "When == date(2026-11-15)");
         AssertMatch(session, row, "Span == 5s");
         AssertMatch(session, row, "Addr == ipaddress(10.1.2.3)");
         AssertMatch(session, row, "Addr CONTAINS ipaddress(1.2)");
