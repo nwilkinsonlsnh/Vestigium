@@ -42,7 +42,7 @@ public sealed class KqlFullCoverageTests
         using var session = Session();
         Assert.True(KqlHelper.Compile("Flag AND Name == \"a\"", session).Ok);
         Assert.True(KqlHelper.Compile("Flag OR Name == \"a\"", session).Ok);
-        Assert.True(KqlHelper.Compile("Name hello", session).Ok);
+        Assert.True(KqlHelper.Compile("Name \"hello\"", session).Ok);
         Assert.True(KqlHelper.Compile("Count 5", session).Ok);
         Assert.True(KqlHelper.Compile("Flag true", session).Ok);
         Assert.True(KqlHelper.Compile("Name BEGINS WITH \"a\"", session).Ok);
