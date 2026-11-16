@@ -44,9 +44,9 @@ public sealed class ThemeManagerTests
     [Fact]
     public void Initialize_switch_and_unload_round_trip()
     {
-        var app = Application.Current ?? throw new InvalidOperationException("Test host did not create the WPF Application.");
-        app.Dispatcher.Invoke(() =>
+        PackScheme.OnApplication(() =>
         {
+            var app = Application.Current!;
             var manager = new ThemeManager();
             Assert.Throws<ThemeLoadException>(() => manager.Initialize(app));
 

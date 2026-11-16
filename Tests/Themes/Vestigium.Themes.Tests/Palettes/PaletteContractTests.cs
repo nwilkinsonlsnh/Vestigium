@@ -11,12 +11,15 @@ public sealed class PaletteContractTests
     [MemberData(nameof(Palettes))]
     public void Each_shipped_palette_satisfies_the_key_contract(ThemeDefinition theme)
     {
-        var dictionary = new ResourceDictionary { Source = theme.ResourceUri };
-        ThemeContractValidator.Validate(dictionary);
+        PackScheme.OnApplication(() =>
+        {
+            var dictionary = new ResourceDictionary { Source = theme.ResourceUri };
+            ThemeContractValidator.Validate(dictionary);
 
-        Assert.Equal(theme.Id, dictionary[ThemeResourceKeys.ThemeId]);
-        Assert.Equal(theme.DisplayName, dictionary[ThemeResourceKeys.ThemeDisplayName]);
-        Assert.Equal(theme.IsDark, dictionary[ThemeResourceKeys.ThemeIsDark]);
-        Assert.Equal(ThemeResourceKeys.ContractVersion, dictionary[ThemeResourceKeys.ThemeVersion]);
+            Assert.Equal(theme.Id, dictionary[ThemeResourceKeys.ThemeId]);
+            Assert.Equal(theme.DisplayName, dictionary[ThemeResourceKeys.ThemeDisplayName]);
+            Assert.Equal(theme.IsDark, dictionary[ThemeResourceKeys.ThemeIsDark]);
+            Assert.Equal(ThemeResourceKeys.ContractVersion, dictionary[ThemeResourceKeys.ThemeVersion]);
+        });
     }
 }
