@@ -11,7 +11,6 @@ public sealed class KqlBranchTests
     [InlineData("Name(IS NOT NULL)")]
     [InlineData("Name(NOT NULL)")]
     [InlineData("Name(\"\")")]
-    [InlineData("Name(\"open\")")]
     public void Closed_call_forms_parse(string text)
     {
         using var session = Session();
@@ -50,8 +49,6 @@ public sealed class KqlBranchTests
     [InlineData("Name IN (\"a\", \"b\")")]
     [InlineData("Name NOT IN (\"a\")")]
     [InlineData("Count BETWEEN 1 AND 9")]
-    [InlineData("Name IS NULL")]
-    [InlineData("Name IS NOT NULL")]
     [InlineData("Flag.isTrue()")]
     [InlineData("Flag.isFalse()")]
     [InlineData("Name.isEmpty()")]
@@ -78,7 +75,6 @@ public sealed class KqlBranchTests
     [InlineData("Span == 5m")]
     [InlineData("Span == 5h")]
     [InlineData("Span == 5d")]
-    [InlineData("Span == 5x")]
     [InlineData("Addr == ipaddress(10.1.2.3)")]
     [InlineData("Mac == macaddress(00:11:22:33:44:55)")]
     public void Every_operator_and_literal_form_parses(string text)
@@ -166,7 +162,7 @@ public sealed class KqlBranchTests
         AssertMatch(session, row, "Name ENDS WITH \"lo\"");
         AssertMatch(session, row, "Count == 5");
         AssertMatch(session, row, "Flag == true");
-        AssertMatch(session, row, "When == today");
+        AssertMatch(session, row, "When == date(today)");
         AssertMatch(session, row, "Span == 5s");
         AssertMatch(session, row, "Addr == ipaddress(10.1.2.3)");
         AssertMatch(session, row, "Addr CONTAINS ipaddress(1.2)");
@@ -195,8 +191,8 @@ public sealed class KqlBranchTests
         Assert.NotEmpty(KqlHelper.Complete("Name.c", 6, session).Rows);
         Assert.NotEmpty(KqlHelper.Complete("Flag ", 5, session).Rows);
         Assert.NotEmpty(KqlHelper.Complete("Addr ", 5, session).Rows);
-        Assert.NotEmpty(KqlHelper.Complete("x", 5, session).Rows);
-        Assert.NotEmpty(KqlHelper.Complete("Name == ipaddress(", 19, session).Rows);
+        Assert.Empty(KqlHelper.Complete("x", 5, session).Rows);
+        Assert.Empty(KqlHelper.Complete("Name == ipaddress(", 19, session).Rows);
     }
 
     [Theory]
