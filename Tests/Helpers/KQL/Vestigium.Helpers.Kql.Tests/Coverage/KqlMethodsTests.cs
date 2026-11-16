@@ -106,7 +106,7 @@ public sealed class KqlMethodsTests
         Assert.Contains("between", KqlMethods.For(KqlType.Decimal, KqlCompareAs.Stored));
         Assert.Contains("between", KqlMethods.For(KqlType.TimeSpan, KqlCompareAs.Stored));
         Assert.Contains("after", KqlMethods.For(KqlType.DateTime, KqlCompareAs.Stored));
-        Assert.Equal(new[] { "equals" }, KqlMethods.For(KqlType.IpAddress, KqlCompareAs.Stored));
+        Assert.Contains("startsWith", KqlMethods.For(KqlType.IpAddress, KqlCompareAs.Stored));
         Assert.Contains("startsWith", KqlMethods.For(KqlType.String, KqlCompareAs.IpAddress));
         Assert.Contains("startsWith", KqlMethods.For(KqlType.String, KqlCompareAs.MacAddress));
     }
