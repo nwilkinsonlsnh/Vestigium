@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -6,36 +5,49 @@ namespace Vestigium.Themes.Tests;
 
 internal static class PackScheme
 {
-    private static readonly ManualResetEventSlim Ready = new(false);
-
-    [ModuleInitializer]
-    internal static void Register()
-    {
-        if (Application.Current != null)
-        {
-            Ready.Set();
-            return;
-        }
-
-        var thread = new Thread(() =>
-        {
-            var app = new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
-            Ready.Set();
-            Dispatcher.Run();
-        });
-        thread.SetApartmentState(ApartmentState.STA);
-        thread.IsBackground = true;
-        thread.Start();
-        if (!Ready.Wait(TimeSpan.FromSeconds(10)))
-            throw new TimeoutException("WPF Application did not start.");
-    }
+    private static readonly object Gate = new();
+    private static Exception? _startError;
 
     public static void OnApplication(Action action)
     {
-        var app = Application.Current ?? throw new InvalidOperationException("WPF Application was not started.");
+        EnsureStarted();
+        var app = Application.Current ?? throw new InvalidOperationException("WPF Application was not started.", _startError);
         if (app.Dispatcher.CheckAccess())
             action();
         else
             app.Dispatcher.Invoke(action);
+    }
+
+    private static void EnsureStarted()
+    {
+        if (Application.Current != null) return;
+
+        lock (Gate)
+        {
+            if (Application.Current != null) return;
+
+            using var ready = new ManualResetEventSlim(false);
+            var thread = new Thread(() =>
+            {
+                try
+                {
+                    var app = new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
+                    ready.Set();
+                    Dispatcher.Run();
+                }
+                catch (Exception ex)
+                {
+                    _startError = ex;
+                    ready.Set();
+                }
+            });
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.IsBackground = true;
+            thread.Start();
+            if (!ready.Wait(TimeSpan.FromSeconds(15)))
+                throw new TimeoutException("WPF Application did not start.");
+            if (_startError is not null)
+                throw new InvalidOperationException("WPF Application failed to start.", _startError);
+        }
     }
 }
