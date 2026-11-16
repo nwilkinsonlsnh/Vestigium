@@ -59,7 +59,7 @@ public sealed class ActiveSetupKqlTests
     [InlineData("setup.pending == true")]
     [InlineData("setup.displayname LIKE '%Test%'")]
     [InlineData("setup.isX64 == false")]
-    [InlineData("setup.stubpath.contains(powershell)")]
+    [InlineData("setup.stubpath.contains(\"powershell\")")]
     public void Compile_Accepts_Known_Fields(string text)
     {
         using var session = ActiveSetupKql.Components();
