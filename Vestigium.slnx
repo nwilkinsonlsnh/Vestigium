@@ -69,8 +69,6 @@
   </Folder>
   <Folder Name="/Logging/">
     <Project Path="Logging/Vestigium.Logging/Vestigium.Logging.csproj" />
-    <Project Path="Logging/Vestigium.Logging.Tests/Vestigium.Logging.Tests.csproj" />
-    <Project Path="Logging/Vestigium.Logging.Demo/Vestigium.Logging.Demo.csproj" />
   </Folder>
   <Folder Name="/Suite/" />
   <Folder Name="/Suite/CLI/" />
@@ -82,6 +80,9 @@
   <Folder Name="/Tests/" />
   <Folder Name="/Tests/Converters/">
     <Project Path="Tests/Converters/Vestigium.Converters.Tests/Vestigium.Converters.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Tests/Logging/">
+    <Project Path="Tests/Logging/Vestigium.Logging.Tests/Vestigium.Logging.Tests.csproj" />
   </Folder>
   <Folder Name="/Tests/Themes/">
     <Project Path="Tests/Themes/Vestigium.Themes.Tests/Vestigium.Themes.Tests.csproj" />

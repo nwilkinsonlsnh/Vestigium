@@ -20,6 +20,6 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Vestigium.Logging\Vestigium.Logging.csproj" />
+		<ProjectReference Include="..\..\..\Logging\Vestigium.Logging\Vestigium.Logging.csproj" />
 	</ItemGroup>
 </Project>
