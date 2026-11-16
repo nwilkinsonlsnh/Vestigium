@@ -141,7 +141,8 @@ public sealed class KqlBranchTests
         ]);
         Assert.True(KqlHelper.Compile("Status == open", session).Ok);
         Assert.False(KqlHelper.Compile("Status == other", session).Ok);
-        Assert.True(KqlHelper.Compile("Status == true", session).Ok || true);
+        Assert.True(KqlHelper.Compile("Status(open)", session).Ok);
+        Assert.False(KqlHelper.Compile("Status(other)", session).Ok);
     }
 
     [Fact]
@@ -176,6 +177,29 @@ public sealed class KqlBranchTests
         AssertMatch(session, row, "NOT (Count == 0)");
         AssertMatch(session, row, "Count == 5 AND Name CONTAINS \"he\"");
         AssertMatch(session, row, "Count == 0 OR Name == \"hello\"");
+    }
+
+    [Fact]
+    public void Evaluator_hits_conversion_and_null_branches()
+    {
+        using var session = Session();
+        var row = new KqlFixtureRow(session)
+            .Set("Name", "hello")
+            .Set("Count", 5)
+            .Set("Flag", true)
+            .Set("When", "2026-11-15")
+            .Set("Span", "5s")
+            .Set("Addr", "10.1.2.3")
+            .Set("Mac", "001122334455");
+
+        AssertMatch(session, row, "Flag == true");
+        AssertMatch(session, row, "Flag == yes");
+        AssertMatch(session, row, "When == \"2026-11-15\"");
+        AssertMatch(session, row, "Span == 5s");
+        AssertMatch(session, row, "Count == 5");
+        AssertMatch(session, row, "Name.isEmpty()");
+        AssertMatch(session, row, "Flag.isTrue()");
+        AssertMatch(session, row, "Flag.isFalse()");
     }
 
     [Fact]
