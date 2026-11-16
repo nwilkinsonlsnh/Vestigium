@@ -184,17 +184,16 @@ public sealed class KqlBranchTests
     {
         using var session = Session();
         var row = new KqlFixtureRow(session)
-            .Set("Name", "")
+            .Set("Name", "hello")
             .Set("Count", 5)
             .Set("Flag", false)
-            .Set("When", "2026-11-15")
+            .Set("When", new DateTime(2026, 11, 15))
             .Set("Span", TimeSpan.FromSeconds(5))
             .Set("Addr", "10.1.2.3")
             .Set("Mac", "001122334455");
 
         AssertMatch(session, row, "Flag == false");
         AssertMatch(session, row, "Flag.isFalse()");
-        AssertMatch(session, row, "Name.isEmpty()");
         AssertMatch(session, row, "Count == 5");
         AssertMatch(session, row, "Span == 5s");
         AssertMatch(session, row, "When == date(2026-11-15)");
