@@ -201,10 +201,16 @@ internal static class IcmpTraceEngine
         }
 
         IReadOnlyList<IcmpTraceHop> named = hops;
-        if (!token.IsCancellationRequested)
-            named = await HopPtr.FillTraceAsync(hops, token).ConfigureAwait(false);
-        if (hybrid && options.SecondPass && !token.IsCancellationRequested)
-            named = await FillSilentAsync(named, probeTarget, buffer, timeoutMs, protocol, options, token).ConfigureAwait(false);
+        try
+        {
+            if (!token.IsCancellationRequested)
+                named = await HopPtr.FillTraceAsync(hops, token).ConfigureAwait(false);
+            if (hybrid && options.SecondPass && !token.IsCancellationRequested)
+                named = await FillSilentAsync(named, probeTarget, buffer, timeoutMs, protocol, options, token).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+        }
 
         var status = DecideStatus(token.IsCancellationRequested, reached, named);
         var line = $"{status} trace job={jobId} target={target} hops={named.Count} reached={reached} protocol={protocol}";
