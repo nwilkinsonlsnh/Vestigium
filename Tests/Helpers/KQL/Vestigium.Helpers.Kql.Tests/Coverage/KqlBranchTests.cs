@@ -152,7 +152,7 @@ public sealed class KqlBranchTests
             .Set("Name", "hello")
             .Set("Count", 5L)
             .Set("Flag", true)
-            .Set("When", new DateTimeOffset(2026, 11, 15, 0, 0, 0, TimeSpan.Zero))
+            .Set("When", new DateTime(2026, 11, 15))
             .Set("Span", TimeSpan.FromSeconds(5))
             .Set("Addr", "10.1.2.3")
             .Set("Mac", "00:11:22:33:44:55");
