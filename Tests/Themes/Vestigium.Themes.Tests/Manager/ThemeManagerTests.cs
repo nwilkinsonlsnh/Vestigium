@@ -32,13 +32,12 @@ public sealed class ThemeManagerTests
     }
 
     [Fact]
-    public void Switch_before_register_is_an_unknown_theme()
+    public void Switch_before_initialize_has_no_application()
     {
-        // The test host owns one Application, so RequireApplication succeeds.
-        // An id that was never registered is a load failure, not a missing app.
         var manager = new ThemeManager();
         Assert.Throws<ArgumentException>(() => manager.SwitchTheme(" "));
-        Assert.Throws<ThemeLoadException>(() => manager.SwitchTheme("LightBlue"));
+        Assert.Throws<InvalidOperationException>(() => manager.SwitchTheme("LightBlue"));
+        Assert.Throws<InvalidOperationException>(() => manager.Unload());
     }
 
     [Fact]

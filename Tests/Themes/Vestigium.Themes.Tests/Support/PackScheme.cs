@@ -1,3 +1,5 @@
+using System.IO.Packaging;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -7,6 +9,13 @@ internal static class PackScheme
 {
     private static readonly object Gate = new();
     private static Exception? _startError;
+
+    [ModuleInitializer]
+    internal static void RegisterScheme()
+    {
+        // Registers pack:// with the URI parser. Does not start WPF and does not wait on another thread.
+        _ = PackUriHelper.UriSchemePack;
+    }
 
     public static void OnApplication(Action action)
     {
@@ -31,7 +40,7 @@ internal static class PackScheme
             {
                 try
                 {
-                    var app = new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
+                    new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
                     ready.Set();
                     Dispatcher.Run();
                 }
