@@ -40,3 +40,11 @@ What this release does not do.
 ## 6. Path
 
 Order of work, and which library or host it lands in.
+
+## 7. Revision History
+
+Add a row when this file changes. Do not bump the release. The folder name is the release.
+
+| Revision | Date | Author | Description |
+|---|---|---|---|
+| 1 | | | Initial draft. |
