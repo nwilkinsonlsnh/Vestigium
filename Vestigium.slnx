@@ -12,6 +12,9 @@
     <Project Path="Controls/Vestigium.Controls.UnderConstruction/Vestigium.Controls.UnderConstruction.csproj" />
     <Project Path="Controls/Vestigium.Controls.ThemeLab/Vestigium.Controls.ThemeLab.csproj" />
   </Folder>
+  <Folder Name="/Converters/">
+    <Project Path="Converters/Vestigium.Converters/Vestigium.Converters.csproj" />
+  </Folder>
   <Folder Name="/Helpers/" />
   <Folder Name="/Helpers/Analytics/">
     <Project Path="Helpers/Analytics/Vestigium.Helpers.Analytics/Vestigium.Helpers.Analytics.csproj" />
@@ -77,6 +80,9 @@
   <Folder Name="/Suite/WPF/Network/" />
   <Folder Name="/Suite/WPF/Windows/" />
   <Folder Name="/Tests/" />
+  <Folder Name="/Tests/Converters/">
+    <Project Path="Tests/Converters/Vestigium.Converters.Tests/Vestigium.Converters.Tests.csproj" />
+  </Folder>
   <Folder Name="/Tests/Themes/">
     <Project Path="Tests/Themes/Vestigium.Themes.Tests/Vestigium.Themes.Tests.csproj" />
   </Folder>
