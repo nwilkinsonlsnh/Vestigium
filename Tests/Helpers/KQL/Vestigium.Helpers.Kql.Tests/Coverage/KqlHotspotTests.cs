@@ -148,8 +148,10 @@ public sealed class KqlHotspotTests
 
     private static KqlSession Session()
         => KqlHelper.Create(
+        [
             KqlField.Create("Name", KqlType.String, ["Title"]),
             KqlField.Create("Count", KqlType.Integer),
             KqlField.Create("Flag", KqlType.Boolean),
-            KqlField.Create("When", KqlType.DateTime));
+            KqlField.Create("When", KqlType.DateTime)
+        ]);
 }
