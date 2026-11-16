@@ -54,15 +54,52 @@ public sealed class AppMgmtCoverageTests
     }
 
     [Fact]
+    public void Footprints_Adapter_Covers_RefCount_Present_And_Absent()
+    {
+        using var session = AppMgmtKql.Footprints();
+
+        var withCount = new FootprintsFacts
+        {
+            Kind = "Registry",
+            Name = "HKCU\\Software\\App",
+            Path = "Software\\App",
+            Scope = "User",
+            RefCount = 3,
+            Package = "Pkg.1"
+        };
+
+        var rowWith = FootprintsAdapter.ToRow(session, withCount);
+        Assert.Equal("Registry", rowWith.Get("footprint.kind").Raw);
+        Assert.Equal(3, rowWith.Get("footprint.refcount").Raw);
+
+        var withoutCount = new FootprintsFacts
+        {
+            Kind = "File",
+            Name = "app.exe",
+            Path = "C:\\app.exe",
+            Scope = "Machine",
+            RefCount = null,
+            Package = "Pkg.2"
+        };
+
+        var rowWithout = FootprintsAdapter.ToRow(session, withoutCount);
+        Assert.Equal("File", rowWithout.Get("footprint.kind").Raw);
+        Assert.Throws<KeyNotFoundException>(() => rowWithout.Get("footprint.refcount"));
+    }
+
+    [Fact]
     public void Bloatware_And_Feature_Reject_Nulls()
     {
         using var bloat = AppMgmtKql.Bloatware();
         using var feat = AppMgmtKql.Features();
+        using var foot = AppMgmtKql.Footprints();
 
         Assert.Throws<ArgumentNullException>(() => BloatwareAdapter.ToRow(null!, new BloatwareFacts()));
         Assert.Throws<ArgumentNullException>(() => BloatwareAdapter.ToRow(bloat, null!));
         Assert.Throws<ArgumentNullException>(() => FeatureAdapter.ToRow(null!, new FeatureFacts()));
         Assert.Throws<ArgumentNullException>(() => FeatureAdapter.ToRow(feat, null!));
+        Assert.Throws<ArgumentNullException>(() => FootprintsAdapter.ToRow(null!, new FootprintsFacts()));
+        Assert.Throws<ArgumentNullException>(() => FootprintsAdapter.ToRow(foot, null!));
     }
 
     [Theory]
@@ -70,14 +107,18 @@ public sealed class AppMgmtCoverageTests
     [InlineData("bloat.name LIKE '%Candy%'")]
     [InlineData("feature.IsEnabled == true")]
     [InlineData("feature.caption LIKE '%Hyper%'")]
+    [InlineData("footprint.kind == Registry")]
     public void Bloatware_And_Feature_Compile(string text)
     {
         using var bloat = AppMgmtKql.Bloatware();
         using var feat = AppMgmtKql.Features();
+        using var foot = AppMgmtKql.Footprints();
 
         if (text.StartsWith("bloat."))
             Assert.True(KqlHelper.Compile(text, bloat).Ok);
-        else
+        else if (text.StartsWith("feature."))
             Assert.True(KqlHelper.Compile(text, feat).Ok);
+        else
+            Assert.True(KqlHelper.Compile(text, foot).Ok);
     }
 }
