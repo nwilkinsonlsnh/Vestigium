@@ -11,9 +11,11 @@ Tests land in `Tests/Logging/Vestigium.Logging.Tests`. No new test project. A st
 | PR01a.05 | Start and end markers appear in the host log with both correlation ids and the Mini file path. | [ ] |
 | PR01a.06 | Default uses host catalog. Opt-in overlay is visible only to that Mini. | [ ] |
 | PR01a.07 | Host not initialized: Mini runs and writes a warning line into its own file. No throw. | [ ] |
-| PR01a.08 | Dispose flushes, writes end marker when host is running, writes trailer when sealing is enabled. Does not start disk trip, janitor, or archive. | [ ] |
+| PR01a.08 | Dispose flushes, writes end marker when host is running, writes trailer when sealing is enabled. | [ ] |
+| PR01a.09 | Mini janitor deletes only its own aged parts. Application log is untouched. Host janitor does not delete Mini files. | [ ] |
+| PR01a.10 | Two Mini instances against one AppId do not share file, flood, correlation, or janitor state. | [ ] |
 
 ## Not covered
 
-- Disk-space trip, janitor, and archive behavior for Mini (host concerns).
+- Archive of Mini files.
 - Live tail.
