@@ -4,7 +4,7 @@ Add a revision row to each document. Do not bump the revision until the change i
 
 | Step | Document | Action | Done |
 |---|---|---|---|
-| PR02a.01–03 | `DesignSpec-Rev-1a.md` | Add Mini tripwire, sealing, and archive seal gate. | [ ] |
-| PR02a.04–05 | `DesignSpec-Rev-1a.md` | Add Mini Head/Tail and queue visibility. | [ ] |
-| PR02a.06–07 | `Requirements-Rev1a.md` | Add uncatalogued hint and caps. | [ ] |
-| all | `Logging/Vestigium.Logging/README.md` | Note the symmetry features once accepted. | [ ] |
+| PR02c.01 | `DesignSpec-Rev-1a.md` | Add Mini tripwire, sealing, and archive seal gate. | [ ] |
+| PR02c.02 | `DesignSpec-Rev-1a.md` | Add Mini Head/Tail and queue visibility. | [ ] |
+| PR02c.03 | `Requirements-Rev1a.md` | Add uncatalogued hint and caps. | [ ] |
+| PR02c.04 | `Logging/Vestigium.Logging/README.md` | Note the symmetry features once accepted. | [ ] |

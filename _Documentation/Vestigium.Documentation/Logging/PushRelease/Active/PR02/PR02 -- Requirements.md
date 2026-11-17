@@ -34,7 +34,7 @@ PR01 gives Mini its own file, flood, janitor, and archive. Without the tripwire 
 
 ## 5. Path
 
-Steps live in the tables inside `PR02a`, `PR02b`, and `PR02c`. Do not create a file per step.
+Steps live in the tables inside `PR02a`, `PR02b`, and `PR02c`. Each slice uses its own prefix (`PR02a`, `PR02b`, `PR02c`). Do not create a file per step.
 
 | Step | Delivers | Requirements |
 |---|---|---|

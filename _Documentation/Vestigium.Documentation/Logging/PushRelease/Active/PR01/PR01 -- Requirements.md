@@ -40,7 +40,7 @@ The current writer names files `vestigium-{appId}-{yyyyMMdd}.json`. A new file a
 
 ## 5. Path
 
-Steps live in the tables inside `PR01a`, `PR01b`, and `PR01c`. Do not create a file per step. A step is done when its row is checked in all three.
+Steps live in the tables inside `PR01a`, `PR01b`, and `PR01c`. Each slice uses its own prefix (`PR01a`, `PR01b`, `PR01c`). Do not create a file per step. A step is done when its row is checked in all three.
 
 | Step | Delivers | Requirements |
 |---|---|---|
