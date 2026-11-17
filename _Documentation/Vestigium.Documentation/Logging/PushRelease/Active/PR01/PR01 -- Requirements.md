@@ -36,19 +36,31 @@ The current writer names files `vestigium-{appId}-{yyyyMMdd}.json`. A new file a
 - [x] `PR01b -- TestSuite.md` — what proves it
 - [x] `PR01c -- Documentation.md` — requirements and design updates
 
-## 5. Out of scope
+## 5. Path
+
+Work is step-based. Each step is a file under `PR01a`. A step is done when its file is filled and its tests exist. Do not implement the release in one pass.
+
+| Step | File | Delivers | Requirements |
+|---|---|---|---|
+| 01 | `PR01a.01 -- IdValidation.md` | AppId and MiniId rules | R-06 |
+| 02 | `PR01a.02 -- FileLayout.md` | Size-based names and rotation | R-05, R-07 |
+| 03 | `PR01a.03 -- MiniInstance.md` | Instanced type, own file, own flood | R-01, R-02, R-03 |
+| 04 | `PR01a.04 -- Correlation.md` | Application and Mini correlation ids | R-04 |
+| 05 | `PR01a.05 -- Markers.md` | Automatic start and end markers | R-08 |
+| 06 | `PR01a.06 -- Catalog.md` | Host catalog default, optional overlay | R-09 |
+| 07 | `PR01a.07 -- Standalone.md` | Runs when host is not initialized | R-10 |
+| 08 | `PR01a.08 -- Dispose.md` | Flush, trailer, end marker, no host services | R-11, R-12 |
+
+## 6. Out of scope
 
 - Changing the host to a multi-instance model.
 - Automatic janitor or archive on Mini dispose.
 - Live tail of a Mini file.
 - A separate NuGet package for Mini.
 
-## 6. Path
-
-Work lands in `Vestigium.Logging`. Tests land in `Tests/Logging/Vestigium.Logging.Tests`. Requirements and design specs under `_Documentation/Vestigium.Documentation/Logging/Application` gain a revision row. No package version bump until the change is accepted.
-
 ## 7. Revision History
 
 | Revision | Date | Author | Description |
 |---|---|---|---|
 | 1 | 2026-11-16 | Vestigium | Initial draft from Mini brainstorm. |
+| 2 | 2026-11-16 | Vestigium | Split implementation into PR01a.01–PR01a.08. |
