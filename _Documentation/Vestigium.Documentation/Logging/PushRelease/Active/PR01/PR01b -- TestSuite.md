@@ -14,8 +14,8 @@ Tests land in `Tests/Logging/Vestigium.Logging.Tests`. No new test project. A st
 | PR01a.08 | Dispose flushes, writes end marker when host is running, writes trailer when sealing is enabled. | [ ] |
 | PR01a.09 | Mini janitor deletes only its own aged parts. Application log is untouched. Host janitor does not delete Mini files. | [ ] |
 | PR01a.10 | Two Mini instances against one AppId do not share file, flood, correlation, or janitor state. | [ ] |
+| PR01a.11 | Mini archive copies only its own aged parts, writes a SHA256 sidecar, deletes the source, and leaves the application log untouched. Disabled by default. | [ ] |
 
 ## Not covered
 
-- Archive of Mini files.
 - Live tail.

@@ -30,6 +30,7 @@ The current writer names files `vestigium-{appId}-{yyyyMMdd}.json`. A new file a
 | R-11 | Dispose flushes, writes a seal/trailer if sealing is enabled for that Mini, and writes the end marker to the main log if the host is running. |
 | R-12 | Mini has its own janitor subscription. Retention age and count for a Mini are independent of the application log. The host janitor does not touch Mini files, and the Mini janitor does not touch the application log. |
 | R-13 | Multiple Mini instances may run at the same time against the same AppId. Each owns its file, flood tracker, correlation, and janitor. |
+| R-14 | Mini archive is opt-in and separate from the application log archive. `MiniArchiveEnabled` plus `MiniArchiveDirectory` required. Off by default. Copies aged Mini parts, writes a SHA256 sidecar, deletes the source. Does not touch the application log. |
 
 ## 4. Slices
 
@@ -53,12 +54,12 @@ Steps live in the tables inside `PR01a`, `PR01b`, and `PR01c`. Do not create a f
 | PR01a.08 | Flush, trailer, end marker | R-11 |
 | PR01a.09 | Mini janitor, separate from the application log | R-12 |
 | PR01a.10 | Multiple Mini instances against one AppId | R-13 |
+| PR01a.11 | Mini archive, opt-in, separate from the application log | R-14 |
 
 ## 6. Out of scope
 
 - Live tail of a Mini file.
 - A separate NuGet package for Mini.
-- Archive of Mini files (janitor only in this release).
 
 ## 7. Revision History
 
@@ -67,3 +68,4 @@ Steps live in the tables inside `PR01a`, `PR01b`, and `PR01c`. Do not create a f
 | 1 | 2026-11-16 | Vestigium | Initial draft from Mini brainstorm. |
 | 2 | 2026-11-16 | Vestigium | Steps are rows in PR01a, PR01b, and PR01c. No file per step. |
 | 3 | 2026-11-16 | Vestigium | Mini janitor is its own subscription. Multiple Mini instances are in scope. |
+| 4 | 2026-11-16 | Vestigium | Mini archive is opt-in and separate, matching the host archive. |

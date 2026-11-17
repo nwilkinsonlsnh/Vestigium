@@ -14,9 +14,9 @@ Steps live in this table. Do not create a file per step. Check a row when that s
 | PR01a.08 | Dispose flushes, writes trailer if sealing is enabled, writes end marker if host is running. | R-11 | [ ] |
 | PR01a.09 | Mini janitor subscription. Own retention age and count. Does not touch the application log. Host janitor does not touch Mini files. | R-12 | [ ] |
 | PR01a.10 | Multiple Mini instances may run against the same AppId. Each has its own file, flood, correlation, and janitor. | R-13 | [ ] |
+| PR01a.11 | Mini archive opt-in. `MiniArchiveEnabled` + `MiniArchiveDirectory`. Copies aged Mini parts, writes SHA256 sidecar, deletes source. Does not touch the application log. | R-14 | [ ] |
 
 ## Out of scope
 
 - Live tail of a Mini file.
 - Separate package.
-- Archive of Mini files (janitor only in this release).
