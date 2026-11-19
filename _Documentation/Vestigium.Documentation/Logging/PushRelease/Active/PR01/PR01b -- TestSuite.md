@@ -4,7 +4,7 @@ Tests land in `Tests/Logging/Vestigium.Logging.Tests`. No new test project. A st
 
 | Step | Proves | Done |
 |---|---|---|
-| PR01b.01 | Fewer than 4 letters rejected. Pure-digit rejected. Mixed (`0AB1C2D`) accepted. | [ ] |
+| PR01b.01 | Fewer than 4 letters rejected. Pure-digit rejected. Mixed (`0AB1C2D`) accepted. | [x] |
 | PR01b.02 | Rolls to `.001`, `.002` on size. No date in the name. Highest under-limit part reopened. | [ ] |
 | PR01b.03 | Mini writes only to its own file. Own flood does not affect host or other Mini instances. | [ ] |
 | PR01b.04 | Application correlation id and Mini correlation id appear on every Mini line. | [ ] |

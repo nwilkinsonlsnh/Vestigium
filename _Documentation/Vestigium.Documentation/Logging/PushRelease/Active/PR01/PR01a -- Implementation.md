@@ -4,7 +4,7 @@ Steps live in this table. Do not create a file per step. Check a row when that s
 
 | Step | Delivers | Requirements | Done |
 |---|---|---|---|
-| PR01a.01 | AppId and MiniId rules. At least 4 letters, digits allowed, pure-digit rejected. Throws on failure. | R-06 | [ ] |
+| PR01a.01 | AppId and MiniId rules. At least 4 letters, digits allowed, pure-digit rejected. Throws on failure. | R-06 | [x] |
 | PR01a.02 | Size-based names under `%ProgramData%\Vestigium\Logging\<AppId>\`. Main `<AppId>.jsonl`, Mini `<AppId>.<MiniId>.jsonl`. Rolled `.001`, `.002`. Highest under-limit part reopened. No date. | R-05, R-07 | [ ] |
 | PR01a.03 | Instanced `VestigiumLoggerMini`. Own file, own flood tracker. Host lines never in Mini file. | R-01, R-02, R-03 | [ ] |
 | PR01a.04 | Application correlation id (caller) and Mini correlation id (generated or accepted) on every Mini line. | R-04 | [ ] |

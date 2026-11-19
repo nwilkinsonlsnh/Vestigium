@@ -27,8 +27,7 @@ public static partial class VestigiumLogger
         ArgumentNullException.ThrowIfNull(configure);
         var options = new VestigiumLoggerOptions();
         configure(options);
-        if (string.IsNullOrWhiteSpace(options.AppId))
-            throw new ArgumentException("AppId is required.", nameof(configure));
+        LogId.Validate(options.AppId, nameof(options.AppId));
         lock (Gate)
         {
             _host?.Dispose();
