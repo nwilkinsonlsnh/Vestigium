@@ -5,7 +5,7 @@ public sealed class ArchiveThrownCoverageTests : IDisposable
 {
     private readonly string _logs = Path.Combine(Path.GetTempPath(), "vestigium-at-" + Guid.NewGuid().ToString("N"));
     private readonly string _arc = Path.Combine(Path.GetTempPath(), "vestigium-ata-" + Guid.NewGuid().ToString("N"));
-    private readonly string _key = Path.Combine(Path.GetTempPath(), "vestigium-atk", Guid.NewGuid().ToString("N"), "ring.json");
+    private readonly string _key = Path.Combine(Path.GetTempPath(), "vestigium-atk", Guid.NewGuid().ToString("N"), "ring.jsonl");
     private readonly string _custom = Path.Combine(Path.GetTempPath(), "vestigium-atc-" + Guid.NewGuid().ToString("N"));
 
     public ArchiveThrownCoverageTests()
@@ -26,9 +26,9 @@ public sealed class ArchiveThrownCoverageTests : IDisposable
             cfg.LogSealKeyPath = _key;
             cfg.OperationsLogEnabled = false;
         });
-        var plain = Path.Combine(_logs, "vestigium-PingIQ-20200101.json");
+        var plain = Path.Combine(_logs, "PingIQ.20200101.jsonl");
         File.WriteAllText(plain, "{\"EVENTID\":1}\n");
-        var sealedFile = Path.Combine(_logs, "vestigium-PingIQ-20200102.json");
+        var sealedFile = Path.Combine(_logs, "PingIQ.20200102.jsonl");
         File.WriteAllText(sealedFile, "{\"EVENTID\":1}\n");
         var ring = VestigiumSealKeyRing.Open(_key);
         var bytes = File.ReadAllBytes(sealedFile);
@@ -44,9 +44,9 @@ public sealed class ArchiveThrownCoverageTests : IDisposable
     [Fact]
     public void ArchiveIoExceptionCountsFailed()
     {
-        var file = Path.Combine(_logs, "vestigium-PingIQ-20200101.json");
+        var file = Path.Combine(_logs, "PingIQ.20200101.jsonl");
         File.WriteAllText(file, "{}\n");
-        Directory.CreateDirectory(Path.Combine(_arc, "vestigium-PingIQ-20200101.json"));
+        Directory.CreateDirectory(Path.Combine(_arc, "PingIQ.20200101.jsonl"));
         var result = VestigiumLogArchive.ArchiveOlderThan(TimeSpan.FromDays(1), _arc, _logs, "PingIQ");
         Assert.True(result.Failed >= 1);
     }
@@ -54,7 +54,7 @@ public sealed class ArchiveThrownCoverageTests : IDisposable
     [Fact]
     public void ArchiveHashMismatchReturnsFalse()
     {
-        var file = Path.Combine(_logs, "vestigium-PingIQ-20200101.json");
+        var file = Path.Combine(_logs, "PingIQ.20200101.jsonl");
         File.WriteAllText(file, "{}\n");
         VestigiumLogArchive.HashOverride = path =>
             path.StartsWith(_arc, StringComparison.OrdinalIgnoreCase) ? "DEADBEEF" : "OKHASH";

@@ -8,7 +8,7 @@ public sealed class LogSealTests : IDisposable
 {
     private readonly string _logs = Path.Combine(Path.GetTempPath(), "vestigium-log-tests", Guid.NewGuid().ToString("N"));
     private readonly string _ops = Path.Combine(Path.GetTempPath(), "vestigium-ops-" + Guid.NewGuid().ToString("N"));
-    private readonly string _key = Path.Combine(Path.GetTempPath(), "vestigium-keys", Guid.NewGuid().ToString("N"), "ring.json");
+    private readonly string _key = Path.Combine(Path.GetTempPath(), "vestigium-keys", Guid.NewGuid().ToString("N"), "ring.jsonl");
 
     public LogSealTests()
     {
@@ -32,7 +32,7 @@ public sealed class LogSealTests : IDisposable
         VestigiumLogger.Flush();
         VestigiumLogger.Shutdown();
 
-        var file = Directory.GetFiles(_logs, "vestigium-PingIQ-*.json").Single();
+        var file = Directory.GetFiles(_logs, "PingIQ.*.jsonl").Single();
         var lines = File.ReadAllLines(file);
         Assert.Contains("VESTIGIUM_TRAILER", lines[^1]);
         using var doc = JsonDocument.Parse(lines[^1]);

@@ -9,8 +9,8 @@ public sealed class SealBranchTests : IDisposable
     [Fact]
     public void PeeledLineWithoutTrailerKeyIsNoTrailer()
     {
-        var ring = VestigiumSealKeyRing.Open(Path.Combine(_dir, "ring.json"));
-        var path = Path.Combine(_dir, "looks-like.json");
+        var ring = VestigiumSealKeyRing.Open(Path.Combine(_dir, "ring.jsonl"));
+        var path = Path.Combine(_dir, "looks-like.jsonl");
         File.WriteAllText(path, "{\"EVENTID\":1}\n{\"note\":\"VESTIGIUM_TRAILER\"}\n");
         Assert.Equal(VestigiumSealVerifyResult.NoTrailer, VestigiumLogSeal.Verify(path, ring).Result);
     }
@@ -18,11 +18,11 @@ public sealed class SealBranchTests : IDisposable
     [Fact]
     public void LineCountMissingAndNonInteger()
     {
-        var ring = VestigiumSealKeyRing.Open(Path.Combine(_dir, "ring.json"));
+        var ring = VestigiumSealKeyRing.Open(Path.Combine(_dir, "ring.jsonl"));
         var content = "{\"EVENTID\":1}\n"u8.ToArray();
         var hash = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(content));
         var sig = Convert.ToBase64String(ring.Sign(content));
-        var noCount = Path.Combine(_dir, "nocount.json");
+        var noCount = Path.Combine(_dir, "nocount.jsonl");
         File.WriteAllText(noCount,
             "{\"EVENTID\":1}\n{\"VESTIGIUM_TRAILER\":1,\"KeyId\":\"" + ring.KeyId +
             "\",\"ContentSha256\":\"" + hash + "\",\"Sig\":\"" + sig + "\"}\n");
@@ -30,7 +30,7 @@ public sealed class SealBranchTests : IDisposable
         Assert.Equal(VestigiumSealVerifyResult.Valid, ok.Result);
         Assert.Null(ok.LineCount);
 
-        var badCount = Path.Combine(_dir, "badcount.json");
+        var badCount = Path.Combine(_dir, "badcount.jsonl");
         File.WriteAllText(badCount,
             "{\"EVENTID\":1}\n{\"VESTIGIUM_TRAILER\":1,\"KeyId\":\"" + ring.KeyId +
             "\",\"ContentSha256\":\"" + hash + "\",\"Sig\":\"" + sig + "\",\"LineCount\":\"x\"}\n");
@@ -51,11 +51,11 @@ public sealed class SealBranchTests : IDisposable
     [Fact]
     public void EmptyKeyIdSkipsMismatch()
     {
-        var ring = VestigiumSealKeyRing.Open(Path.Combine(_dir, "ring.json"));
+        var ring = VestigiumSealKeyRing.Open(Path.Combine(_dir, "ring.jsonl"));
         var content = "{\"EVENTID\":1}\n"u8.ToArray();
         var hash = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(content));
         var sig = Convert.ToBase64String(ring.Sign(content));
-        var path = Path.Combine(_dir, "emptykey.json");
+        var path = Path.Combine(_dir, "emptykey.jsonl");
         File.WriteAllText(path,
             "{\"EVENTID\":1}\n{\"VESTIGIUM_TRAILER\":1,\"KeyId\":\"\",\"ContentSha256\":\"" +
             hash + "\",\"Sig\":\"" + sig + "\"}\n");

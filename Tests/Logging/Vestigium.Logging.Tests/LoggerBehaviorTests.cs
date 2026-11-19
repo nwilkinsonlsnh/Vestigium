@@ -165,7 +165,7 @@ public sealed class LoggerBehaviorTests : IDisposable
         VestigiumLog.Information(1, VestigiumStatus.Success, "Network", "ICMP", "persist-me");
         VestigiumLogger.Flush();
 
-        var files = Directory.GetFiles(_dir, "*.json");
+        var files = Directory.GetFiles(_dir, "*.jsonl");
         Assert.NotEmpty(files);
         var contents = string.Join('\n', files.Select(ReadShared));
         Assert.Contains("persist-me", contents);
@@ -207,7 +207,7 @@ public sealed class LoggerBehaviorTests : IDisposable
         VestigiumLog.Information(1, VestigiumStatus.Success, "Network", "ICMP", "memory-only");
         Assert.Contains(VestigiumLogger.RecentJsonLines, l => l.Contains("memory-only"));
         VestigiumLogger.Flush();
-        var contents = string.Join('\n', Directory.GetFiles(_dir, "*.json").Select(ReadShared));
+        var contents = string.Join('\n', Directory.GetFiles(_dir, "*.jsonl").Select(ReadShared));
         Assert.DoesNotContain("memory-only", contents);
     }
 

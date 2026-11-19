@@ -35,44 +35,37 @@ public sealed class JsonlWriterTests : IDisposable
         writer.Enqueue(new string('b', 30));
         Assert.True(writer.Flush(TimeSpan.FromSeconds(2)));
         writer.Complete();
-        var files = Directory.GetFiles(_dir, "vestigium-PingIQ-*.json");
+        var files = Directory.GetFiles(_dir, "PingIQ*.jsonl");
         Assert.True(files.Length >= 2, string.Join(',', files));
-        Assert.Contains(files, f => Path.GetFileName(f).EndsWith("-2.json", StringComparison.Ordinal));
+        Assert.Contains(files, f => Path.GetFileName(f) == "PingIQ.001.jsonl");
         var text = string.Join('\n', files.Select(File.ReadAllText));
         Assert.Contains('a', text);
         Assert.Contains('b', text);
     }
 
     [Fact]
-    public void DateRollUsesNextUtcDay()
+    public void ReopensHighestPartUnderLimit()
     {
-        var day = new DateTime(2026, 9, 17, 12, 0, 0, DateTimeKind.Utc);
-        var clock = new Clock(day);
-        using var writer = Create(clock: clock.Now);
-        writer.Enqueue("""{\"MESSAGE\":\"day1\"}""");
+        File.WriteAllText(Path.Combine(_dir, "PingIQ.jsonl"), "old\n");
+        File.WriteAllText(Path.Combine(_dir, "PingIQ.001.jsonl"), "part\n");
+        using var writer = Create();
+        writer.Enqueue("""{\"MESSAGE\":\"more\"}""");
         Assert.True(writer.Flush(TimeSpan.FromSeconds(2)));
-        var first = writer.ActivePath;
-        Assert.Contains("20260917", first);
-        clock.Utc = day.AddDays(1);
-        writer.Enqueue("""{\"MESSAGE\":\"day2\"}""");
-        Assert.True(writer.Flush(TimeSpan.FromSeconds(2)));
-        Assert.Contains("20260918", writer.ActivePath);
+        Assert.EndsWith("PingIQ.001.jsonl", writer.ActivePath);
         writer.Complete();
-        var names = Directory.GetFiles(_dir, "*.json").Select(Path.GetFileName).ToArray();
-        Assert.Contains(names, n => n!.Contains("20260917"));
-        Assert.Contains(names, n => n!.Contains("20260918"));
+        Assert.Contains("more", File.ReadAllText(Path.Combine(_dir, "PingIQ.001.jsonl")));
     }
 
     [Fact]
     public void RetentionDeletesOldest()
     {
         var now = new DateTime(2026, 9, 17, 0, 0, 0, DateTimeKind.Utc);
-        File.WriteAllText(Path.Combine(_dir, "vestigium-PingIQ-20260101.json"), "{}\n");
-        File.WriteAllText(Path.Combine(_dir, "vestigium-PingIQ-20260102.json"), "{}\n");
+        File.WriteAllText(Path.Combine(_dir, "PingIQ.001.jsonl"), "{}\n");
+        File.WriteAllText(Path.Combine(_dir, "PingIQ.002.jsonl"), "{}\n");
         using var writer = Create(retainCount: 0, clock: () => now);
         writer.Enqueue("""{\"MESSAGE\":\"keep\"}""");
         writer.Complete();
-        var leftover = Directory.GetFiles(_dir, "vestigium-PingIQ-202601*.json");
+        var leftover = Directory.GetFiles(_dir, "PingIQ.00*.jsonl");
         Assert.Empty(leftover);
     }
 

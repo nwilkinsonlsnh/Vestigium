@@ -61,7 +61,7 @@ public sealed class OperationsLogTests : IDisposable
             cfg.MinimumDiskLevel = VestigiumLogLevel.Verbose;
         });
         VestigiumLogger.Shutdown();
-        var text = string.Join('\n', Directory.EnumerateFiles(_ops, "*.json").Select(File.ReadAllText));
+        var text = string.Join('\n', Directory.EnumerateFiles(_ops, "*.jsonl").Select(File.ReadAllText));
         Assert.Contains("\"EVENTID\":5000", text);
         Assert.Contains("Engine.Start", text);
         Assert.Contains("\"EVENTID\":5005", text);
@@ -89,7 +89,7 @@ public sealed class OperationsLogTests : IDisposable
         VestigiumLogger.OverrideDiskPressure(false);
         VestigiumLogger.Flush();
         VestigiumLogger.Shutdown();
-        var text = string.Join('\n', Directory.EnumerateFiles(_ops, "*.json").Select(File.ReadAllText));
+        var text = string.Join('\n', Directory.EnumerateFiles(_ops, "*.jsonl").Select(File.ReadAllText));
         Assert.Contains("\"EVENTID\":5065", text);
         Assert.Contains("\"EVENTID\":5070", text);
         Assert.Contains("\"EVENTID\":5060", text);

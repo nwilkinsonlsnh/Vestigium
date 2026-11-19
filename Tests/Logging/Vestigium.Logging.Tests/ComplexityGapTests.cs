@@ -14,16 +14,16 @@ public sealed class ComplexityGapTests
         var shards = Path.Combine(root, "shards");
         Directory.CreateDirectory(shards);
 
-        File.WriteAllText(Path.Combine(shards, "bad.json"), "{not-json");
+        File.WriteAllText(Path.Combine(shards, "bad.jsonl"), "{not-json");
         Assert.Throws<InvalidOperationException>(() => VestigiumEventCatalog.LoadFromDirectory(root, allowCustom: true));
 
-        File.WriteAllText(Path.Combine(shards, "bad.json"), "true");
+        File.WriteAllText(Path.Combine(shards, "bad.jsonl"), "true");
         Assert.True(VestigiumEventCatalog.LoadFromDirectory(root, allowCustom: true).Count >= 15);
 
-        File.WriteAllText(Path.Combine(shards, "bad.json"), "[{\"EventId\":null,\"FullName\":\"X\"}]");
+        File.WriteAllText(Path.Combine(shards, "bad.jsonl"), "[{\"EventId\":null,\"FullName\":\"X\"}]");
         _ = VestigiumEventCatalog.LoadFromDirectory(root, allowCustom: true);
 
-        File.WriteAllText(Path.Combine(shards, "one.json"),
+        File.WriteAllText(Path.Combine(shards, "one.jsonl"),
             "{\"EventId\":10000,\"FullName\":\"App.One\",\"EventName\":\"One\",\"Category\":\"Network\",\"Subcategory\":\"ICMP\",\"Kind\":\"Custom\"}");
         Assert.True(VestigiumEventCatalog.LoadFromDirectory(root, allowCustom: true).TryGetById(10000, out _));
     }
@@ -33,7 +33,7 @@ public sealed class ComplexityGapTests
     {
         var dir = Path.Combine(Path.GetTempPath(), "vestigium-roll-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
-        File.WriteAllText(Path.Combine(dir, $"vestigium-PingIQ-{DateTime.UtcNow:yyyyMMdd}.json"), new string('a', 200) + "\n");
+        File.WriteAllText(Path.Combine(dir, $"PingIQ.{DateTime.UtcNow:yyyyMMdd}.jsonl"), new string('a', 200) + "\n");
         using var writer = new VestigiumJsonlWriter(dir, "PingIQ", fileSizeLimitBytes: 80);
         writer.Enqueue("{\"x\":1}");
         writer.Enqueue(new string('b', 100));

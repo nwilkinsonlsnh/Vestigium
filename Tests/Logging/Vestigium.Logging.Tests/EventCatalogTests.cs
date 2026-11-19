@@ -20,7 +20,7 @@ public sealed class EventCatalogTests
     {
         var root = Path.Combine(Path.GetTempPath(), "vestigium-catalog-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(Path.Combine(root, "shards"));
-        File.WriteAllText(Path.Combine(root, "shards", "system.io.json"),
+        File.WriteAllText(Path.Combine(root, "shards", "system.io.jsonl"),
             """
             [
               {

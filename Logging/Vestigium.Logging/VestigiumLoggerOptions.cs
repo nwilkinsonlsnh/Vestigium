@@ -58,7 +58,7 @@ public sealed class VestigiumLoggerOptions
         if (!string.IsNullOrWhiteSpace(LogDirectory)) return LogDirectory;
         var root = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
         if (string.IsNullOrWhiteSpace(root)) root = Path.Combine(Path.GetTempPath(), "Vestigium");
-        return Path.Combine(root, "Vestigium", "Logs", AppId);
+        return Path.Combine(root, "Vestigium", "Logging", AppId);
     }
 
     public string ResolveOperationsLogDirectory()

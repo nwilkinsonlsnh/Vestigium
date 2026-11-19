@@ -15,7 +15,7 @@ public sealed class CustomCatalogTests
     {
         var root = NewRoot();
         Directory.CreateDirectory(Path.Combine(root, "shards"));
-        File.WriteAllText(Path.Combine(root, "shards", "custom.json"),
+        File.WriteAllText(Path.Combine(root, "shards", "custom.jsonl"),
             """[{ "EventId": 10000, "EventName": "ProbeTimeout", "FullName": "PingIQ.ProbeTimeoutException", "Kind": "Custom" }]""");
         var catalog = VestigiumCustomCatalog.Open(root);
         Assert.Equal(10005, catalog.NextCustomId);
@@ -27,7 +27,7 @@ public sealed class CustomCatalogTests
     {
         var root = NewRoot();
         Directory.CreateDirectory(Path.Combine(root, "shards"));
-        File.WriteAllText(Path.Combine(root, "shards", "bad.json"),
+        File.WriteAllText(Path.Combine(root, "shards", "bad.jsonl"),
             """[{ "EventId": 2110, "EventName": "Bad", "FullName": "App.Bad" }]""");
         var ex = Assert.Throws<InvalidOperationException>(() => VestigiumCustomCatalog.Open(root));
         Assert.Contains("10000", ex.Message);

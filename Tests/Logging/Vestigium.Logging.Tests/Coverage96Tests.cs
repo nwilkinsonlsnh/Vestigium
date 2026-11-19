@@ -15,14 +15,14 @@ public sealed class Coverage96Tests : IDisposable
         Assert.Equal(0, writer.IoFaultCount);
         writer.Enqueue("{\"MESSAGE\":\"one\"}");
         writer.Flush(TimeSpan.FromSeconds(2));
-        var key = Path.Combine(_dir, "ring.json");
+        var key = Path.Combine(_dir, "ring.jsonl");
         writer.AttachSeal(VestigiumSealKeyRing.Open(key), (_, _, _) => { });
         writer.Complete();
         writer.Complete();
         writer.Enqueue("after-stop");
         writer.Dispose();
         Assert.True(writer.WrittenCount >= 1);
-        Assert.Contains("VESTIGIUM_TRAILER", File.ReadAllText(Directory.GetFiles(_dir, "vestigium-PingIQ-*.json").First()));
+        Assert.Contains("VESTIGIUM_TRAILER", File.ReadAllText(Directory.GetFiles(_dir, "PingIQ.*.jsonl").First()));
     }
 
     [Fact]
@@ -50,7 +50,7 @@ public sealed class Coverage96Tests : IDisposable
     [Fact]
     public void ArchiveHashAndZeroAge()
     {
-        var file = Path.Combine(_dir, "vestigium-PingIQ-20200101.json");
+        var file = Path.Combine(_dir, "PingIQ.20200101.jsonl");
         File.WriteAllText(file, "{}\n");
         var hash = VestigiumLogArchive.HashFile(file);
         Assert.Equal(64, hash.Length);

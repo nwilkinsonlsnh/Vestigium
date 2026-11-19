@@ -7,8 +7,8 @@ public sealed class LogJanitorTests
     {
         var dir = Path.Combine(Path.GetTempPath(), "vestigium-janitor-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
-        var oldFile = Path.Combine(dir, "vestigium-PingIQ-20200101.json");
-        var newFile = Path.Combine(dir, $"vestigium-PingIQ-{DateTime.UtcNow:yyyyMMdd}.json");
+        var oldFile = Path.Combine(dir, "PingIQ.001.jsonl");
+        var newFile = Path.Combine(dir, "PingIQ.jsonl");
         File.WriteAllText(oldFile, "{}\n");
         File.WriteAllText(newFile, "{}\n");
         var result = VestigiumLogJanitor.DeleteOlderThan(TimeSpan.FromDays(14), dir, "PingIQ");

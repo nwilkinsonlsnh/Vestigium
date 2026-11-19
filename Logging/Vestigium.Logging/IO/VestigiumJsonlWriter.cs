@@ -19,8 +19,7 @@ internal sealed partial class VestigiumJsonlWriter : IVestigiumJsonlWriter
     private int _queued, _dropped, _written, _issued, _ioFaults, _stopped, _flushGen, _flushDone;
     private FileStream? _stream;
     private StreamWriter? _writer;
-    private DateTime _fileDate;
-    private int _filePart = 1;
+    private int _filePart;
     private long _fileLength;
 
     public VestigiumJsonlWriter(string directory, string appId, long fileSizeLimitBytes = 20L * 1024 * 1024,
@@ -143,29 +142,22 @@ internal sealed partial class VestigiumJsonlWriter : IVestigiumJsonlWriter
 
     private void EnsureStream(int incomingBytes)
     {
-        var today = _clock().Date;
-        var needNewDate = _writer is null || today != _fileDate;
         var needSizeRoll = _writer is not null && _fileLength > 0 && _fileLength + incomingBytes > _sizeLimit;
-        if (!needNewDate && !needSizeRoll && _writer is not null) return;
+        if (!needSizeRoll && _writer is not null) return;
         var rolledFrom = ActivePath;
         CloseStream();
-        if (rolledFrom is not null && (needNewDate || needSizeRoll))
+        if (rolledFrom is not null && needSizeRoll)
             OpsSink?.Invoke(5010, "Log file rolled.", new Dictionary<string, string?> { ["from"] = rolledFrom });
-        RollCounters(today, needNewDate, needSizeRoll);
-        OpenAppend(incomingBytes);
-    }
-
-    private void RollCounters(DateTime today, bool needNewDate, bool needSizeRoll)
-    {
-        if (needNewDate) { _fileDate = today; _filePart = 1; ApplyRetention(); return; }
         if (needSizeRoll) { _filePart++; ApplyRetention(); }
+        OpenAppend(incomingBytes);
     }
 
     private void OpenAppend(int incomingBytes)
     {
+        if (_filePart < 1) _filePart = ResolveStartPart(incomingBytes);
         while (true)
         {
-            var path = FilePath(_fileDate, _filePart);
+            var path = FilePath(_filePart);
             var exists = File.Exists(path);
             var existingLength = exists ? new FileInfo(path).Length : 0;
             if (exists && existingLength > 0 && existingLength + incomingBytes > _sizeLimit) { _filePart++; continue; }
@@ -177,11 +169,40 @@ internal sealed partial class VestigiumJsonlWriter : IVestigiumJsonlWriter
         }
     }
 
-    private string FilePath(DateTime utcDate, int part)
+    private int ResolveStartPart(int incomingBytes)
     {
-        var stamp = utcDate.ToString("yyyyMMdd");
-        var name = part <= 1 ? $"vestigium-{_appId}-{stamp}.json" : $"vestigium-{_appId}-{stamp}-{part}.json";
+        var highest = -1;
+        if (Directory.Exists(_directory))
+        {
+            foreach (var file in Directory.GetFiles(_directory, StemPattern()))
+            {
+                if (!TryPart(file, out var part)) continue;
+                if (part > highest) highest = part;
+            }
+        }
+        if (highest < 0) return 0;
+        var path = FilePath(highest);
+        var length = File.Exists(path) ? new FileInfo(path).Length : 0;
+        return length + incomingBytes > _sizeLimit ? highest + 1 : highest;
+    }
+
+    private string FilePath(int part)
+    {
+        var name = part <= 0 ? $"{_appId}.jsonl" : $"{_appId}.{part:000}.jsonl";
         return Path.Combine(_directory, name);
+    }
+
+    private string StemPattern() => $"{_appId}*.jsonl";
+
+    private bool TryPart(string path, out int part)
+    {
+        part = 0;
+        var name = Path.GetFileNameWithoutExtension(path);
+        if (string.Equals(name, _appId, StringComparison.OrdinalIgnoreCase)) return true;
+        var prefix = _appId + ".";
+        if (!name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)) return false;
+        var tail = name[prefix.Length..];
+        return tail.Length == 3 && int.TryParse(tail, out part) && part > 0;
     }
 
     private void ApplyRetention()
@@ -189,7 +210,7 @@ internal sealed partial class VestigiumJsonlWriter : IVestigiumJsonlWriter
         try
         {
             if (!Directory.Exists(_directory)) return;
-            var files = Directory.GetFiles(_directory, $"vestigium-{_appId}-*.json")
+            var files = Directory.GetFiles(_directory, StemPattern())
                 .Select(p => new FileInfo(p))
                 .Where(f => !string.Equals(f.FullName, ActivePath, StringComparison.OrdinalIgnoreCase))
                 .OrderBy(f => f.LastWriteTimeUtc).ToList();

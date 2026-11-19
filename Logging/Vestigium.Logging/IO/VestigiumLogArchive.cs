@@ -43,7 +43,7 @@ public static class VestigiumLogArchive
         var deleted = 0;
         var failed = 0;
         var manifest = new List<string>();
-        foreach (var file in Directory.GetFiles(dir, $"vestigium-{id}-*.json"))
+        foreach (var file in Directory.GetFiles(dir, $"{id}*.jsonl"))
         {
             if (!TryArchiveFile(file, archiveDirectory, cutoff, active, ring, out var name))
             {

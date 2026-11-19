@@ -5,7 +5,7 @@ public sealed class LogSealVerifyTests : IDisposable
 {
     private readonly string _logs = Path.Combine(Path.GetTempPath(), "vestigium-log-tests", Guid.NewGuid().ToString("N"));
     private readonly string _ops = Path.Combine(Path.GetTempPath(), "vestigium-ops-" + Guid.NewGuid().ToString("N"));
-    private readonly string _key = Path.Combine(Path.GetTempPath(), "vestigium-keys", Guid.NewGuid().ToString("N"), "ring.json");
+    private readonly string _key = Path.Combine(Path.GetTempPath(), "vestigium-keys", Guid.NewGuid().ToString("N"), "ring.jsonl");
 
     public LogSealVerifyTests()
     {
@@ -46,7 +46,7 @@ public sealed class LogSealVerifyTests : IDisposable
     [Fact]
     public void MissingTrailerIsNoTrailer()
     {
-        var path = Path.Combine(_logs, "plain.json");
+        var path = Path.Combine(_logs, "plain.jsonl");
         File.WriteAllText(path, "{\"EVENTID\":1}\n");
         var ring = VestigiumSealKeyRing.Open(_key);
         Assert.Equal(VestigiumSealVerifyResult.NoTrailer, VestigiumLogSeal.Verify(path, ring).Result);
@@ -67,7 +67,7 @@ public sealed class LogSealVerifyTests : IDisposable
         VestigiumLog.Information(1, VestigiumStatus.None, "System", "Lifecycle", "seal-me");
         VestigiumLogger.Flush();
         VestigiumLogger.Shutdown();
-        return Directory.GetFiles(_logs, "vestigium-PingIQ-*.json").Single();
+        return Directory.GetFiles(_logs, "PingIQ.*.jsonl").Single();
     }
 
     public void Dispose()

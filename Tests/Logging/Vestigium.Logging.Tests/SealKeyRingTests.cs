@@ -5,7 +5,7 @@ public sealed class SealKeyRingTests
     [Fact]
     public void OpenCreatesThenReloadsSameKeyId()
     {
-        var path = Path.Combine(Path.GetTempPath(), "vestigium-keys", Guid.NewGuid().ToString("N"), "pingiq.json");
+        var path = Path.Combine(Path.GetTempPath(), "vestigium-keys", Guid.NewGuid().ToString("N"), "pingiq.jsonl");
         var first = VestigiumSealKeyRing.Open(path);
         var second = VestigiumSealKeyRing.Open(path);
         Assert.Equal(first.KeyId, second.KeyId);
@@ -18,7 +18,7 @@ public sealed class SealKeyRingTests
     [Fact]
     public void SignAndVerifyRoundTrip()
     {
-        var path = Path.Combine(Path.GetTempPath(), "vestigium-keys", Guid.NewGuid().ToString("N"), "ring.json");
+        var path = Path.Combine(Path.GetTempPath(), "vestigium-keys", Guid.NewGuid().ToString("N"), "ring.jsonl");
         var ring = VestigiumSealKeyRing.Open(path);
         var payload = "hello-seal"u8.ToArray();
         var sig = ring.Sign(payload);
@@ -30,7 +30,7 @@ public sealed class SealKeyRingTests
     [Fact]
     public void OpenOrCreateRejectsMismatchedKeyId()
     {
-        var path = Path.Combine(Path.GetTempPath(), "vestigium-keys", Guid.NewGuid().ToString("N"), "ring.json");
+        var path = Path.Combine(Path.GetTempPath(), "vestigium-keys", Guid.NewGuid().ToString("N"), "ring.jsonl");
         var ring = VestigiumSealKeyRing.Open(path);
         var options = new VestigiumLoggerOptions
         {

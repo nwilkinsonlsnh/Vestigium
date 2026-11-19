@@ -33,7 +33,7 @@ public static class VestigiumLogJanitor
         var deleted = 0;
         var bytes = 0L;
         var skipped = 0;
-        foreach (var file in Directory.GetFiles(dir, $"vestigium-{id}-*.json"))
+        foreach (var file in Directory.GetFiles(dir, $"{id}*.jsonl"))
         {
             var outcome = TryDeleteFile(file, cutoff, active);
             if (outcome.Deleted) { deleted++; bytes += outcome.Bytes; }

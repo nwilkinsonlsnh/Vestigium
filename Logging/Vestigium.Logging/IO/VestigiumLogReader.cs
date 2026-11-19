@@ -71,7 +71,7 @@ public static class VestigiumLogReader
     private static IEnumerable<string> EnumerateFiles(string directory, string appId)
     {
         if (!Directory.Exists(directory)) yield break;
-        foreach (var file in Directory.GetFiles(directory, $"vestigium-{appId}-*.json").OrderBy(f => f, StringComparer.OrdinalIgnoreCase))
+        foreach (var file in Directory.GetFiles(directory, $"{appId}*.jsonl").OrderBy(f => f, StringComparer.OrdinalIgnoreCase))
             yield return file;
     }
 

@@ -7,9 +7,9 @@ public sealed class LogReaderTests
     {
         var dir = Path.Combine(Path.GetTempPath(), "vestigium-reader-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
-        File.WriteAllText(Path.Combine(dir, "vestigium-PingIQ-20260101.json"),
+        File.WriteAllText(Path.Combine(dir, "PingIQ.jsonl"),
             "{\"EVENTID\":1,\"MESSAGE\":\"a\"}\n{\"EVENTID\":1,\"MESSAGE\":\"b\"}\n{\"EVENTID\":1,\"MESSAGE\":\"c\"}\n");
-        File.WriteAllText(Path.Combine(dir, "vestigium-PingIQ-20260102.json"),
+        File.WriteAllText(Path.Combine(dir, "PingIQ.001.jsonl"),
             "{\"EVENTID\":1,\"MESSAGE\":\"d\"}\n{\"EVENTID\":1,\"MESSAGE\":\"e\"}\n");
         var head = VestigiumLogReader.Head(3, dir, "PingIQ");
         Assert.Equal(3, head.Count);
@@ -26,7 +26,7 @@ public sealed class LogReaderTests
     {
         var dir = Path.Combine(Path.GetTempPath(), "vestigium-reader-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
-        File.WriteAllText(Path.Combine(dir, "vestigium-PingIQ-20260101.json"),
+        File.WriteAllText(Path.Combine(dir, "PingIQ.jsonl"),
             "{\"EVENTID\":1,\"MESSAGE\":\"ok\"}\n{\"EVENTID\":1,\"MESSAGE\":\"tor");
         var lines = VestigiumLogReader.Head(10, dir, "PingIQ");
         Assert.Single(lines);
@@ -38,7 +38,7 @@ public sealed class LogReaderTests
     {
         var dir = Path.Combine(Path.GetTempPath(), "vestigium-reader-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
-        File.WriteAllText(Path.Combine(dir, "vestigium-PingIQ-20260101.json"),
+        File.WriteAllText(Path.Combine(dir, "PingIQ.jsonl"),
             "{\"EVENTID\":1,\"MESSAGE\":\"a\"}\n{\"VESTIGIUM_TRAILER\":1,\"LineCount\":1}\n");
         var head = VestigiumLogReader.Head(10, dir, "PingIQ");
         var tail = VestigiumLogReader.Tail(10, dir, "PingIQ");

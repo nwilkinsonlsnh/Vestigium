@@ -12,27 +12,27 @@ public sealed class Coverage95Tests : IDisposable
     [Fact]
     public void SealVerifyCoversRemainingResults()
     {
-        var key = Path.Combine(_dir, "ring.json");
+        var key = Path.Combine(_dir, "ring.jsonl");
         var ring = VestigiumSealKeyRing.Open(key);
         Assert.Throws<ArgumentException>(() => VestigiumLogSeal.Verify(" ", ring));
         Assert.Throws<ArgumentNullException>(() => VestigiumLogSeal.Verify(Path.Combine(_dir, "x"), null!));
-        var empty = Path.Combine(_dir, "empty.json");
+        var empty = Path.Combine(_dir, "empty.jsonl");
         File.WriteAllText(empty, "");
         Assert.Equal(VestigiumSealVerifyResult.NoTrailer, VestigiumLogSeal.Verify(empty, ring).Result);
-        var torn = Path.Combine(_dir, "torn.json");
+        var torn = Path.Combine(_dir, "torn.jsonl");
         File.WriteAllText(torn, "{\"EVENTID\":1}\n{VESTIGIUM_TRAILER\n");
         Assert.Equal(VestigiumSealVerifyResult.Torn, VestigiumLogSeal.Verify(torn, ring).Result);
-        var mismatch = Path.Combine(_dir, "key.json");
+        var mismatch = Path.Combine(_dir, "key.jsonl");
         File.WriteAllText(mismatch,
             "{\"EVENTID\":1}\n{\"VESTIGIUM_TRAILER\":1,\"KeyId\":\"other\",\"ContentSha256\":\"00\",\"Sig\":\"YQ==\"}\n");
         Assert.Equal(VestigiumSealVerifyResult.KeyMismatch, VestigiumLogSeal.Verify(mismatch, ring).Result);
-        var noSig = Path.Combine(_dir, "nosig.json");
+        var noSig = Path.Combine(_dir, "nosig.jsonl");
         var content = "{\"EVENTID\":1}\n"u8.ToArray();
         var hash = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(content));
         File.WriteAllText(noSig,
             "{\"EVENTID\":1}\n{\"VESTIGIUM_TRAILER\":1,\"KeyId\":\"" + ring.KeyId + "\",\"ContentSha256\":\"" + hash + "\"}\n");
         Assert.Equal(VestigiumSealVerifyResult.BadSignature, VestigiumLogSeal.Verify(noSig, ring).Result);
-        var badB64 = Path.Combine(_dir, "b64.json");
+        var badB64 = Path.Combine(_dir, "b64.jsonl");
         File.WriteAllText(badB64,
             "{\"EVENTID\":1}\n{\"VESTIGIUM_TRAILER\":1,\"KeyId\":\"" + ring.KeyId + "\",\"ContentSha256\":\"" + hash + "\",\"Sig\":\"%%%\"}\n");
         Assert.Equal(VestigiumSealVerifyResult.BadSignature, VestigiumLogSeal.Verify(badB64, ring).Result);
@@ -53,17 +53,17 @@ public sealed class Coverage95Tests : IDisposable
         Assert.Throws<ArgumentException>(() => VestigiumSealKeyRing.Open(" "));
         Assert.Throws<ArgumentNullException>(() => VestigiumSealKeyRing.OpenOrCreate(null!));
         Assert.Contains("Vestigium", VestigiumSealKeyRing.DefaultPath(""));
-        var ring = VestigiumSealKeyRing.Open(Path.Combine(_dir, "ok.json"));
+        var ring = VestigiumSealKeyRing.Open(Path.Combine(_dir, "ok.jsonl"));
         Assert.Throws<ArgumentNullException>(() => ring.Sign(null!));
         Assert.Throws<ArgumentNullException>(() => ring.Verify(null!, [1]));
         Assert.Throws<ArgumentNullException>(() => ring.Verify([1], null!));
-        var empty = Path.Combine(_dir, "empty-ring.json");
+        var empty = Path.Combine(_dir, "empty-ring.jsonl");
         File.WriteAllText(empty, "null");
         Assert.Throws<InvalidOperationException>(() => VestigiumSealKeyRing.Open(empty));
-        var missing = Path.Combine(_dir, "missing-fields.json");
+        var missing = Path.Combine(_dir, "missing-fields.jsonl");
         File.WriteAllText(missing, "{}");
         Assert.Throws<InvalidOperationException>(() => VestigiumSealKeyRing.Open(missing));
-        var noAlg = Path.Combine(_dir, "noalg.json");
+        var noAlg = Path.Combine(_dir, "noalg.jsonl");
         File.WriteAllText(noAlg, System.Text.Json.JsonSerializer.Serialize(new Dictionary<string, string>
         {
             ["keyId"] = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",

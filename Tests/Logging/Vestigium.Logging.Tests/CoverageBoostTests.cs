@@ -48,11 +48,11 @@ public sealed class HousekeepingCoverageTests
         Assert.Equal(0, VestigiumLogArchive.ArchiveOlderThan(TimeSpan.FromDays(1), missing + "-a", missing, "PingIQ").Archived);
         var dir = Path.Combine(Path.GetTempPath(), "vestigium-hk-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
-        File.WriteAllText(Path.Combine(dir, $"vestigium-PingIQ-{DateTime.UtcNow:yyyyMMdd}.json"), "{}\n");
-        File.WriteAllText(Path.Combine(dir, "vestigium-PingIQ-notadate.json"), "{}\n");
+        File.WriteAllText(Path.Combine(dir, $"PingIQ.{DateTime.UtcNow:yyyyMMdd}.jsonl"), "{}\n");
+        File.WriteAllText(Path.Combine(dir, "PingIQ.notadate.jsonl"), "{}\n");
         Assert.NotEmpty(VestigiumLogReader.Tail(10, dir, "PingIQ"));
         Assert.Equal(0, VestigiumLogJanitor.DeleteOlderThan(TimeSpan.FromDays(30), dir, "PingIQ").Deleted);
-        _ = VestigiumLogJanitor.FileDate(Path.Combine(dir, "vestigium-PingIQ-notadate.json"));
+        _ = VestigiumLogJanitor.FileDate(Path.Combine(dir, "PingIQ.notadate.jsonl"));
     }
 }
 
