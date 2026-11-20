@@ -105,7 +105,9 @@ No host UI in the library. No remote sink. No host event ids in this package.
 | Standalone | If the host is not initialized, the constructor writes a warning line into the Mini file. |
 | Dispose | Flush, optional seal trailer via `VestigiumSealKeyRing`, end marker, writer dispose. |
 | Janitor | `DeleteMiniLogs(directory, appId, miniId, age)` matches only `<AppId>.<MiniId>` parts. Host janitor skips Mini files via `IsHostFile`. |
-| Archive | `ArchiveMiniLogs` copies aged Mini parts, writes a SHA256 sidecar, deletes the source. Host archive skips Mini files. |
+| Archive | `ArchiveMiniLogs` copies aged Mini parts, writes a SHA256 sidecar, deletes the source. Host archive skips Mini files. When sealing is enabled, archive proceeds only on Valid or NoTrailer. |
+| Tripwire | Dual gate: 10 percent free or 5 GB. When tripped, writes stop and one warning line records the trip. Disable with `tripwireEnabled: false`. |
+| Sealing | Opt-in. Own key ring per Mini. HMAC-SHA256 trailer on dispose. Verify results match the host. |
 
 ---
 
@@ -117,3 +119,4 @@ Initial monorepo release. Add a row when this document changes. Do not bump the 
 |---|---|---|---|
 | 1a | 15 Nov 2026 | Nathaniel Wilkinson | Initial monorepo release. Rewritten from Vestigium.Logging SRS 2.3 and Design 2.2. |
 | 1a.1 | 19 Nov 2026 | Vestigium | Added Mini design: type, file, flood, correlation, markers, overlay, standalone, dispose, janitor, multi-instance, archive. |
+| 1a.2 | 19 Nov 2026 | Vestigium | Added Mini tripwire, sealing, and archive seal gate. |
