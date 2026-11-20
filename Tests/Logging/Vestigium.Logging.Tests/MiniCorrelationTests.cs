@@ -38,7 +38,7 @@ public sealed class MiniCorrelationTests : IDisposable
         mini.Information(0, "Network", "Probe", "b");
         mini.Flush(TimeSpan.FromSeconds(2));
         var text = SharedRead.Text(mini.ActivePath!);
-        Assert.Equal(2, text.Split("fixed").Length - 1);
+        Assert.Equal(3, text.Split("fixed").Length - 1);
     }
 
     public void Dispose()

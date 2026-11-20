@@ -20,11 +20,11 @@ public sealed class MiniMarkerTests : IDisposable
             o.OperationsLogEnabled = false;
         });
         VestigiumLog.Information(1, VestigiumStatus.None, "System", "Lifecycle", "host-ready");
-        VestigiumLogger.Flush(TimeSpan.FromSeconds(2));
+        Assert.True(VestigiumLogger.Flush(TimeSpan.FromSeconds(2)));
         var mini = new VestigiumLoggerMini("PingIQ", "PathPing", _dir,
             applicationCorrelationId: "app-1", miniCorrelationId: "mini-1");
-        VestigiumLogger.Flush(TimeSpan.FromSeconds(2));
-        var hostPath = VestigiumLogger.ActiveLogPath ?? Path.Combine(_dir, "PingIQ.jsonl");
+        Assert.True(VestigiumLogger.Flush(TimeSpan.FromSeconds(2)));
+        var hostPath = Directory.GetFiles(_dir, "PingIQ.jsonl").Single();
         var host = SharedRead.Text(hostPath);
         Assert.Contains("Mini started.", host);
         Assert.Contains("app-1", host);
@@ -33,7 +33,7 @@ public sealed class MiniMarkerTests : IDisposable
 
         mini.Dispose();
         VestigiumLogger.Flush(TimeSpan.FromSeconds(2));
-        host = SharedRead.Text(VestigiumLogger.ActiveLogPath ?? Path.Combine(_dir, "PingIQ.jsonl"));
+        host = SharedRead.Text(Directory.GetFiles(_dir, "PingIQ.jsonl").Single());
         Assert.Contains("Mini ended.", host);
         VestigiumLogger.Shutdown();
     }
