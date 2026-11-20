@@ -11,7 +11,7 @@ Steps live in this table. Do not create a file per step. Check a row when that s
 | PR01a.05 | Automatic start marker on construct and end marker on dispose in the host log. Both carry the two correlation ids and the Mini file path. | R-08 | [x] |
 | PR01a.06 | Host catalog and taxonomy by default. Optional overlay visible only to that Mini. | R-09 | [x] |
 | PR01a.07 | Runs when host is not initialized. Warning line in the Mini file. No throw. No markers. | R-10 | [x] |
-| PR01a.08 | Dispose flushes, writes trailer if sealing is enabled, writes end marker if host is running. | R-11 | [ ] |
+| PR01a.08 | Dispose flushes, writes trailer if sealing is enabled, writes end marker if host is running. | R-11 | [x] |
 | PR01a.09 | Mini janitor subscription. Own retention age and count. Does not touch the application log. Host janitor does not touch Mini files. | R-12 | [ ] |
 | PR01a.10 | Multiple Mini instances may run against the same AppId. Each has its own file, flood, correlation, and janitor. | R-13 | [ ] |
 | PR01a.11 | Mini archive opt-in. `MiniArchiveEnabled` + `MiniArchiveDirectory`. Copies aged Mini parts, writes SHA256 sidecar, deletes source. Does not touch the application log. | R-14 | [ ] |

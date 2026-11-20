@@ -5,6 +5,7 @@ public sealed class VestigiumLoggerMini : IDisposable
     private readonly FloodTracker _flood;
     private readonly VestigiumJsonlWriter _writer;
     private readonly VestigiumEventCatalog _catalog;
+    private readonly VestigiumSealKeyRing? _ring;
     private readonly Dictionary<int, VestigiumEventDefinition> _overlay = new();
     private readonly int _pid = Environment.ProcessId;
     private int _disposed;
@@ -19,7 +20,8 @@ public sealed class VestigiumLoggerMini : IDisposable
     public VestigiumLoggerMini(string appId, string miniId, string? directory = null,
         int floodThreshold = 5, TimeSpan? floodWindow = null,
         string? applicationCorrelationId = null, string? miniCorrelationId = null,
-        IEnumerable<VestigiumEventDefinition>? overlay = null)
+        IEnumerable<VestigiumEventDefinition>? overlay = null,
+        bool sealEnabled = false, string? sealKeyPath = null)
     {
         AppId = LogId.Validate(appId, nameof(appId));
         MiniId = LogId.Validate(miniId, nameof(miniId));
@@ -40,6 +42,13 @@ public sealed class VestigiumLoggerMini : IDisposable
         var dir = string.IsNullOrWhiteSpace(directory) ? ResolveDirectory(AppId) : directory;
         _flood = new FloodTracker(floodThreshold, floodWindow ?? TimeSpan.FromSeconds(30));
         _writer = new VestigiumJsonlWriter(dir, Stem, fileSizeLimitBytes: 20L * 1024 * 1024);
+        if (sealEnabled)
+        {
+            if (string.IsNullOrWhiteSpace(sealKeyPath))
+                throw new ArgumentException("sealKeyPath is required when sealEnabled is true.", nameof(sealKeyPath));
+            _ring = VestigiumSealKeyRing.Open(sealKeyPath);
+            _writer.AttachSeal(_ring);
+        }
         if (VestigiumLogger.IsInitialized)
             WriteHostMarker("Mini started.");
         else
