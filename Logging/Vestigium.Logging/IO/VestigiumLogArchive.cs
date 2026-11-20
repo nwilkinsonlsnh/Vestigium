@@ -45,7 +45,38 @@ public static class VestigiumLogArchive
         var manifest = new List<string>();
         foreach (var file in Directory.GetFiles(dir, $"{id}*.jsonl"))
         {
+            if (!VestigiumLogJanitor.IsHostFile(file, id)) continue;
             if (!TryArchiveFile(file, archiveDirectory, cutoff, active, ring, out var name))
+            {
+                if (name is not null) failed++;
+                continue;
+            }
+            archived++; deleted++; manifest.Add(name);
+        }
+        return new VestigiumArchiveResult(archived, deleted, failed, manifest);
+    }
+
+    public static VestigiumArchiveResult ArchiveMiniLogs(
+        TimeSpan age, string archiveDirectory, string directory, string appId, string miniId)
+    {
+        if (age <= TimeSpan.Zero)
+            throw new ArgumentOutOfRangeException(nameof(age), "Age must be greater than zero.");
+        ArgumentException.ThrowIfNullOrWhiteSpace(archiveDirectory);
+        LogId.Validate(appId, nameof(appId));
+        LogId.Validate(miniId, nameof(miniId));
+        Directory.CreateDirectory(archiveDirectory);
+        if (!Directory.Exists(directory))
+            return new VestigiumArchiveResult(0, 0, 0, []);
+        var stem = appId + "." + miniId;
+        var cutoff = DateTime.UtcNow.Date - age;
+        var archived = 0;
+        var deleted = 0;
+        var failed = 0;
+        var manifest = new List<string>();
+        foreach (var file in Directory.GetFiles(directory, stem + "*.jsonl"))
+        {
+            if (!VestigiumLogJanitor.IsMiniFile(file, stem)) continue;
+            if (!TryArchiveFile(file, archiveDirectory, cutoff, null, null, out var name))
             {
                 if (name is not null) failed++;
                 continue;
