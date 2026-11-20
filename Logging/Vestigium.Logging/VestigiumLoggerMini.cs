@@ -40,7 +40,11 @@ public sealed class VestigiumLoggerMini : IDisposable
         var dir = string.IsNullOrWhiteSpace(directory) ? ResolveDirectory(AppId) : directory;
         _flood = new FloodTracker(floodThreshold, floodWindow ?? TimeSpan.FromSeconds(30));
         _writer = new VestigiumJsonlWriter(dir, Stem, fileSizeLimitBytes: 20L * 1024 * 1024);
-        WriteHostMarker("Mini started.");
+        if (VestigiumLogger.IsInitialized)
+            WriteHostMarker("Mini started.");
+        else
+            Write(2, VestigiumLogLevel.Warning, VestigiumStatus.None, "System", "Lifecycle",
+                "Mini started with no host logger.");
     }
 
     public string Stem => $"{AppId}.{MiniId}";
