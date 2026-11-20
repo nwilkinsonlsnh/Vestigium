@@ -30,7 +30,12 @@ public static partial class VestigiumLogger
         LogId.Validate(options.AppId, nameof(options.AppId));
         lock (Gate)
         {
-            _host?.Dispose();
+            if (_host is not null)
+            {
+                if (SameHost(_host.Options, options)) return;
+                throw new InvalidOperationException(
+                    "VestigiumLogger is already initialized with different options. Call Shutdown first.");
+            }
             _host = new Host(options);
             _host.EmitOps(5000, VestigiumStatus.Success, "Logger initialized.");
         }
@@ -40,11 +45,16 @@ public static partial class VestigiumLogger
     {
         lock (Gate)
         {
-            _host?.EmitOps(5005, VestigiumStatus.Success, "Logger shut down.");
-            _host?.Dispose();
+            if (_host is null) return;
+            _host.EmitOps(5005, VestigiumStatus.Success, "Logger shut down.");
+            _host.Dispose();
             _host = null;
         }
     }
+
+    private static bool SameHost(VestigiumLoggerOptions a, VestigiumLoggerOptions b) =>
+        string.Equals(a.AppId, b.AppId, StringComparison.OrdinalIgnoreCase)
+        && string.Equals(a.ResolveLogDirectory(), b.ResolveLogDirectory(), StringComparison.OrdinalIgnoreCase);
 
     public static void Flush() => _host?.Flush();
     public static void Flush(TimeSpan timeout) => _host?.Flush(timeout);

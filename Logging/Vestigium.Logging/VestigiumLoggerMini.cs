@@ -114,8 +114,12 @@ public sealed class VestigiumLoggerMini : IDisposable
             ["MiniId"] = MiniId
         };
         var text = $"{message} MiniCorrelationId={MiniCorrelationId}";
-        VestigiumLog.Information(0, VestigiumStatus.None, "System", "Configuration", text,
-            correlationId: ApplicationCorrelationId, properties: props, appId: AppId);
+        try
+        {
+            VestigiumLog.Information(0, VestigiumStatus.None, "System", "Configuration", text,
+                correlationId: ApplicationCorrelationId, properties: props, appId: AppId);
+        }
+        catch (InvalidOperationException) { }
     }
 
     private VestigiumEventDefinition Resolve(int eventId, VestigiumLogLevel level)
