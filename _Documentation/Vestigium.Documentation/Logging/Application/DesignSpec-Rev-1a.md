@@ -15,7 +15,7 @@ How the staged logger meets the 1a requirements. Source material is Design 2.2.
 
 ## 0. Shape
 
-One `VestigiumLogger` host per process. `Initialize` builds options, the catalog, the taxonomy snapshot, the flood tracker, the disk monitor, the host JSONL writer, and, when enabled, the operations writer and the seal ring. `Shutdown` drains both writers, appends trailers if sealing is on, and disposes the channel.
+One `VestigiumLogger` host per process. `Initialize` and `Shutdown` share a lock. A second `Initialize` with the same AppId and log directory returns. Different options throws. A second `Shutdown` returns. `Initialize` builds options, the catalog, the taxonomy snapshot, the flood tracker, the disk monitor, the host JSONL writer, and, when enabled, the operations writer and the seal ring. `Shutdown` drains both writers, appends trailers if sealing is on, and disposes the channel. A Mini marker emitted while the host is shutting down is dropped.
 
 Libraries call `VestigiumLog`. Catalog, `Events`, and housekeeping require a host.
 
@@ -120,3 +120,4 @@ Initial monorepo release. Add a row when this document changes. Do not bump the 
 | 1a | 15 Nov 2026 | Nathaniel Wilkinson | Initial monorepo release. Rewritten from Vestigium.Logging SRS 2.3 and Design 2.2. |
 | 1a.1 | 19 Nov 2026 | Vestigium | Added Mini design: type, file, flood, correlation, markers, overlay, standalone, dispose, janitor, multi-instance, archive. |
 | 1a.2 | 19 Nov 2026 | Vestigium | Added Mini tripwire, sealing, and archive seal gate. |
+| 1a.3 | 19 Nov 2026 | Vestigium | Added the Initialize/Shutdown lock, idempotent transitions, and the marker drop. |

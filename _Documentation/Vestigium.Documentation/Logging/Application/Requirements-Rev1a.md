@@ -101,6 +101,9 @@ VestigiumLog.Information("PingIQ", VestigiumStatus.Success, "Probe", "Run", "pro
 | Disk gate | A line below `MinimumDiskLevel` stays off disk. |
 | Seal is opt-in | No key, no trailer. |
 | Libraries before init | `UninitializedBehavior = NoOp` lets a library call drop. `Throw` is the default. |
+| Initialize | Idempotent for the same AppId and log directory. Different options throws. |
+| Shutdown | Idempotent. A second call returns. |
+| Concurrent writes | Multiple threads may write. Lines are intact. A Mini marker during shutdown is dropped, not thrown. |
 
 ---
 
@@ -141,3 +144,4 @@ Initial monorepo release. Add a row when this document changes. Do not bump the 
 |---|---|---|---|
 | 1a | 15 Nov 2026 | Nathaniel Wilkinson | Initial monorepo release. Rewritten from Vestigium.Logging SRS 2.3. |
 | 1a.1 | 19 Nov 2026 | Vestigium | Added Mini: id rules, size-based names, isolation, correlation, markers, catalog overlay, standalone, dispose, janitor, multi-instance, archive. |
+| 1a.3 | 19 Nov 2026 | Vestigium | Added concurrency rules: idempotent Initialize and Shutdown, concurrent writes, marker drop. |
