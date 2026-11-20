@@ -46,9 +46,4 @@ public sealed class MiniArchiveTests : IDisposable
         try { Directory.Delete(_dst, true); } catch { }
     }
 
-    private static void TestFiles.Touch(string path, DateTime utc)
-    {
-        File.WriteAllText(path, "{}\n");
-        File.SetLastWriteTimeUtc(path, utc);
-    }
 }

@@ -52,9 +52,4 @@ public sealed class MiniMultiInstanceTests : IDisposable
         try { Directory.Delete(_dir, true); } catch { }
     }
 
-    private static void TestFiles.Touch(string path, DateTime utc)
-    {
-        File.WriteAllText(path, "{}\n");
-        File.SetLastWriteTimeUtc(path, utc);
-    }
 }

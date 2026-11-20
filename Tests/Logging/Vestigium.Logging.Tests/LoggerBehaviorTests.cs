@@ -238,16 +238,6 @@ public sealed class LoggerBehaviorTests : IDisposable
         try { Directory.Delete(_dir, true); } catch { /* ignore */ }
     }
 
-    /// <summary>
-    /// Serilog keeps the rolling file open with shared: true. Exclusive
-    /// File.ReadAllText fails on Windows.
-    /// </summary>
-    private static string TestFiles.ReadShared(string path)
-    {
-        using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
-        using var reader = new StreamReader(stream);
-        return reader.ReadToEnd();
-    }
 
     private void Init(Action<VestigiumLoggerOptions>? extra = null)
     {

@@ -108,12 +108,6 @@ public sealed class JsonlWriterTests : IDisposable
         Func<DateTime>? clock = null) =>
         new(_dir, "PingIQ", size, retainTime, retainCount, queue, clock);
 
-    private static string TestFiles.ReadShared(string path)
-    {
-        using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
-        using var reader = new StreamReader(stream);
-        return reader.ReadToEnd();
-    }
 
     private sealed class Clock
     {
