@@ -1,5 +1,6 @@
 namespace Vestigium.Logging.Tests;
 
+[Collection("VestigiumLogger")]
 public sealed class MiniCorrelationTests : IDisposable
 {
     private readonly string _dir = Path.Combine(Path.GetTempPath(), "vestigium-mini-corr", Guid.NewGuid().ToString("N"));

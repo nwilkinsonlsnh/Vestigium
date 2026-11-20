@@ -1,5 +1,6 @@
 namespace Vestigium.Logging.Tests;
 
+[Collection("VestigiumLogger")]
 public sealed class MiniMultiInstanceTests : IDisposable
 {
     private readonly string _dir = Path.Combine(Path.GetTempPath(), "vestigium-mini-multi", Guid.NewGuid().ToString("N"));

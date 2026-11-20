@@ -1,5 +1,6 @@
 namespace Vestigium.Logging.Tests;
 
+[Collection("VestigiumLogger")]
 public sealed class MiniArchiveTests : IDisposable
 {
     private readonly string _src = Path.Combine(Path.GetTempPath(), "vestigium-mini-arch-src", Guid.NewGuid().ToString("N"));
