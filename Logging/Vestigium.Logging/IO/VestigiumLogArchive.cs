@@ -57,7 +57,8 @@ public static class VestigiumLogArchive
     }
 
     public static VestigiumArchiveResult ArchiveMiniLogs(
-        TimeSpan age, string archiveDirectory, string directory, string appId, string miniId)
+        TimeSpan age, string archiveDirectory, string directory, string appId, string miniId,
+        VestigiumSealKeyRing? ring = null)
     {
         if (age <= TimeSpan.Zero)
             throw new ArgumentOutOfRangeException(nameof(age), "Age must be greater than zero.");
@@ -76,7 +77,7 @@ public static class VestigiumLogArchive
         foreach (var file in Directory.GetFiles(directory, stem + "*.jsonl"))
         {
             if (!VestigiumLogJanitor.IsMiniFile(file, stem)) continue;
-            if (!TryArchiveFile(file, archiveDirectory, cutoff, null, null, out var name))
+            if (!TryArchiveFile(file, archiveDirectory, cutoff, null, ring, out var name))
             {
                 if (name is not null) failed++;
                 continue;

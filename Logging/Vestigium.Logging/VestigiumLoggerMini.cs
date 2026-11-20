@@ -9,6 +9,10 @@ public sealed class VestigiumLoggerMini : IDisposable
     private readonly Dictionary<int, VestigiumEventDefinition> _overlay = new();
     private readonly int _pid = Environment.ProcessId;
     private int _disposed;
+    private int _tripped;
+    private readonly bool _tripwireEnabled;
+    private readonly int _freePercent;
+    private readonly long _bytesFloor;
 
     public string AppId { get; }
     public string MiniId { get; }
@@ -21,7 +25,8 @@ public sealed class VestigiumLoggerMini : IDisposable
         int floodThreshold = 5, TimeSpan? floodWindow = null,
         string? applicationCorrelationId = null, string? miniCorrelationId = null,
         IEnumerable<VestigiumEventDefinition>? overlay = null,
-        bool sealEnabled = false, string? sealKeyPath = null)
+        bool sealEnabled = false, string? sealKeyPath = null,
+        bool tripwireEnabled = true, int freePercent = 10, long bytesFloor = 5L * 1024 * 1024 * 1024)
     {
         AppId = LogId.Validate(appId, nameof(appId));
         MiniId = LogId.Validate(miniId, nameof(miniId));
@@ -39,6 +44,9 @@ public sealed class VestigiumLoggerMini : IDisposable
                 _overlay[row.EventId] = row;
             }
         }
+        _tripwireEnabled = tripwireEnabled;
+        _freePercent = freePercent;
+        _bytesFloor = bytesFloor;
         var dir = string.IsNullOrWhiteSpace(directory) ? ResolveDirectory(AppId) : directory;
         _flood = new FloodTracker(floodThreshold, floodWindow ?? TimeSpan.FromSeconds(30));
         _writer = new VestigiumJsonlWriter(dir, Stem, fileSizeLimitBytes: 20L * 1024 * 1024);
@@ -62,6 +70,7 @@ public sealed class VestigiumLoggerMini : IDisposable
         string category, string subcategory, string message, string? correlationId = null)
     {
         ObjectDisposedException.ThrowIf(Volatile.Read(ref _disposed) != 0, this);
+        if (IsTripped()) return;
         var now = DateTimeOffset.UtcNow;
         var identity = new FloodIdentity(Stem, category, level.ToString(), message);
         var (write, _) = _flood.Observe(identity, now, subcategory);
@@ -78,6 +87,14 @@ public sealed class VestigiumLoggerMini : IDisposable
         Write(eventId, VestigiumLogLevel.Information, VestigiumStatus.None, category, subcategory, message);
 
     public bool Flush(TimeSpan timeout) => _writer.Flush(timeout);
+    public int PendingCount => _writer.QueuedCount;
+    public bool IsDiskTripped => Volatile.Read(ref _tripped) != 0;
+
+    public IReadOnlyList<string> Head(int count) =>
+        VestigiumLogReader.Head(count, Path.GetDirectoryName(ActivePath) ?? ResolveDirectory(AppId), Stem);
+
+    public IReadOnlyList<string> Tail(int count) =>
+        VestigiumLogReader.Tail(count, Path.GetDirectoryName(ActivePath) ?? ResolveDirectory(AppId), Stem);
 
     public void Dispose()
     {
@@ -105,6 +122,29 @@ public sealed class VestigiumLoggerMini : IDisposable
     {
         if (_overlay.TryGetValue(eventId, out var over)) return over;
         return _catalog.Resolve(eventId, null, level);
+    }
+
+    private bool IsTripped()
+    {
+        if (!_tripwireEnabled) return false;
+        if (Volatile.Read(ref _tripped) != 0) return true;
+        try
+        {
+            var dir = Path.GetDirectoryName(ActivePath) ?? ResolveDirectory(AppId);
+            var root = Path.GetPathRoot(Path.GetFullPath(dir));
+            if (string.IsNullOrEmpty(root)) return false;
+            var drive = new DriveInfo(root);
+            if (!drive.IsReady) return false;
+            var percentFloor = drive.TotalSize > 0 ? drive.TotalSize * _freePercent / 100 : 0;
+            var tripped = drive.AvailableFreeSpace < percentFloor || drive.AvailableFreeSpace < _bytesFloor;
+            if (!tripped) return false;
+            if (Interlocked.Exchange(ref _tripped, 1) == 0)
+                _writer.Enqueue(new VestigiumLogEvent(DateTimeOffset.UtcNow, _pid, Environment.CurrentManagedThreadId,
+                    VestigiumLogLevel.Warning, VestigiumStatus.Failed, AppId, "System", "IO",
+                    "Mini disk tripwire tripped.", null, ApplicationCorrelationId, null, 2, "General.Warning").ToJsonLine());
+            return true;
+        }
+        catch { return false; }
     }
 
     private static string ResolveDirectory(string appId)
