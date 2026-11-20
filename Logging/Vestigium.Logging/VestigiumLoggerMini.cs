@@ -11,11 +11,17 @@ public sealed class VestigiumLoggerMini : IDisposable
     public string MiniId { get; }
     public string? ActivePath => _writer.ActivePath;
 
+    public string? ApplicationCorrelationId { get; }
+    public string MiniCorrelationId { get; }
+
     public VestigiumLoggerMini(string appId, string miniId, string? directory = null,
-        int floodThreshold = 5, TimeSpan? floodWindow = null)
+        int floodThreshold = 5, TimeSpan? floodWindow = null,
+        string? applicationCorrelationId = null, string? miniCorrelationId = null)
     {
         AppId = LogId.Validate(appId, nameof(appId));
         MiniId = LogId.Validate(miniId, nameof(miniId));
+        ApplicationCorrelationId = string.IsNullOrWhiteSpace(applicationCorrelationId) ? null : applicationCorrelationId;
+        MiniCorrelationId = string.IsNullOrWhiteSpace(miniCorrelationId) ? Guid.NewGuid().ToString("N") : miniCorrelationId;
         var dir = string.IsNullOrWhiteSpace(directory) ? ResolveDirectory(AppId) : directory;
         _flood = new FloodTracker(floodThreshold, floodWindow ?? TimeSpan.FromSeconds(30));
         _writer = new VestigiumJsonlWriter(dir, Stem, fileSizeLimitBytes: 20L * 1024 * 1024);
@@ -31,8 +37,10 @@ public sealed class VestigiumLoggerMini : IDisposable
         var identity = new FloodIdentity(Stem, category, level.ToString(), message);
         var (write, _) = _flood.Observe(identity, now, subcategory);
         if (!write) return;
+        var props = new Dictionary<string, string?> { ["MiniCorrelationId"] = MiniCorrelationId };
         var evt = new VestigiumLogEvent(now, _pid, Environment.CurrentManagedThreadId,
-            level, status, AppId, category, subcategory, message, null, correlationId, null, eventId, null);
+            level, status, AppId, category, subcategory, message, null,
+            correlationId ?? ApplicationCorrelationId, VestigiumPropertyBag.Sanitize(props), eventId, null);
         _writer.Enqueue(evt.ToJsonLine());
     }
 
