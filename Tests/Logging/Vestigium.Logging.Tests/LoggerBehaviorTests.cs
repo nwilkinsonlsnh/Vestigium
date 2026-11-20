@@ -22,24 +22,29 @@ public sealed class LoggerBehaviorTests : IDisposable
     }
 
     [Fact]
-    public void ReinitializeResetsHost()
+    public void ReinitializeWithDifferentOptionsThrows()
     {
         Init();
         VestigiumLog.Information(1, VestigiumStatus.Success, "Network", "ICMP", "first-host");
         Assert.True(VestigiumLogger.WrittenCount >= 1);
 
-        VestigiumLogger.Initialize(cfg =>
+        Assert.Throws<InvalidOperationException>(() => VestigiumLogger.Initialize(cfg =>
         {
             cfg.AppId = "TraceIQ";
             cfg.LogDirectory = _dir;
             cfg.MinimumDiskLevel = VestigiumLogLevel.Verbose;
             cfg.FloodThresholdCount = 50;
-        });
+        }));
 
-        Assert.Equal(0, VestigiumLogger.WrittenCount);
+        VestigiumLogger.Shutdown();
+        VestigiumLogger.Initialize(cfg =>
+        {
+            cfg.AppId = "TraceIQ";
+            cfg.LogDirectory = _dir;
+            cfg.MinimumDiskLevel = VestigiumLogLevel.Verbose;
+        });
         Assert.Equal("TraceIQ", VestigiumLogger.Options.AppId);
         VestigiumLog.Information(1, VestigiumStatus.Success, "Network", "ICMP", "second-host");
-        Assert.Equal(1, VestigiumLogger.WrittenCount);
         Assert.Contains("TraceIQ", VestigiumLogger.RecentJsonLines.Last());
     }
 
