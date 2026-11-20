@@ -124,8 +124,18 @@ public sealed class VestigiumLoggerMini : IDisposable
         return _catalog.Resolve(eventId, null, level);
     }
 
+    internal static bool? TripwireOverride;
+
     private bool IsTripped()
     {
+        if (TripwireOverride is bool forced)
+        {
+            if (forced && Interlocked.Exchange(ref _tripped, 1) == 0)
+                _writer.Enqueue(new VestigiumLogEvent(DateTimeOffset.UtcNow, _pid, Environment.CurrentManagedThreadId,
+                    VestigiumLogLevel.Warning, VestigiumStatus.Failed, AppId, "System", "IO",
+                    "Mini disk tripwire tripped.", null, ApplicationCorrelationId, null, 2, "General.Warning").ToJsonLine());
+            return forced;
+        }
         if (!_tripwireEnabled) return false;
         if (Volatile.Read(ref _tripped) != 0) return true;
         try
