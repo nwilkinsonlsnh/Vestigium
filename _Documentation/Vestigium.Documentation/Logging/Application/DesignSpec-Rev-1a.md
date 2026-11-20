@@ -111,6 +111,23 @@ No host UI in the library. No remote sink. No host event ids in this package.
 
 ---
 
+
+---
+
+## 10. Test seams
+
+Three internal seams exist so the suite can force an edge. They are not part of the public contract.
+
+| Seam | Forces |
+|---|---|
+| `VestigiumLoggerMini.TripwireOverride` | The Mini disk gate. |
+| `VestigiumLogArchive.HashOverride` | The file hash used by archive. |
+| `DiskSpaceMonitor.ReadyOverride` | Drive readiness for the host tripwire. |
+
+`OverrideDiskPressure` is public. A host may use it.
+
+---
+
 ## 8. Revision History
 
 Initial monorepo release. Add a row when this document changes. Do not bump the revision until the change is accepted.
@@ -121,3 +138,4 @@ Initial monorepo release. Add a row when this document changes. Do not bump the 
 | 1a.1 | 19 Nov 2026 | Vestigium | Added Mini design: type, file, flood, correlation, markers, overlay, standalone, dispose, janitor, multi-instance, archive. |
 | 1a.2 | 19 Nov 2026 | Vestigium | Added Mini tripwire, sealing, and archive seal gate. |
 | 1a.3 | 19 Nov 2026 | Vestigium | Added the Initialize/Shutdown lock, idempotent transitions, and the marker drop. |
+| 1a.4 | 19 Nov 2026 | Vestigium | Noted the three internal test seams. Not part of the public contract. |
