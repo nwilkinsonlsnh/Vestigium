@@ -128,6 +128,7 @@ public sealed class VestigiumLoggerMini : IDisposable
 
     private bool IsTripped()
     {
+        if (!_tripwireEnabled) return false;
         if (TripwireOverride is bool forced)
         {
             if (forced && Interlocked.Exchange(ref _tripped, 1) == 0)
@@ -136,7 +137,6 @@ public sealed class VestigiumLoggerMini : IDisposable
                     "Mini disk tripwire tripped.", null, ApplicationCorrelationId, null, 2, "General.Warning").ToJsonLine());
             return forced;
         }
-        if (!_tripwireEnabled) return false;
         if (Volatile.Read(ref _tripped) != 0) return true;
         try
         {
