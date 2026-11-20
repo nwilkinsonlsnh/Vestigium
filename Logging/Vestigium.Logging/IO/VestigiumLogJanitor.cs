@@ -35,6 +35,7 @@ public static class VestigiumLogJanitor
         var skipped = 0;
         foreach (var file in Directory.GetFiles(dir, $"{id}*.jsonl"))
         {
+            if (!IsHostFile(file, id)) continue;
             var outcome = TryDeleteFile(file, cutoff, active);
             if (outcome.Deleted) { deleted++; bytes += outcome.Bytes; }
             else if (outcome.Skipped) skipped++;
@@ -53,6 +54,69 @@ public static class VestigiumLogJanitor
             return (true, false, size);
         }
         catch (IOException) { return (false, true, 0); }
+    }
+
+    public static VestigiumJanitorResult DeleteMiniLogs(string directory, string appId, string miniId, TimeSpan age, int countLimit = 0)
+    {
+        if (age <= TimeSpan.Zero)
+            throw new ArgumentOutOfRangeException(nameof(age), "Age must be greater than zero.");
+        LogId.Validate(appId, nameof(appId));
+        LogId.Validate(miniId, nameof(miniId));
+        if (!Directory.Exists(directory))
+            return new VestigiumJanitorResult(0, 0, 0);
+        var stem = appId + "." + miniId;
+        var cutoff = DateTime.UtcNow.Date - age;
+        var deleted = 0;
+        var bytes = 0L;
+        var skipped = 0;
+        var candidates = Directory.GetFiles(directory, stem + "*.jsonl")
+            .Where(f => IsMiniFile(f, stem))
+            .Select(f => new FileInfo(f))
+            .OrderBy(f => f.LastWriteTimeUtc)
+            .ToList();
+        foreach (var file in candidates)
+        {
+            if (FileDate(file.FullName) >= cutoff) continue;
+            var outcome = TryDeleteFile(file.FullName, cutoff, null);
+            if (outcome.Deleted) { deleted++; bytes += outcome.Bytes; }
+            else if (outcome.Skipped) skipped++;
+        }
+        if (countLimit > 0)
+        {
+            var remaining = Directory.GetFiles(directory, stem + "*.jsonl")
+                .Where(f => IsMiniFile(f, stem))
+                .Select(f => new FileInfo(f))
+                .OrderBy(f => f.LastWriteTimeUtc)
+                .ToList();
+            while (remaining.Count > countLimit)
+            {
+                var oldest = remaining[0];
+                try { oldest.Delete(); deleted++; bytes += oldest.Length; }
+                catch (IOException) { skipped++; }
+                remaining.RemoveAt(0);
+            }
+        }
+        return new VestigiumJanitorResult(deleted, bytes, skipped);
+    }
+
+    internal static bool IsHostFile(string path, string appId)
+    {
+        var name = Path.GetFileNameWithoutExtension(path);
+        if (string.Equals(name, appId, StringComparison.OrdinalIgnoreCase)) return true;
+        var prefix = appId + ".";
+        if (!name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)) return false;
+        var tail = name[prefix.Length..];
+        return tail.Length == 3 && tail.All(char.IsDigit);
+    }
+
+    internal static bool IsMiniFile(string path, string stem)
+    {
+        var name = Path.GetFileNameWithoutExtension(path);
+        if (string.Equals(name, stem, StringComparison.OrdinalIgnoreCase)) return true;
+        var prefix = stem + ".";
+        if (!name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)) return false;
+        var tail = name[prefix.Length..];
+        return tail.Length == 3 && tail.All(char.IsDigit);
     }
 
     internal static DateTime FileDate(string path)
