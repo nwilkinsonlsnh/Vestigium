@@ -88,6 +88,27 @@ No host UI in the library. No remote sink. No host event ids in this package.
 
 ---
 
+
+---
+
+## 9. Mini
+
+`VestigiumLoggerMini` is constructed with an AppId and a MiniId. It owns a `VestigiumJsonlWriter` pointed at `<AppId>.<MiniId>` and a private `FloodTracker`.
+
+| Concern | Design |
+|---|---|
+| Naming | `LogId.Validate` enforces the 4-letter rule. The writer stem is `AppId.MiniId`. |
+| Rotation | Size-based. Highest under-limit part is reopened. No date in the name. |
+| Correlation | `ApplicationCorrelationId` on `CORRELATIONID`. `MiniCorrelationId` generated or accepted, stored in `PROPERTIES`. |
+| Markers | `WriteHostMarker` calls `VestigiumLog.Information` with `System/Configuration` and both ids. Automatic on construct and dispose when the host is running. |
+| Catalog | Reads the host catalog when initialized. Overlay dictionary checked first. Ids below 10000 rejected. |
+| Standalone | If the host is not initialized, the constructor writes a warning line into the Mini file. |
+| Dispose | Flush, optional seal trailer via `VestigiumSealKeyRing`, end marker, writer dispose. |
+| Janitor | `DeleteMiniLogs(directory, appId, miniId, age)` matches only `<AppId>.<MiniId>` parts. Host janitor skips Mini files via `IsHostFile`. |
+| Archive | `ArchiveMiniLogs` copies aged Mini parts, writes a SHA256 sidecar, deletes the source. Host archive skips Mini files. |
+
+---
+
 ## 8. Revision History
 
 Initial monorepo release. Add a row when this document changes. Do not bump the revision until the change is accepted.
@@ -95,3 +116,4 @@ Initial monorepo release. Add a row when this document changes. Do not bump the 
 | Revision | Date | Author | Description |
 |---|---|---|---|
 | 1a | 15 Nov 2026 | Nathaniel Wilkinson | Initial monorepo release. Rewritten from Vestigium.Logging SRS 2.3 and Design 2.2. |
+| 1a.1 | 19 Nov 2026 | Vestigium | Added Mini design: type, file, flood, correlation, markers, overlay, standalone, dispose, janitor, multi-instance, archive. |

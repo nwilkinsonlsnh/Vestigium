@@ -18,6 +18,11 @@ Current documents (in the library project):
 
 Files under repository-root `_Documentation/` are historical PR01 notes.
 
+
+## Mini
+
+`VestigiumLoggerMini` is an instanced logger for scoped work that should not land in the application log. Files are size-based: `<AppId>.jsonl` for the host, `<AppId>.<MiniId>.jsonl` for a Mini. Rolled parts are `.001`, `.002`. See the requirements and design documents for the full contract.
+
 ## Why this library
 
 Diagnostic modules log stack traces and HTTP bodies. Pipe-delimited lines split those payloads. This module writes **one JSON object per line**, keeps **LEVEL** as severity and **STATUS** as outcome, suppresses retry floods with a four-field identity, and never fires a WPF event per line.

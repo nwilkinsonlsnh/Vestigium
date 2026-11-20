@@ -110,6 +110,29 @@ A UI. Remote shipping. Host event ids inside this package. Replacing the catalog
 
 ---
 
+
+---
+
+## 7. Mini
+
+`VestigiumLoggerMini` is an instanced logger for a scoped series of events. It is not a singleton.
+
+| Rule | Behavior |
+|---|---|
+| Identity | AppId and MiniId need at least 4 letters. Digits allowed. Pure-digit and separators rejected. |
+| File | `%ProgramData%\Vestigium\Logging\<AppId>\<AppId>.<MiniId>.jsonl`. Rolled parts are `.001`, `.002`. |
+| Isolation | Own file, own flood tracker, own correlation id. Host lines never enter a Mini file. |
+| Correlation | Application id in `CORRELATIONID`. Mini id in `PROPERTIES.MiniCorrelationId`. Both on every line. |
+| Markers | Automatic start and end in the host log when the host is running. Both ids and the Mini path. |
+| Catalog | Host catalog by default. Optional overlay, ids `>= 10000`, visible only to that Mini. |
+| Standalone | Runs when the host is not initialized. Writes a warning line into its own file. Does not throw. |
+| Dispose | Flushes, writes a seal trailer if enabled, writes the end marker if the host is running. |
+| Janitor | Own subscription. Does not touch the application log. Host janitor does not touch Mini files. |
+| Multi-instance | Several Mini instances may run against one AppId. No shared state. |
+| Archive | Opt-in. Copies aged parts, writes a SHA256 sidecar, deletes the source. Does not touch the application log. |
+
+---
+
 ## 6. Revision History
 
 Initial monorepo release. Add a row when this document changes. Do not bump the revision until the change is accepted.
@@ -117,3 +140,4 @@ Initial monorepo release. Add a row when this document changes. Do not bump the 
 | Revision | Date | Author | Description |
 |---|---|---|---|
 | 1a | 15 Nov 2026 | Nathaniel Wilkinson | Initial monorepo release. Rewritten from Vestigium.Logging SRS 2.3. |
+| 1a.1 | 19 Nov 2026 | Vestigium | Added Mini: id rules, size-based names, isolation, correlation, markers, catalog overlay, standalone, dispose, janitor, multi-instance, archive. |
