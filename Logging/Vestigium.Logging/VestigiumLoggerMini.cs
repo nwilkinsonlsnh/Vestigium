@@ -25,6 +25,7 @@ public sealed class VestigiumLoggerMini : IDisposable
         var dir = string.IsNullOrWhiteSpace(directory) ? ResolveDirectory(AppId) : directory;
         _flood = new FloodTracker(floodThreshold, floodWindow ?? TimeSpan.FromSeconds(30));
         _writer = new VestigiumJsonlWriter(dir, Stem, fileSizeLimitBytes: 20L * 1024 * 1024);
+        WriteHostMarker("Mini started.");
     }
 
     public string Stem => $"{AppId}.{MiniId}";
@@ -52,7 +53,22 @@ public sealed class VestigiumLoggerMini : IDisposable
     public void Dispose()
     {
         if (Interlocked.Exchange(ref _disposed, 1) == 1) return;
+        _writer.Flush(TimeSpan.FromSeconds(2));
+        WriteHostMarker("Mini ended.");
         _writer.Dispose();
+    }
+
+    private void WriteHostMarker(string message)
+    {
+        if (!VestigiumLogger.IsInitialized) return;
+        var props = new Dictionary<string, string?>
+        {
+            ["MiniCorrelationId"] = MiniCorrelationId,
+            ["MiniPath"] = ActivePath ?? Path.Combine(ResolveDirectory(AppId), Stem + ".jsonl"),
+            ["MiniId"] = MiniId
+        };
+        VestigiumLog.Information(0, VestigiumStatus.None, "System", "Lifecycle", message,
+            correlationId: ApplicationCorrelationId, properties: props, appId: AppId);
     }
 
     private static string ResolveDirectory(string appId)
