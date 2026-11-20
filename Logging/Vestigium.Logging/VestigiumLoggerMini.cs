@@ -96,7 +96,7 @@ public sealed class VestigiumLoggerMini : IDisposable
             ["MiniPath"] = ActivePath ?? Path.Combine(ResolveDirectory(AppId), Stem + ".jsonl"),
             ["MiniId"] = MiniId
         };
-        VestigiumLog.Information(0, VestigiumStatus.None, "System", "Lifecycle", message,
+        VestigiumLog.Information(0, VestigiumStatus.None, "System", "Configuration", message,
             correlationId: ApplicationCorrelationId, properties: props, appId: AppId);
     }
 

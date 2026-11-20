@@ -37,12 +37,12 @@ public sealed class MiniJanitorTests : IDisposable
             o.OperationsLogEnabled = false;
         });
         var old = DateTime.UtcNow.AddDays(-30);
-        Touch(Path.Combine(_dir, "PingIQ.jsonl"), old);
+        Touch(Path.Combine(_dir, "PingIQ.001.jsonl"), old);
         Touch(Path.Combine(_dir, "PingIQ.PathPing.jsonl"), old);
 
         var result = VestigiumLogJanitor.DeleteHostLogs();
         Assert.True(result.Deleted >= 1);
-        Assert.False(File.Exists(Path.Combine(_dir, "PingIQ.jsonl")));
+        Assert.False(File.Exists(Path.Combine(_dir, "PingIQ.001.jsonl")));
         Assert.True(File.Exists(Path.Combine(_dir, "PingIQ.PathPing.jsonl")));
         VestigiumLogger.Shutdown();
     }
