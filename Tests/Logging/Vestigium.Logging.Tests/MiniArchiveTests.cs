@@ -16,10 +16,10 @@ public sealed class MiniArchiveTests : IDisposable
     public void Archives_only_aged_mini_parts()
     {
         var old = DateTime.UtcNow.AddDays(-30);
-        Touch(Path.Combine(_src, "PingIQ.jsonl"), old);
-        Touch(Path.Combine(_src, "PingIQ.PathPing.jsonl"), old);
-        Touch(Path.Combine(_src, "PingIQ.PathPing.001.jsonl"), old);
-        Touch(Path.Combine(_src, "PingIQ.TraceRt.jsonl"), old);
+        TestFiles.Touch(Path.Combine(_src, "PingIQ.jsonl"), old);
+        TestFiles.Touch(Path.Combine(_src, "PingIQ.PathPing.jsonl"), old);
+        TestFiles.Touch(Path.Combine(_src, "PingIQ.PathPing.001.jsonl"), old);
+        TestFiles.Touch(Path.Combine(_src, "PingIQ.TraceRt.jsonl"), old);
 
         var result = VestigiumLogArchive.ArchiveMiniLogs(TimeSpan.FromDays(7), _dst, _src, "PingIQ", "PathPing");
         Assert.Equal(2, result.Archived);
@@ -36,7 +36,7 @@ public sealed class MiniArchiveTests : IDisposable
     [Fact]
     public void Disabled_by_default_leaves_files()
     {
-        Touch(Path.Combine(_src, "PingIQ.PathPing.jsonl"), DateTime.UtcNow.AddDays(-30));
+        TestFiles.Touch(Path.Combine(_src, "PingIQ.PathPing.jsonl"), DateTime.UtcNow.AddDays(-30));
         Assert.True(File.Exists(Path.Combine(_src, "PingIQ.PathPing.jsonl")));
     }
 
@@ -46,7 +46,7 @@ public sealed class MiniArchiveTests : IDisposable
         try { Directory.Delete(_dst, true); } catch { }
     }
 
-    private static void Touch(string path, DateTime utc)
+    private static void TestFiles.Touch(string path, DateTime utc)
     {
         File.WriteAllText(path, "{}\n");
         File.SetLastWriteTimeUtc(path, utc);

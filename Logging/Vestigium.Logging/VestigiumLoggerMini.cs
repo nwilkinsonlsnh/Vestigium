@@ -128,6 +128,7 @@ public sealed class VestigiumLoggerMini : IDisposable
         return _catalog.Resolve(eventId, null, level);
     }
 
+    // Test seam. Forces the disk gate. Not part of the public contract.
     internal static bool? TripwireOverride;
 
     private bool IsTripped()

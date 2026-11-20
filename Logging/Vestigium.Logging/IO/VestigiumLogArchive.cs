@@ -7,6 +7,7 @@ public sealed record VestigiumArchiveResult(int Archived, int Deleted, int Faile
 
 public static class VestigiumLogArchive
 {
+    // Test seam. Replaces the file hash. Not part of the public contract.
     internal static Func<string, string>? HashOverride;
 
     public static VestigiumArchiveResult ArchiveHostLogs(TimeSpan age)

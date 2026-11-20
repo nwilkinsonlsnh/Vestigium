@@ -13,7 +13,7 @@ public sealed class JsonlWriterTests : IDisposable
         writer.Enqueue("""{\"MESSAGE\":\"alive\"}""");
         Assert.True(writer.Flush(TimeSpan.FromSeconds(2)));
         Assert.NotNull(writer.ActivePath);
-        Assert.Contains("alive", ReadShared(writer.ActivePath!));
+        Assert.Contains("alive", TestFiles.ReadShared(writer.ActivePath!));
     }
 
     [Fact]
@@ -108,7 +108,7 @@ public sealed class JsonlWriterTests : IDisposable
         Func<DateTime>? clock = null) =>
         new(_dir, "PingIQ", size, retainTime, retainCount, queue, clock);
 
-    private static string ReadShared(string path)
+    private static string TestFiles.ReadShared(string path)
     {
         using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
         using var reader = new StreamReader(stream);

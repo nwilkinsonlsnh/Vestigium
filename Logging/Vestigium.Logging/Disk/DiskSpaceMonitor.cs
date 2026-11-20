@@ -2,6 +2,7 @@ namespace Vestigium.Logging;
 
 internal sealed class DiskSpaceMonitor : IDisposable
 {
+    // Test seam. Forces drive readiness. Not part of the public contract.
     internal static Func<string, bool>? ReadyOverride;
 
     private readonly VestigiumLoggerOptions _options;

@@ -11,11 +11,11 @@ public sealed class MiniJanitorTests : IDisposable
     public void Mini_janitor_deletes_only_its_own_aged_parts()
     {
         var old = DateTime.UtcNow.AddDays(-30);
-        Touch(Path.Combine(_dir, "PingIQ.jsonl"), old);
-        Touch(Path.Combine(_dir, "PingIQ.001.jsonl"), old);
-        Touch(Path.Combine(_dir, "PingIQ.PathPing.jsonl"), old);
-        Touch(Path.Combine(_dir, "PingIQ.PathPing.001.jsonl"), old);
-        Touch(Path.Combine(_dir, "PingIQ.TraceRt.jsonl"), old);
+        TestFiles.Touch(Path.Combine(_dir, "PingIQ.jsonl"), old);
+        TestFiles.Touch(Path.Combine(_dir, "PingIQ.001.jsonl"), old);
+        TestFiles.Touch(Path.Combine(_dir, "PingIQ.PathPing.jsonl"), old);
+        TestFiles.Touch(Path.Combine(_dir, "PingIQ.PathPing.001.jsonl"), old);
+        TestFiles.Touch(Path.Combine(_dir, "PingIQ.TraceRt.jsonl"), old);
 
         var result = VestigiumLogJanitor.DeleteMiniLogs(_dir, "PingIQ", "PathPing", TimeSpan.FromDays(7));
         Assert.Equal(2, result.Deleted);
@@ -38,8 +38,8 @@ public sealed class MiniJanitorTests : IDisposable
             o.OperationsLogEnabled = false;
         });
         var old = DateTime.UtcNow.AddDays(-30);
-        Touch(Path.Combine(_dir, "PingIQ.001.jsonl"), old);
-        Touch(Path.Combine(_dir, "PingIQ.PathPing.jsonl"), old);
+        TestFiles.Touch(Path.Combine(_dir, "PingIQ.001.jsonl"), old);
+        TestFiles.Touch(Path.Combine(_dir, "PingIQ.PathPing.jsonl"), old);
 
         var result = VestigiumLogJanitor.DeleteHostLogs();
         Assert.True(result.Deleted >= 1);
@@ -54,7 +54,7 @@ public sealed class MiniJanitorTests : IDisposable
         try { Directory.Delete(_dir, true); } catch { }
     }
 
-    private static void Touch(string path, DateTime utc)
+    private static void TestFiles.Touch(string path, DateTime utc)
     {
         File.WriteAllText(path, "{}\n");
         File.SetLastWriteTimeUtc(path, utc);

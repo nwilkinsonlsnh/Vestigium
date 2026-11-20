@@ -38,8 +38,8 @@ public sealed class MiniMultiInstanceTests : IDisposable
     public void Janitor_for_one_mini_leaves_the_other()
     {
         var old = DateTime.UtcNow.AddDays(-30);
-        Touch(Path.Combine(_dir, "PingIQ.PathPing.jsonl"), old);
-        Touch(Path.Combine(_dir, "PingIQ.TraceRt.jsonl"), old);
+        TestFiles.Touch(Path.Combine(_dir, "PingIQ.PathPing.jsonl"), old);
+        TestFiles.Touch(Path.Combine(_dir, "PingIQ.TraceRt.jsonl"), old);
 
         var result = VestigiumLogJanitor.DeleteMiniLogs(_dir, "PingIQ", "PathPing", TimeSpan.FromDays(7));
         Assert.Equal(1, result.Deleted);
@@ -52,7 +52,7 @@ public sealed class MiniMultiInstanceTests : IDisposable
         try { Directory.Delete(_dir, true); } catch { }
     }
 
-    private static void Touch(string path, DateTime utc)
+    private static void TestFiles.Touch(string path, DateTime utc)
     {
         File.WriteAllText(path, "{}\n");
         File.SetLastWriteTimeUtc(path, utc);
