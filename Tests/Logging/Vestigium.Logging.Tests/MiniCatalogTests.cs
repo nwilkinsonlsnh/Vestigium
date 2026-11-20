@@ -1,5 +1,6 @@
 namespace Vestigium.Logging.Tests;
 
+[Collection("VestigiumLogger")]
 public sealed class MiniCatalogTests : IDisposable
 {
     private readonly string _dir = Path.Combine(Path.GetTempPath(), "vestigium-mini-cat", Guid.NewGuid().ToString("N"));

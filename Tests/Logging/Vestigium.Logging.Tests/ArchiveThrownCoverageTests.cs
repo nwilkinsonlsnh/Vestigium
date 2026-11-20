@@ -26,10 +26,12 @@ public sealed class ArchiveThrownCoverageTests : IDisposable
             cfg.LogSealKeyPath = _key;
             cfg.OperationsLogEnabled = false;
         });
-        var plain = Path.Combine(_logs, "PingIQ.20200101.jsonl");
+        var plain = Path.Combine(_logs, "PingIQ.001.jsonl");
         File.WriteAllText(plain, "{\"EVENTID\":1}\n");
-        var sealedFile = Path.Combine(_logs, "PingIQ.20200102.jsonl");
+        File.SetLastWriteTimeUtc(plain, DateTime.UtcNow.AddDays(-30));
+        var sealedFile = Path.Combine(_logs, "PingIQ.002.jsonl");
         File.WriteAllText(sealedFile, "{\"EVENTID\":1}\n");
+        File.SetLastWriteTimeUtc(sealedFile, DateTime.UtcNow.AddDays(-30));
         var ring = VestigiumSealKeyRing.Open(_key);
         var bytes = File.ReadAllBytes(sealedFile);
         var sha = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(bytes));
@@ -44,9 +46,10 @@ public sealed class ArchiveThrownCoverageTests : IDisposable
     [Fact]
     public void ArchiveIoExceptionCountsFailed()
     {
-        var file = Path.Combine(_logs, "PingIQ.20200101.jsonl");
+        var file = Path.Combine(_logs, "PingIQ.001.jsonl");
         File.WriteAllText(file, "{}\n");
-        Directory.CreateDirectory(Path.Combine(_arc, "PingIQ.20200101.jsonl"));
+        File.SetLastWriteTimeUtc(file, DateTime.UtcNow.AddDays(-30));
+        Directory.CreateDirectory(Path.Combine(_arc, "PingIQ.001.jsonl"));
         var result = VestigiumLogArchive.ArchiveOlderThan(TimeSpan.FromDays(1), _arc, _logs, "PingIQ");
         Assert.True(result.Failed >= 1);
     }
@@ -54,8 +57,9 @@ public sealed class ArchiveThrownCoverageTests : IDisposable
     [Fact]
     public void ArchiveHashMismatchReturnsFalse()
     {
-        var file = Path.Combine(_logs, "PingIQ.20200101.jsonl");
+        var file = Path.Combine(_logs, "PingIQ.001.jsonl");
         File.WriteAllText(file, "{}\n");
+        File.SetLastWriteTimeUtc(file, DateTime.UtcNow.AddDays(-30));
         VestigiumLogArchive.HashOverride = path =>
             path.StartsWith(_arc, StringComparison.OrdinalIgnoreCase) ? "DEADBEEF" : "OKHASH";
         try

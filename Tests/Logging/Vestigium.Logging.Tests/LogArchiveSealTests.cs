@@ -32,9 +32,10 @@ public sealed class LogArchiveSealTests : IDisposable
         VestigiumLogger.Shutdown();
 
         var sealedFile = Directory.GetFiles(_logs, "PingIQ*.jsonl").Single();
-        var old = Path.Combine(_logs, "PingIQ.20200101.jsonl");
+        var old = Path.Combine(_logs, "PingIQ.001.jsonl");
         File.Copy(sealedFile, old, overwrite: true);
         File.WriteAllText(old, File.ReadAllText(old).Replace("seal-me", "TAMPER"));
+        File.SetLastWriteTimeUtc(old, DateTime.UtcNow.AddDays(-30));
 
         VestigiumLogger.Initialize(cfg =>
         {
@@ -50,7 +51,7 @@ public sealed class LogArchiveSealTests : IDisposable
         Assert.Equal(0, result.Archived);
         Assert.True(result.Failed >= 1);
         Assert.True(File.Exists(old));
-        Assert.False(File.Exists(Path.Combine(_arc, "PingIQ.20200101.jsonl")));
+        Assert.False(File.Exists(Path.Combine(_arc, "PingIQ.001.jsonl")));
         var ops = string.Join('\n', Directory.EnumerateFiles(_ops, "*.jsonl").Select(File.ReadAllText));
         Assert.Contains("\"EVENTID\":5035", ops);
     }
