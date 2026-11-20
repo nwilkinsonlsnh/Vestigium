@@ -38,6 +38,7 @@ public sealed class ArchiveThrownCoverageTests : IDisposable
         var sig = Convert.ToBase64String(ring.Sign(bytes));
         File.AppendAllText(sealedFile,
             "{\"VESTIGIUM_TRAILER\":1,\"KeyId\":\"" + ring.KeyId + "\",\"ContentSha256\":\"" + sha + "\",\"Sig\":\"" + sig + "\",\"LineCount\":1}\n");
+        File.SetLastWriteTimeUtc(sealedFile, DateTime.UtcNow.AddDays(-30));
         var result = VestigiumLogArchive.ArchiveOlderThan(TimeSpan.FromDays(1), _arc, _logs, "PingIQ");
         Assert.True(result.Archived >= 2);
         VestigiumLogger.Shutdown();
