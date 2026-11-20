@@ -10,7 +10,9 @@ public sealed class LogArchiveTests
         Directory.CreateDirectory(src);
         Directory.CreateDirectory(dst);
         var name = "PingIQ.001.jsonl";
-        File.WriteAllText(Path.Combine(src, name), "{\"EVENTID\":1}\n");
+        var source = Path.Combine(src, name);
+        File.WriteAllText(source, "{\"EVENTID\":1}\n");
+        File.SetLastWriteTimeUtc(source, DateTime.UtcNow.AddDays(-30));
         var result = VestigiumLogArchive.ArchiveOlderThan(TimeSpan.FromDays(14), dst, src, "PingIQ");
         Assert.Equal(1, result.Archived);
         Assert.Equal(1, result.Deleted);

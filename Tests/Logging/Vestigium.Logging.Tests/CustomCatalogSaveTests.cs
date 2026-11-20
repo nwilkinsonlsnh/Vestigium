@@ -10,7 +10,7 @@ public sealed class CustomCatalogSaveTests
         var catalog = VestigiumCustomCatalog.Open(root);
         catalog.Add("ProbeTimeout", "PingIQ.ProbeTimeoutException", "Network", "ICMP");
         catalog.Save();
-        Assert.True(File.Exists(Path.Combine(root, "shards", "custom.jsonl")));
+        Assert.True(File.Exists(Path.Combine(root, "shards", "custom.json")));
         Assert.True(File.Exists(Path.Combine(root, "index.jsonl")));
         var reload = VestigiumCustomCatalog.Open(root);
         Assert.Equal(1, reload.Count);

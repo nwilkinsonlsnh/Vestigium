@@ -71,8 +71,19 @@ public static class VestigiumLogReader
     private static IEnumerable<string> EnumerateFiles(string directory, string appId)
     {
         if (!Directory.Exists(directory)) yield break;
-        foreach (var file in Directory.GetFiles(directory, $"{appId}*.jsonl").OrderBy(f => f, StringComparer.OrdinalIgnoreCase))
+        foreach (var file in Directory.GetFiles(directory, $"{appId}*.jsonl")
+            .Where(f => VestigiumLogJanitor.IsHostFile(f, appId))
+            .OrderBy(PartOf).ThenBy(f => f, StringComparer.OrdinalIgnoreCase))
             yield return file;
+    }
+
+    private static int PartOf(string path)
+    {
+        var name = Path.GetFileNameWithoutExtension(path);
+        var dot = name.LastIndexOf('.');
+        if (dot < 0) return 0;
+        var tail = name[(dot + 1)..];
+        return tail.Length == 3 && int.TryParse(tail, out var n) ? n : 0;
     }
 
     internal static IReadOnlyList<string> ReadCompleteLines(string path)

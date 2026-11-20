@@ -14,7 +14,7 @@ public sealed class MiniInstanceTests : IDisposable
         Assert.True(mini.Flush(TimeSpan.FromSeconds(2)));
         var path = Path.Combine(_dir, "PingIQ.PathPing.jsonl");
         Assert.Equal(path, mini.ActivePath);
-        var text = File.ReadAllText(path);
+        var text = SharedRead.Text(path);
         Assert.Contains("mini-line", text);
         Assert.False(File.Exists(Path.Combine(_dir, "PingIQ.jsonl")));
     }
@@ -25,7 +25,7 @@ public sealed class MiniInstanceTests : IDisposable
         using var mini = new VestigiumLoggerMini("PingIQ", "PathPing", _dir);
         mini.Information(0, "Network", "Probe", "mini-only");
         mini.Flush(TimeSpan.FromSeconds(2));
-        var text = File.ReadAllText(mini.ActivePath!);
+        var text = SharedRead.Text(mini.ActivePath!);
         Assert.DoesNotContain("host-line", text);
         Assert.Contains("mini-only", text);
     }
@@ -40,7 +40,7 @@ public sealed class MiniInstanceTests : IDisposable
         b.Information(0, "Network", "Probe", "same");
         Assert.True(a.Flush(TimeSpan.FromSeconds(2)));
         Assert.True(b.Flush(TimeSpan.FromSeconds(2)));
-        var bText = File.ReadAllText(Path.Combine(_dir, "PingIQ.TraceRt.jsonl"));
+        var bText = SharedRead.Text(Path.Combine(_dir, "PingIQ.TraceRt.jsonl"));
         Assert.Contains("same", bText);
     }
 

@@ -18,9 +18,9 @@ public sealed class MiniDisposeTests : IDisposable
         mini.Information(1, "Network", "Probe", "line");
         mini.Dispose();
         VestigiumLogger.Flush(TimeSpan.FromSeconds(2));
-        var miniText = File.ReadAllText(Path.Combine(_dir, "PingIQ.PathPing.jsonl"));
+        var miniText = SharedRead.Text(Path.Combine(_dir, "PingIQ.PathPing.jsonl"));
         Assert.Contains("line", miniText);
-        var host = File.ReadAllText(Path.Combine(_dir, "PingIQ.jsonl"));
+        var host = SharedRead.Text(Path.Combine(_dir, "PingIQ.jsonl"));
         Assert.Contains("Mini ended.", host);
         VestigiumLogger.Shutdown();
     }
@@ -31,9 +31,10 @@ public sealed class MiniDisposeTests : IDisposable
         var key = Path.Combine(_dir, "mini.key");
         var mini = new VestigiumLoggerMini("PingIQ", "PathPing", _dir, sealEnabled: true, sealKeyPath: key);
         mini.Information(1, "Network", "Probe", "sealed");
+        Assert.True(mini.Flush(TimeSpan.FromSeconds(2)));
         var path = mini.ActivePath!;
         mini.Dispose();
-        var text = File.ReadAllText(path);
+        var text = SharedRead.Text(path);
         Assert.Contains("sealed", text);
         Assert.Contains("VESTIGIUM_TRAILER", text);
         var ring = VestigiumSealKeyRing.Open(key);
@@ -45,9 +46,10 @@ public sealed class MiniDisposeTests : IDisposable
     {
         var mini = new VestigiumLoggerMini("PingIQ", "PathPing", _dir);
         mini.Information(1, "Network", "Probe", "plain");
+        Assert.True(mini.Flush(TimeSpan.FromSeconds(2)));
         var path = mini.ActivePath!;
         mini.Dispose();
-        Assert.DoesNotContain("VESTIGIUM_TRAILER", File.ReadAllText(path));
+        Assert.DoesNotContain("VESTIGIUM_TRAILER", SharedRead.Text(path));
     }
 
     public void Dispose()

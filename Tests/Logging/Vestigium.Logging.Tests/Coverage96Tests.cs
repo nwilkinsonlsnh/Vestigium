@@ -22,7 +22,7 @@ public sealed class Coverage96Tests : IDisposable
         writer.Enqueue("after-stop");
         writer.Dispose();
         Assert.True(writer.WrittenCount >= 1);
-        Assert.Contains("VESTIGIUM_TRAILER", File.ReadAllText(Directory.GetFiles(_dir, "PingIQ.*.jsonl").First()));
+        Assert.Contains("VESTIGIUM_TRAILER", File.ReadAllText(Directory.GetFiles(_dir, "PingIQ*.jsonl").First()));
     }
 
     [Fact]

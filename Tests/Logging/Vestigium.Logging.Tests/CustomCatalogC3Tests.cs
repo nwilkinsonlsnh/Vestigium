@@ -15,7 +15,7 @@ public sealed class CustomCatalogC3Tests : IDisposable
     [Fact]
     public void EventCatalogPathRejectsReservedIdsAtInitialize()
     {
-        File.WriteAllText(Path.Combine(_catalog, "shards", "bad.jsonl"),
+        File.WriteAllText(Path.Combine(_catalog, "shards", "bad.json"),
             """[{ "EventId": 2110, "EventName": "Bad", "FullName": "App.Bad" }]""");
 
         var ex = Assert.Throws<InvalidOperationException>(() =>

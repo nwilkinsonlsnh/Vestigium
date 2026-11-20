@@ -11,6 +11,7 @@ public sealed class LogJanitorTests
         var newFile = Path.Combine(dir, "PingIQ.jsonl");
         File.WriteAllText(oldFile, "{}\n");
         File.WriteAllText(newFile, "{}\n");
+        File.SetLastWriteTimeUtc(oldFile, DateTime.UtcNow.AddDays(-30));
         var result = VestigiumLogJanitor.DeleteOlderThan(TimeSpan.FromDays(14), dir, "PingIQ");
         Assert.Equal(1, result.Deleted);
         Assert.False(File.Exists(oldFile));

@@ -15,7 +15,7 @@ public sealed class MiniStandaloneTests : IDisposable
     {
         using var mini = new VestigiumLoggerMini("PingIQ", "PathPing", _dir);
         Assert.True(mini.Flush(TimeSpan.FromSeconds(2)));
-        var text = File.ReadAllText(mini.ActivePath!);
+        var text = SharedRead.Text(mini.ActivePath!);
         Assert.Contains("Mini started with no host logger.", text);
         Assert.Contains("Warning", text);
         Assert.False(File.Exists(Path.Combine(_dir, "PingIQ.jsonl")));

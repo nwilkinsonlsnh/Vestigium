@@ -17,7 +17,7 @@ public sealed class MiniCatalogTests : IDisposable
         using var mini = new VestigiumLoggerMini("PingIQ", "PathPing", _dir);
         mini.Information(1, "System", "Lifecycle", "info");
         Assert.True(mini.Flush(TimeSpan.FromSeconds(2)));
-        var text = File.ReadAllText(mini.ActivePath!);
+        var text = SharedRead.Text(mini.ActivePath!);
         Assert.Contains("General.Information", text);
         VestigiumLogger.Shutdown();
     }
@@ -30,7 +30,7 @@ public sealed class MiniCatalogTests : IDisposable
         using var mini = new VestigiumLoggerMini("PingIQ", "PathPing", _dir, overlay: [overlay]);
         mini.Information(10000, "Network", "Probe", "probe");
         mini.Flush(TimeSpan.FromSeconds(2));
-        Assert.Contains("Probe.Start", File.ReadAllText(mini.ActivePath!));
+        Assert.Contains("Probe.Start", SharedRead.Text(mini.ActivePath!));
         Assert.False(VestigiumLogger.Catalog.TryGetById(10000, out _));
         VestigiumLogger.Shutdown();
     }

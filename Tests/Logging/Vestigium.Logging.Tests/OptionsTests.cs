@@ -36,7 +36,7 @@ public sealed class OptionsTests
     public void ResolveLogDirectoryUsesAppIdWhenUnset()
     {
         var options = new VestigiumLoggerOptions { AppId = "HttpIQ", LogDirectory = null };
-        Assert.Contains(Path.Combine("Vestigium", "Logs", "HttpIQ"), options.ResolveLogDirectory());
+        Assert.Contains(Path.Combine("Vestigium", "Logging", "HttpIQ"), options.ResolveLogDirectory());
     }
 
     [Fact]

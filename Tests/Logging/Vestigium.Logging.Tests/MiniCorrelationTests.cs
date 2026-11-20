@@ -13,7 +13,7 @@ public sealed class MiniCorrelationTests : IDisposable
             applicationCorrelationId: "app-123", miniCorrelationId: "mini-456");
         mini.Information(0, "Network", "Probe", "line");
         Assert.True(mini.Flush(TimeSpan.FromSeconds(2)));
-        var text = File.ReadAllText(mini.ActivePath!);
+        var text = SharedRead.Text(mini.ActivePath!);
         Assert.Contains("app-123", text);
         Assert.Contains("mini-456", text);
         Assert.Contains("MiniCorrelationId", text);
@@ -26,7 +26,7 @@ public sealed class MiniCorrelationTests : IDisposable
         Assert.False(string.IsNullOrWhiteSpace(mini.MiniCorrelationId));
         mini.Information(0, "Network", "Probe", "line");
         mini.Flush(TimeSpan.FromSeconds(2));
-        Assert.Contains(mini.MiniCorrelationId, File.ReadAllText(mini.ActivePath!));
+        Assert.Contains(mini.MiniCorrelationId, SharedRead.Text(mini.ActivePath!));
     }
 
     [Fact]
@@ -37,7 +37,7 @@ public sealed class MiniCorrelationTests : IDisposable
         mini.Information(0, "Network", "Probe", "a");
         mini.Information(0, "Network", "Probe", "b");
         mini.Flush(TimeSpan.FromSeconds(2));
-        var text = File.ReadAllText(mini.ActivePath!);
+        var text = SharedRead.Text(mini.ActivePath!);
         Assert.Equal(2, text.Split("fixed").Length - 1);
     }
 

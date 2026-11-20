@@ -67,7 +67,7 @@ public sealed class LogSealVerifyTests : IDisposable
         VestigiumLog.Information(1, VestigiumStatus.None, "System", "Lifecycle", "seal-me");
         VestigiumLogger.Flush();
         VestigiumLogger.Shutdown();
-        return Directory.GetFiles(_logs, "PingIQ.*.jsonl").Single();
+        return Directory.GetFiles(_logs, "PingIQ*.jsonl").Single();
     }
 
     public void Dispose()

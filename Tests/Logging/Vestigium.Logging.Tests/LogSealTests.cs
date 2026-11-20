@@ -32,7 +32,7 @@ public sealed class LogSealTests : IDisposable
         VestigiumLogger.Flush();
         VestigiumLogger.Shutdown();
 
-        var file = Directory.GetFiles(_logs, "PingIQ.*.jsonl").Single();
+        var file = Directory.GetFiles(_logs, "PingIQ*.jsonl").Single();
         var lines = File.ReadAllLines(file);
         Assert.Contains("VESTIGIUM_TRAILER", lines[^1]);
         using var doc = JsonDocument.Parse(lines[^1]);

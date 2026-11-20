@@ -24,8 +24,8 @@ public sealed class MiniMultiInstanceTests : IDisposable
         Assert.Equal(bPath, b.ActivePath);
         Assert.NotEqual(a.MiniCorrelationId, b.MiniCorrelationId);
 
-        var aText = File.ReadAllText(aPath);
-        var bText = File.ReadAllText(bPath);
+        var aText = SharedRead.Text(aPath);
+        var bText = SharedRead.Text(bPath);
         Assert.Contains("corr-a", aText);
         Assert.DoesNotContain("corr-b", aText);
         Assert.Contains("corr-b", bText);

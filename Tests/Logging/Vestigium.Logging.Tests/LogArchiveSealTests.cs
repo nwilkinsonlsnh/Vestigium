@@ -31,7 +31,7 @@ public sealed class LogArchiveSealTests : IDisposable
         VestigiumLogger.Flush();
         VestigiumLogger.Shutdown();
 
-        var sealedFile = Directory.GetFiles(_logs, "PingIQ.*.jsonl").Single();
+        var sealedFile = Directory.GetFiles(_logs, "PingIQ*.jsonl").Single();
         var old = Path.Combine(_logs, "PingIQ.20200101.jsonl");
         File.Copy(sealedFile, old, overwrite: true);
         File.WriteAllText(old, File.ReadAllText(old).Replace("seal-me", "TAMPER"));
